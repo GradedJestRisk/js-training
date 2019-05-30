@@ -1,0 +1,28 @@
+{
+    // Telemetry
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+
+    // Saving
+    "files.autoSave": "afterDelay",
+
+    // Git
+    "git.autofetchPeriod": 600,
+
+    // Fonts
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    // check this out : == =>   (may require restart)
+
+    // Format
+    //"editor.formatOnPaste": true, 
+    //"editor.formatOnSave": true,
+
+    // Explorer
+    "explorer.sortOrder": "type",
+    "editor.cursorBlinking": "smooth",
+
+   // Clean up files
+   "files.trimFinalNewlines": true
+
+}
