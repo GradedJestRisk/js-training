@@ -10,12 +10,17 @@ exports.makeDog = function(name){
 
     dog = new Dog(name);
 
-    dog.sit = function (){
-        return('sitting');    
-    }
-
     return (dog);
 
-    //spark = new Dog('spark');
-    //console.log("spark is", spark);
+}
+
+exports.addSitMethod = function(aDog){
+    aDog.sit = function (){
+        return('sitting');    
+    }
+}
+
+
+exports.addHasSpotsProperty = function(aDog, hasSpots){
+    aDog.hasSpots = hasSpots;
 }
