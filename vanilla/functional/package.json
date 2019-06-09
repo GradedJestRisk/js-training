@@ -1,0 +1,15 @@
+{
+  "name": "functional",
+  "version": "1.0.0",
+  "description": "",
+  "main": "functional.test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^24.8.0"
+  }
+}
