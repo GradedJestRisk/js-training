@@ -1,8 +1,19 @@
 const dogFactory = require('./dogFactory');
 
-describe('Prototype tests ', function() {
+describe('Prototype-based programming in JS' , function() {
 
-	describe('Prototype features', function() {
+	describe('Inheritance test (prototype)', function() {
+
+		beforeEach(() => {
+			anyDog = dogFactory.makeDog('Fluffy');
+		  });
+
+		  
+		test('dog constructor being Dog (constructor property)', () => {
+
+			expect(anyDog.constructor.name).toBe("Dog");
+		
+		});
 
 		test('dog having prototype property (species)', () => {
 
@@ -13,9 +24,25 @@ describe('Prototype tests ', function() {
 
 		test('dog having prototype method (bark)', () => {
 
-		bark = 'woof!';
-		expect(dogFactory.makeDog(name).bark()).toBe(bark);
+			bark = 'woof!';
+			expect(dogFactory.makeDog(name).bark()).toBe(bark);
 	
+		});
+
+		test('dog marked as created by prototype (instanceof)', () => {
+
+			expect(anyDog instanceof Dog).toBe(true);
+			expect(anyDog).toBeInstanceOf(Dog);
+		
+		});
+
+		test('mutating identity (instanceof indicate creation)', () => {
+
+			delete anyDog.name;
+			anyDog.species = 'Avis';
+
+			expect(anyDog).toBeInstanceOf(Dog);
+		
 		});
 
 	});
@@ -23,14 +50,25 @@ describe('Prototype tests ', function() {
 	describe('Object features', function() {
 
 		beforeEach(() => {
-			anyDog = dogFactory.makeDog('Spark');
-		  });
+			anyDog = dogFactory.makeDog('Barnaby');
+		});
 
 		test('dog having its own property (name)', () => {
 
 			name = 'Spark';
 			aDog = dogFactory.makeDog(name);
 			expect(aDog.name).toBe(name);
+
+		});
+
+		test('dog having its own property (hasOwnProperty)', () => {
+
+			hasSpots = true;
+			aSpottyDog = dogFactory.makeDog('Spark');
+			dogFactory.addHasSpotsProperty(aSpottyDog, hasSpots);
+
+			expect(aSpottyDog.hasOwnProperty("name")).toBe(true);
+			expect(aSpottyDog).hasOwnProperty("name");
 
 		});
 
@@ -65,5 +103,55 @@ describe('Prototype tests ', function() {
 
 	});
 
+	describe('Multiple inheritance features (chaining prototypes)', function() {
+
+		beforeEach(() => {
+			anyShowDog = dogFactory.makeShowDog('Paula','Terrier');
+		});
+
+		test('dog having its own property (breed)', () => {
+
+			expect(anyShowDog.breed).toBe('Terrier');
+
+		});
+
+		test('dog having its own prototype property (league)', () => {
+
+			expect(anyShowDog.league).toBe('London');
+	
+		});
+
+		test('dog constructor being Dog (constructor property)', () => {
+
+			expect(anyShowDog.constructor.name).toBe("ShowDog");
+		
+		});
+
+		test('dog marked as an instance of Dog  (instanceof)', () => {
+
+			expect(anyShowDog instanceof Dog).toBe(true);
+			expect(anyShowDog).toBeInstanceOf(Dog);
+		
+		});
+
+		test('dog marked as an instance of ShowDog (instanceof)', () => {
+
+			expect(anyShowDog).toBeInstanceOf(ShowDog);
+		
+		});
+
+		test('dog constructor being ShowDog (constructor property)', () => {
+
+			expect(anyShowDog.constructor.name).toBe("ShowDog");
+		
+		});
+
+		test('dog constructor not being Dog (constructor property)', () => {
+
+			expect(anyShowDog.constructor.name).not.toBe("Dog");
+		
+		});
+
+	});
 
 });
