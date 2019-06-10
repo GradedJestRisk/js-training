@@ -3,47 +3,88 @@ describe('Functional tests ', function() {
 
 	describe('IIFE', function() {
 
-		test('shortest form, without {} (return value) ', () => {
+		describe('arrow function style ', function() {
 
-			const expectedWord = 'foo';
+			test('shortest form, no parameter, expression', () => {
 
-			const actualWord = ()=>'foo';
+				const expectedWord = 'foo';
+
+				const actualWord = (() => 'foo')();
+							
+				expect(actualWord).toStrictEqual(expectedWord);
+
+			});
+
+			test('use statements, a parameter, expression', () => {
+
+				const name = 'foo';
+				const expectedLength = 3;
+
+				const actualLength = ( nameParameter => nameParameter.length )(name);
+
+				expect(
+					actualLength)
+					.toStrictEqual(expectedLength);
+			});
+
+			test('use statements, several parameter, statement', () => {
+
+				const thisString = "Hello", thatString = ", world !";
+				const expectedString = "Hello, world !"
+
+				const actualString = 
+							((aString, anotherString) => { return(aString + anotherString); } )
+							(thisString, thatString);
+
+				expect(
+					actualString)
+					.toStrictEqual(actualString);
+			});
+
+			test('composed with a regular function ', () => {
+
+				const materials = [ 'Hydrogen', 'Helium', 'Lithium'];
+				const expectedLength = [ 8, 6, 7];
+
+				actualLength =  materials.map(material => material.length);
+				
+				expect(actualLength).toStrictEqual(expectedLength);
+
+			});
+
+		});
+
+		describe('regular function style ', function() {
+
+			test('without parameters, use statements, delayed invocation (not IIFE) ', () => {
+
+				const booleanValues = [true, false];
+
+				const generateBoolean = () => {
+					const flag = Math.random() > 0.5
+					return flag ? 'true' : 'false'
+				}
 						
-			expect(actualWord()).toStrictEqual(expectedWord);
+				expect(generateBoolean().toBeBoolean);
 
-		});
+			});
 
-		test('use statements ', () => {
+			test('with parameter, use statements', () => {
 
-			const booleanValues = [true, false];
+				const name = 'foo';
 
-			const generateBoolean = () => {
-				const flag = Math.random() > 0.5
-				return flag ? 'true' : 'false'
-			  }
-					
-			expect(generateBoolean().toBeBoolean);
+				const expectedGreeting = 'hello foo';
 
-		});
+				const actualGreeting = ( function (nameParameter) { return ('hello ' + nameParameter); } (name));						
 
-		test.skip('pass parameters', () => {
+				expect(
+					( function (nameParameter)  { return ('hello ' + nameParameter); } (name)) 
+					)
+					.toStrictEqual(expectedGreeting);		
 
-			const numberToTest = 1;
+			});
 
-			//const isNumberZero = function isZero(number) => { number==0 }(numberToTest);
-						
-			expect(isNumberZero()).toStrictEqual(false);
 
-		});
-
-		test('called by a regular function', () => {
-
-			const materials = [ 'Hydrogen', 'Helium', 'Lithium'];
-			const expectedLength = [ 8, 6, 7];
-
-			actualLength =  materials.map(material => material.length);
-			
-			expect(actualLength).toStrictEqual(expectedLength);
 
 		});
 

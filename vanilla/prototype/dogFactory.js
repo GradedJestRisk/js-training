@@ -24,3 +24,4 @@ exports.addSitMethod = function(aDog){
 exports.addHasSpotsProperty = function(aDog, hasSpots){
     aDog.hasSpots = hasSpots;
 }
+
