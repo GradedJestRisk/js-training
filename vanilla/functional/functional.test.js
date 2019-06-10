@@ -138,4 +138,67 @@ describe('Functional tests ', function() {
 
 	});
 
+	describe('Closure features', function() {
+
+		test('Closure store environnement ', () => {
+
+			function createMultiplier(x){
+				return function (y){ return x*y; }
+			}
+
+			const multiplier = 2;
+			const multiplied = 3;
+
+			const multiplierByTwo = createMultiplier (multiplier);
+
+			const expectedResult = multiplier * multiplied;
+			const actualResult = multiplierByTwo(multiplied);
+				
+			expect(actualResult).toStrictEqual(expectedResult);
+
+		});
+
+		test('Closure (fat arrow form) ', () => {
+
+			const createMultiplier = x => y => x * y ;
+	
+			const multiplier = 2;
+			const multiplied = 3;
+	
+			const multiplierByTwo = createMultiplier (multiplier);
+	
+			const expectedResult = multiplier * multiplied;
+			const actualResult = multiplierByTwo(multiplied);
+				
+			expect(actualResult).toStrictEqual(expectedResult);
+	
+		});
+
+		test('Closure (object alternative) ', () => {
+
+const multiplierObject = {
+
+	multiplier : 0,
+
+	multiply : function (multiplied){
+		return(this.multiplier * multiplied);
+	}
+}
+
+const multiplier = 2
+multiplierObject.multiplier = multiplier;
+
+const multiplied = 3;
+
+const expectedResult = multiplier * multiplied;
+
+const actualResult = multiplierObject.multiply(multiplied);
+	
+expect(actualResult).toStrictEqual(expectedResult);
+	
+		});
+
+
+	});
+
 });
