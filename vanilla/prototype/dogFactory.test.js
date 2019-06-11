@@ -2,6 +2,36 @@ const dogFactory = require('./dogFactory');
 
 describe('Prototype-based programming in JS' , function() {
 
+	describe('Object test (prototype)', function() {
+
+		  
+		test('object literal', () => {
+
+			const taxi = {
+
+				// Properties
+				maker: "Ford co",
+				model: "taxi",
+
+				// Methods
+
+				introduce : function (interlocutor){
+					return ('Hi '+ interlocutor + ", I'm a " + this.model + " made by " + this.maker );				
+				},
+
+				// function greet (interlocutor){
+				// 	return ('Hi '+ interlocutor );				
+				// }
+			}
+
+			const interlocutor = 'you';
+
+			expect(taxi.introduce(interlocutor)).toBe("Hi you, I'm a taxi made by Ford co");
+		
+		});
+
+	});
+
 	describe('Inheritance test (prototype)', function() {
 
 		beforeEach(() => {
