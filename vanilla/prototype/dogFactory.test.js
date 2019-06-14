@@ -34,6 +34,8 @@ describe('Prototype-based programming in JS' , function() {
 
 	describe('Inheritance test (prototype)', function() {
 
+		let anyDog;
+	
 		beforeEach(() => {
 			anyDog = dogFactory.makeDog('Fluffy');
 		  });
