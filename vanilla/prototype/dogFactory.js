@@ -1,5 +1,6 @@
 exports.makeDog = function(name){
 
+    // TODO: remove constructor from globals, make function declaration and exports separate
     // Constructor
     Dog = function(name){
 
@@ -11,7 +12,7 @@ exports.makeDog = function(name){
     Dog.prototype.bark = function(){ return("woof!"); };
 
     // Create an object
-    dog = new Dog(name);
+    const dog = new Dog(name);
 
     return (dog);
 
