@@ -1,0 +1,32 @@
+{
+  "name": "vanilla-js",
+  "version": "1.0.0",
+  "description": "Learn JavaScript by TDD",
+  "scripts": {
+    "test": "jest --colors"
+  },
+  "author": "Graded Jest Risk <graded.jest.risk@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "3.0.5",
+    "jest": "24.9.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test"
+    }
+  },
+  "jest": {
+    "coverageDirectory": "coverage",
+    "testEnvironment": "node",
+    "resetMocks": true
+  },
+  "comments": {
+    "scripts": "--colors is for GitBash"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "main": "index.js",
+  "keywords": []
+}

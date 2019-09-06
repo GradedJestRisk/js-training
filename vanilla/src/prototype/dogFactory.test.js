@@ -50,14 +50,14 @@ describe('Prototype-based programming in JS' , function() {
 		test('dog having prototype property (species)', () => {
 
 			species = 'Canine';
-			expect(dogFactory.makeDog(name).species).toBe(species);
+			expect(anyDog.species).toBe(species);
 		
 		});
 
 		test('dog having prototype method (bark)', () => {
 
 			bark = 'woof!';
-			expect(dogFactory.makeDog(name).bark()).toBe(bark);
+			expect(anyDog.bark()).toBe(bark);
 	
 		});
 

@@ -1,0 +1,61 @@
+{
+    // Telemetry
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+
+    // Saving
+    "files.autoSave": "afterDelay",
+
+    // Git
+    "git.autofetchPeriod": 600,
+
+    // Fonts
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    // check this out : == =>   (may require restart)
+
+    // Format
+    "editor.formatOnType": true,
+
+    // Explorer
+    "explorer.sortOrder": "type",
+    "editor.cursorBlinking": "smooth",
+
+   // Clean up files
+	"files.trimFinalNewlines": true,
+	"window.zoomLevel": 0,
+	
+	// Snippets
+    "editor.snippetSuggestions": "top",
+	
+	// Dictionnary
+    "cSpell.userWords": [
+      "IIFE",
+      "Ragnaros",
+      "Sulfuras",
+      "TAFKAL",
+      "fizzbuzz",
+      "gmail",
+      "kata"
+    ],
+	
+	"macros": {
+	  "runCurrentTest": [
+		{
+		  "command": "workbench.action.tasks.runTask",
+		  "args": "Run test suite"
+		},
+		"workbench.action.terminal.scrollToBottom"
+	  ]
+	},
+	
+   // show snippets first in completion
+   "editor.snippetSuggestions": "top",
+   
+   // complete on tab, in addition to Ctrl Space
+  "editor.tabCompletion": "on",
+  "editor.renderWhitespace": "none",
+  "editor.minimap.enabled": false,
+  "breadcrumbs.enabled": false
+
+}
