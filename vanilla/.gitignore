@@ -1,4 +1,8 @@
-####### VsCode ####### 
+####### IntelliJ #######
+
+.idea/**
+
+####### VsCode #######
 
 .vscode/*
 !.vscode/settings.json
