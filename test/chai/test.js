@@ -1,7 +1,7 @@
 const assert = require('assert').strict;
 const chai = require('chai');
 chai.should();
-let expect = chai.expect;
+const expect = chai.expect;
 
 describe('assertion modes', () => {
   describe('native (node)', () => {
@@ -35,3 +35,17 @@ describe('primitive', () => {
     })
   });
 });
+
+describe('error handling', () => {
+
+  it('should check it throws', ()=>{
+    const throwingFunction = function () { throw new Error(); };
+    expect(throwingFunction).to.throw();
+  })
+
+  it('should check partial error message', ()=>{
+    const throwingFunction = function () { throw new Error('error message'); };
+    expect(throwingFunction).to.throw('message');
+  })
+
+})
