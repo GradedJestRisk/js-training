@@ -64,5 +64,21 @@ describe('stub', () => {
       loggerStub.restore();
     });
   });
-
+  describe('should throw an error', () => {
+    let logger;
+    let loggerStub;
+    beforeEach( () => {
+      logger = new Logger();
+      loggerStub = sinon.stub(logger, "log").throws("Error", "empty message cannot be logged");
+    });
+    it('when using throws()', () => {
+      // Given
+      const emptyMessage = undefined;
+      // When Then
+      expect(logger.log.bind(emptyMessage)).to.throw("empty message cannot be logged");
+    });
+    afterEach( () => {
+      loggerStub.restore();
+    });
+  });
 });
