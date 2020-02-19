@@ -1,0 +1,16 @@
+{
+  "name": "chai",
+  "version": "0.0.0",
+  "description": "chai samples",
+  "scripts": {
+    "test": "mocha *.test.js"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.0.1"
+  },
+  "engines": {
+    "node": ">=13.8.0",
+    "npm": ">= 6.13.6"
+  }
+}
