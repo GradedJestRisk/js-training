@@ -23,7 +23,6 @@ describe('spy', () => {
     loggerSpy.callCount.should.be.eq(1);
   });
 });
-
 describe('stub', () => {
 
   describe('should return a value', () => {
@@ -80,5 +79,29 @@ describe('stub', () => {
     afterEach( () => {
       loggerStub.restore();
     });
+  });
+});
+describe('mock', () => {
+  it('should check one assertion', () => {
+    const logger = new Logger();
+    const loggerMock = sinon.mock(logger);
+    loggerMock.expects("log").once;
+    // When
+    logger.log("message");
+    // Then
+    loggerMock.verify();
+    // Expected messageCount([...]) once (never called)
+  });
+  it('should check several assertions (test smell ?)', () => {
+    const logger = new Logger();
+    const loggerMock = sinon.mock(logger);
+    loggerMock.expects("log").atLeast(1);
+    loggerMock.expects("messageCount").once;
+    // When
+    logger.log("message");
+    logger.messageCount();
+    // Then
+    loggerMock.verify();
+    // Expected messageCount([...]) once (never called)
   });
 });
