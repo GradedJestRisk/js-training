@@ -47,6 +47,44 @@ describe('object', function () {
 
         });
 
+        test('copying, stripping of properties', () => {
+
+             const stripFunction = function(object) {
+
+               const newObject = Object.assign( {}, object);
+
+               for( key in newObject ){
+                   if(typeof newObject[key] === 'function')
+                   {
+                       delete newObject[key];
+                   }
+               }
+
+               return newObject;
+
+             };
+
+             const someSourceObject = {
+
+                 name: "calvin",
+
+                 greet: function(name){
+                     return ('Hello, ' + this.name + ' !')
+                 }
+
+             };
+
+             // When
+             const someTargetObject = stripFunction(someSourceObject);
+
+             // Then
+             expect(someTargetObject.name).toBe("calvin");
+             expect(someTargetObject.greet).toBe(undefined);
+
+         });
+
+
+
         test('partial copy', () => {
 
             const someSourceObject = { name: "calvin" };
