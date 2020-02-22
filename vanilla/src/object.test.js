@@ -118,6 +118,31 @@ describe('object', function () {
              expect(someTargetObject.greet).toBe(undefined);
 
          });
+        test('copying, only data, using JSON', () => {
+
+             const createFromDataOnly = function(object) {
+              return JSON.parse(JSON.stringify(object));
+             };
+
+             const someSourceObject = {
+
+                 name: "calvin",
+
+                 greet: function(name){
+                     return ('Hello, ' + this.name + ' !')
+                 }
+
+             };
+
+             // When
+             const someTargetObject = createFromDataOnly(someSourceObject);
+
+             // Then
+             expect(someTargetObject.name).toBe("calvin");
+             expect(someTargetObject.greet).toBe(undefined);
+
+         });
+
         test('partial copy', () => {
 
             const someSourceObject = { name: "calvin" };
