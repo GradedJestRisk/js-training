@@ -1,4 +1,30 @@
- 
+// Uncle bob Glossary
+// A class is the specification of a set of similar objects.
+// An Object is a set of functions that operate upon implied data elements.
+// A Data Structure is a set of data elements operated upon by implied functions
+// DTOs are data structures
+// Databases contain data structures, not objects
+// ORM transfer data between data structures
+// There is no such thing as an Object Relational Mapper; because there is no mapping between database tables and objects.
+// => https://blog.cleancoder.com/uncle-bob/2019/06/16/ObjectsAndDataStructures.html
+
+// WARNING - JS glossary / Uncle bob Glossary
+// JS objects, without functions => Uncle Bob: data structure, "cohesive set of data elements, operated upon by implied functions"
+// JS objects, with functions operating on data  => Uncle Bob: objects, "a set of functions that operate on implied data elements"
+
+// WARNING - Wikipedia JSON glossary / Uncle bob Glossary
+// "JSON produce data objects consisting of key/value pairs"
+// For Uncle bob, JSON produce data structure, not objects
+// => https://en.wikipedia.org/wiki/JSON
+
+
+// Consequences
+// TODO:
+// 1: Split this "object" file in 2 files
+// - a file for data structure (using JS object type, with data only)
+// - a file for object (using JS object type, with function)
+// 2: rename (or add description) to prototype folder, to include class
+
 describe('object', function () {
 
     describe('create objects', function () {
@@ -119,6 +145,10 @@ describe('object', function () {
 
          });
         test('copying, only data, using JSON', () => {
+
+             // create a DS (data structure),
+             // used as a DTO ( data transfer object)
+             // from an object/Entity
 
              const createFromDataOnly = function(object) {
               return JSON.parse(JSON.stringify(object));
