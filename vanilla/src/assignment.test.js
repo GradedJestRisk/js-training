@@ -115,6 +115,26 @@ describe('assignment', () => {
                 expect(two).toBe(2);
 
             });
+
+            test('also preserve functions', () => {
+
+               const someone = {
+
+                  name: "calvin",
+                  greet: function() {
+                    return "hello, my name is " + this.name;
+                  }
+
+               }
+
+               expect(someone.greet()).toBe("hello, my name is calvin");
+
+               const someoneElse = { ...someone, isHuman: true}
+
+               expect(someoneElse.greet()).toBe("hello, my name is calvin");
+
+            })
+
             
         });
 
