@@ -27,745 +27,758 @@
 
 describe('object', function () {
 
-    describe('create objects', function () {
+  describe('create objects', function () {
 
-                
-        test('void - pure creation', () => {
 
-            const aVoidObject = {};
-            
-            expect(aVoidObject.constructor.name).toBe('Object'); 
+    test('void - pure creation', () => {
 
-        });
+      const aVoidObject = {};
 
-        test('pure creation', () => {
+      expect(aVoidObject.constructor.name).toBe('Object');
 
-            const someObject = Object.create(null);
-            someObject.name = "calvin";
-            
-            expect(someObject.name).toBe("calvin");
+    });
 
-        });
+    test('pure creation', () => {
 
-        test('from literal', () => {
+      const someObject = Object.create(null);
+      someObject.name = "calvin";
 
-            const someObject = { name: "calvin" };
-            
-            expect(someObject.name).toBe("calvin");
+      expect(someObject.name).toBe("calvin");
 
-        });
+    });
 
-        test('from literal (alternate)', () => {
+    test('from literal', () => {
 
-            const name = "calvin";
-            const someObject = { name };
-            
-            expect(someObject.name).toBe("calvin");
+      const someObject = {name: "calvin"};
 
-        });
+      expect(someObject.name).toBe("calvin");
 
-        test('copying', () => {
+    });
 
-            const someSourceObject = { name: "calvin" };
-            const someTargetObject = Object.assign( {}, someSourceObject);
-            
-            expect(someTargetObject.name).toBe("calvin");
+    test('from literal (alternate)', () => {
 
-        });
+      const name = "calvin";
+      const someObject = {name};
 
-        test('copying, stripping of properties', () => {
+      expect(someObject.name).toBe("calvin");
 
-             const stripFunction = function(object) {
+    });
 
-               const newObject = Object.assign( {}, object);
+    test('copying', () => {
 
-               for( key in newObject ){
-                   if(typeof newObject[key] === 'function')
-                   {
-                       delete newObject[key];
-                   }
-               }
+      const someSourceObject = {name: "calvin"};
+      const someTargetObject = Object.assign({}, someSourceObject);
 
-               return newObject;
+      expect(someTargetObject.name).toBe("calvin");
 
-             };
+    });
 
-             const someSourceObject = {
+    test('copying, stripping of properties', () => {
 
-                 name: "calvin",
+      const stripFunction = function (object) {
 
-                 greet: function(name){
-                     return ('Hello, ' + this.name + ' !')
-                 }
+        const newObject = Object.assign({}, object);
 
-             };
+        for (key in newObject) {
+          if (typeof newObject[key] === 'function') {
+            delete newObject[key];
+          }
+        }
 
-             // When
-             const someTargetObject = stripFunction(someSourceObject);
+        return newObject;
 
-             // Then
-             expect(someTargetObject.name).toBe("calvin");
-             expect(someTargetObject.greet).toBe(undefined);
+      };
 
-         });
+      const someSourceObject = {
 
-        test('copying, only data', () => {
+        name: "calvin",
 
-             const createFromDataOnly = function(object) {
+        greet: function (name) {
+          return ('Hello, ' + this.name + ' !')
+        }
 
-               const newObject = {};
+      };
 
-               for( key in object ){
-                   if(typeof object[key] !== 'function')
-                   {
-                       newObject[key] = object [key];
-                   }
-               }
+      // When
+      const someTargetObject = stripFunction(someSourceObject);
 
-               return newObject;
+      // Then
+      expect(someTargetObject.name).toBe("calvin");
+      expect(someTargetObject.greet).toBe(undefined);
 
-             };
+    });
 
-             const someSourceObject = {
+    test('copying, only data', () => {
 
-                 name: "calvin",
+      const createFromDataOnly = function (object) {
 
-                 greet: function(name){
-                     return ('Hello, ' + this.name + ' !')
-                 }
+        const newObject = {};
 
-             };
+        for (key in object) {
+          if (typeof object[key] !== 'function') {
+            newObject[key] = object [key];
+          }
+        }
 
-             // When
-             const someTargetObject = createFromDataOnly(someSourceObject);
+        return newObject;
 
-             // Then
-             expect(someTargetObject.name).toBe("calvin");
-             expect(someTargetObject.greet).toBe(undefined);
+      };
 
-         });
-        test('copying, only data, using JSON', () => {
+      const someSourceObject = {
 
-             // create a DS (data structure),
-             // used as a DTO ( data transfer object)
-             // from an object/Entity
+        name: "calvin",
 
-             const createFromDataOnly = function(object) {
-              return JSON.parse(JSON.stringify(object));
-             };
+        greet: function (name) {
+          return ('Hello, ' + this.name + ' !')
+        }
 
-             const someSourceObject = {
+      };
 
-                 name: "calvin",
+      // When
+      const someTargetObject = createFromDataOnly(someSourceObject);
 
-                 greet: function(name){
-                     return ('Hello, ' + this.name + ' !')
-                 }
+      // Then
+      expect(someTargetObject.name).toBe("calvin");
+      expect(someTargetObject.greet).toBe(undefined);
 
-             };
+    });
+    test('copying, only data, using JSON', () => {
 
-             // When
-             const someTargetObject = createFromDataOnly(someSourceObject);
+      // create a DS (data structure),
+      // used as a DTO ( data transfer object)
+      // from an object/Entity
 
-             // Then
-             expect(someTargetObject.name).toBe("calvin");
-             expect(someTargetObject.greet).toBe(undefined);
+      const createFromDataOnly = function (object) {
+        return JSON.parse(JSON.stringify(object));
+      };
 
-         });
+      const someSourceObject = {
 
-        test('partial copy', () => {
+        name: "calvin",
 
-            const someSourceObject = { name: "calvin" };
-            const someTargetObject = { surname : "hyperMan"};
-                
-            Object.assign( someTargetObject, someSourceObject);
-            
-            expect(someTargetObject.name).toBe("calvin");
+        greet: function (name) {
+          return ('Hello, ' + this.name + ' !')
+        }
 
-        });
+      };
 
-        test('with inheritance: property ', () => {
+      // When
+      const someTargetObject = createFromDataOnly(someSourceObject);
 
-            const someSourceObject = { name: "calvin" };
-            const someTargetObject = Object.create(someSourceObject);
+      // Then
+      expect(someTargetObject.name).toBe("calvin");
+      expect(someTargetObject.greet).toBe(undefined);
 
-            expect(someTargetObject.name).toBe("calvin");
-            someTargetObject.name = "hobbes";
+    });
 
-            expect(someSourceObject.name).toBe("calvin");
+    test('partial copy', () => {
 
-            // SomeSourceObject is a prototype for Target through Object.create
-            // Although no constructor has been provided
-            expect(someTargetObject.constructor.name).toBe('Object'); 
+      const someSourceObject = {name: "calvin"};
+      const someTargetObject = {surname: "hyperMan"};
 
-        });
+      Object.assign(someTargetObject, someSourceObject);
 
+      expect(someTargetObject.name).toBe("calvin");
 
-        test('with inheritance: method ', () => {
+    });
 
-            const someSourceObject = {
-                name: "calvin",
-                greet: function () {
-                    return 'Hello, ' + this.name + ' !';
-                }
-            };
+    test('with inheritance: property ', () => {
 
-            const someTargetObject = Object.create(someSourceObject);
+      const someSourceObject = {name: "calvin"};
+      const someTargetObject = Object.create(someSourceObject);
 
-            someTargetObject.name = "hobbes";
+      expect(someTargetObject.name).toBe("calvin");
+      someTargetObject.name = "hobbes";
 
-            expect(someTargetObject.greet()).toBe('Hello, hobbes !');
+      expect(someSourceObject.name).toBe("calvin");
 
-        });
-
-        test('from Crockford - get encapsulation (create private properties)', () => {
-
-            // this is not on object, it is a function returning an object
-            function counter_constructor(initialValue=0) {
-
-                // private property, hidden in closure
-                let count = initialValue;
-
-                //private functions
-
-                function increment() {
-                    // access through closure, not through this
-                    count += 1;
-                }
-
-                function decrement() {
-                    count -= 1;
-                }
-
-                // public functions
-
-                // Query    
-                function getCount() {
-                    return count;
-                }
-                
-                // Command
-                function up() {
-                    increment();
-                }
-
-                function down() {
-                    decrement();
-                }
-
-                // build up object, with public functions only
-                return Object.freeze({
-                    getCount,
-                    up,
-                    down
-                })
-                
-            };
-            
-            const initialValue = 4;
-            const aCounter = counter_constructor(initialValue);
-
-            aCounter.up();
-            expect(aCounter.getCount()).toBe(5);
-
-            aCounter.down();
-            expect(aCounter.getCount()).toBe(4);
-
-            // cannot modify property
-            aCounter.count = 10;
-
-            // cannot read property
-            expect(aCounter.count).toBe(undefined);
-
-            expect(aCounter.getCount()).toBe(4);
-
-            // Nevertheless, I can check if this is a function
-            expect(aCounter.getCount.constructor.name).toBe('Function');
-
-            // cannot access to private methods
-            // aCounter.increment(); => TypeError: aCounter.increment is not a function
-            expect(aCounter.getCount()).toBe(4);
-        
-        });
-
-        test('from Crockford  - get composition (reuse) without this', () => {
-           
-            function other_constructor(spec) {
-
-                let { member_reuse } = spec;
-
-                const goodness = function () {
-                    return 'Hello, ' + member_reuse + ' !';
-                };
-
-                return Object.freeze({
-                  goodness
-                });
-
-            };
-
-            function composition_constructor(spec) {
-
-                let { member_reuse, member_supply } = spec;
-                
-                const reuse = other_constructor({ member_reuse });
-
-                const method = function () {
-                    return 'Goodbye, ' + member_supply + ' !';
-                };
-
-                return Object.freeze({
-                    method,
-                    goodness: reuse.goodness
-                });
-            };
-
-            anObject = composition_constructor({ member_supply:'world', member_reuse: 'you' }); 
-            expect(anObject.goodness()).toBe('Hello, you !');
-            expect(anObject.method()).toBe('Goodbye, world !');
-
-        });
-
-        test.skip('message passing to remove brittleness of inheritance', () => {
-            // TODO: create 2 objects that implements a function with the same name, with different body
-            // shows that polymorphism works this way, types AND inheritance is not mandatory
-        });
-
-        test('immutability (Object.freeze)', () => {
-           
-            function constant(value) {
-
-                return Object.freeze({
-                    value
-                });
-
-            };
-        
-            const greeting = 'Hello, world !';
-            const greetingObject = constant(greeting);
-
-            expect(greetingObject.value).toBe('Hello, world !');
-
-            // You didn't get an exception..
-            greetingObject.value = 'Hello, calvin !';
-            
-            expect(greetingObject.value).toBe('Hello, world !');
-
-            // You get some here: assignment to constant variable
-            // greeting = 'Hello, calvin !';
-
-        });
-
-        test('immutability (closure)', () => {
-           
-            function constant(value) {
-
-                // You don't need const here
-                let innerValue = value;
-                
-                function getValue() {
-                    return innerValue;
-                }
-
-                return getValue;
-
-            };
-        
-            const greeting = 'Hello, world !';
-            const greetingObject = constant(greeting);
-
-            // Cannot read property 'value' of undefined
-            expect(greetingObject.innerValue).toBe(undefined);
-
-            expect(greetingObject()).toBe('Hello, world !');
-
-        });
+      // SomeSourceObject is a prototype for Target through Object.create
+      // Although no constructor has been provided
+      expect(someTargetObject.constructor.name).toBe('Object');
 
     });
 
 
-    describe('compare objects', function () {
+    test('with inheritance: method ', () => {
 
-      
-        test('=== test object identity', () => {
+      const someSourceObject = {
+        name: "calvin",
+        greet: function () {
+          return 'Hello, ' + this.name + ' !';
+        }
+      };
 
-            // Arrange
-            const emptyObjectLiteral = {};
-            const sameEmptyObjectLiteral = emptyObjectLiteral;
+      const someTargetObject = Object.create(someSourceObject);
 
-            // Act
-            // Assert
+      someTargetObject.name = "hobbes";
 
-            let testResult;
-            if (emptyObjectLiteral === sameEmptyObjectLiteral) {
-                testResult = true;
-            }
-            else {
-                testResult = false;
-            }
+      expect(someTargetObject.greet()).toBe('Hello, hobbes !');
 
-            expect(testResult).toBe(true);
+    });
 
+    test('from Crockford - get encapsulation (create private properties)', () => {
+
+      // this is not on object, it is a function returning an object
+      function counter_constructor(initialValue = 0) {
+
+        // private property, hidden in closure
+        let count = initialValue;
+
+        //private functions
+
+        function increment() {
+          // access through closure, not through this
+          count += 1;
+        }
+
+        function decrement() {
+          count -= 1;
+        }
+
+        // public functions
+
+        // Query
+        function getCount() {
+          return count;
+        }
+
+        // Command
+        function up() {
+          increment();
+        }
+
+        function down() {
+          decrement();
+        }
+
+        // build up object, with public functions only
+        return Object.freeze({
+          getCount,
+          up,
+          down
+        })
+
+      };
+
+      const initialValue = 4;
+      const aCounter = counter_constructor(initialValue);
+
+      aCounter.up();
+      expect(aCounter.getCount()).toBe(5);
+
+      aCounter.down();
+      expect(aCounter.getCount()).toBe(4);
+
+      // cannot modify property
+      aCounter.count = 10;
+
+      // cannot read property
+      expect(aCounter.count).toBe(undefined);
+
+      expect(aCounter.getCount()).toBe(4);
+
+      // Nevertheless, I can check if this is a function
+      expect(aCounter.getCount.constructor.name).toBe('Function');
+
+      // cannot access to private methods
+      // aCounter.increment(); => TypeError: aCounter.increment is not a function
+      expect(aCounter.getCount()).toBe(4);
+
+    });
+
+    test('from Crockford  - get composition (reuse) without this', () => {
+
+      function other_constructor(spec) {
+
+        let {member_reuse} = spec;
+
+        const goodness = function () {
+          return 'Hello, ' + member_reuse + ' !';
+        };
+
+        return Object.freeze({
+          goodness
         });
 
-    });   
+      };
 
-    describe('mutating objects', function () {    
+      function composition_constructor(spec) {
 
-        test('const forbid the reference to mutate, not the object', () => {
+        let {member_reuse, member_supply} = spec;
 
-            // Arrange
-            const someObject = { name : "calvin"};
-            someObject.name = "hobbes";
+        const reuse = other_constructor({member_reuse});
 
-            // Act
-            // Assert
-            expect(someObject.name).toBe("hobbes");
+        const method = function () {
+          return 'Goodbye, ' + member_supply + ' !';
+        };
 
-            //But this is not allowed
-            // someObject = {};
+        return Object.freeze({
+          method,
+          goodness: reuse.goodness
+        });
+      };
 
+      anObject = composition_constructor({member_supply: 'world', member_reuse: 'you'});
+      expect(anObject.goodness()).toBe('Hello, you !');
+      expect(anObject.method()).toBe('Goodbye, world !');
 
+    });
+
+    test.skip('message passing to remove brittleness of inheritance', () => {
+      // TODO: create 2 objects that implements a function with the same name, with different body
+      // shows that polymorphism works this way, types AND inheritance is not mandatory
+    });
+
+    test('immutability (Object.freeze)', () => {
+
+      function constant(value) {
+
+        return Object.freeze({
+          value
         });
 
-        test('freeze prevent the object from mutating', () => {
+      };
 
-            // Arrange
-            const someObject = { name: "calvin" };
-            Object.freeze(someObject);
-            someObject.name = "hobbes";
+      const greeting = 'Hello, world !';
+      const greetingObject = constant(greeting);
 
-            // Act
-            // Assert
-            expect(someObject.name).toBe("calvin");
+      expect(greetingObject.value).toBe('Hello, world !');
 
-        });
+      // You didn't get an exception..
+      greetingObject.value = 'Hello, calvin !';
+
+      expect(greetingObject.value).toBe('Hello, world !');
+
+      // You get some here: assignment to constant variable
+      // greeting = 'Hello, calvin !';
+
+    });
+
+    test('immutability (closure)', () => {
+
+      function constant(value) {
+
+        // You don't need const here
+        let innerValue = value;
+
+        function getValue() {
+          return innerValue;
+        }
+
+        return getValue;
+
+      };
+
+      const greeting = 'Hello, world !';
+      const greetingObject = constant(greeting);
+
+      // Cannot read property 'value' of undefined
+      expect(greetingObject.innerValue).toBe(undefined);
+
+      expect(greetingObject()).toBe('Hello, world !');
+
+    });
+
+  });
+  describe('compare objects', function () {
+
+
+    test('=== test object identity', () => {
+
+      // Arrange
+      const emptyObjectLiteral = {};
+      const sameEmptyObjectLiteral = emptyObjectLiteral;
+
+      // Act
+      // Assert
+
+      let testResult;
+      if (emptyObjectLiteral === sameEmptyObjectLiteral) {
+        testResult = true;
+      } else {
+        testResult = false;
+      }
+
+      expect(testResult).toBe(true);
+
+    });
+
+  });
+  describe('mutating objects', function () {
+
+    test('const forbid the reference to mutate, not the object', () => {
+
+      // Arrange
+      const someObject = {name: "calvin"};
+      someObject.name = "hobbes";
+
+      // Act
+      // Assert
+      expect(someObject.name).toBe("hobbes");
+
+      //But this is not allowed
+      // someObject = {};
 
 
     });
 
-    describe('access to object content', function () {
-      
+    test('freeze prevent the object from mutating', () => {
 
-        test('access to properties', () => {
+      // Arrange
+      const someObject = {name: "calvin"};
+      Object.freeze(someObject);
+      someObject.name = "hobbes";
 
-            // Arrange
-            const objectLiteral = {
-                name: "calvin",
-                surname : "hyperMan"
-            };
+      // Act
+      // Assert
+      expect(someObject.name).toBe("calvin");
 
-            // Act
-            // Assert
-            expect(objectLiteral.name).toBe("calvin");
-
-        });
-
-        test('alternate access to properties with brackets', () => {
-
-            // Arrange
-            const objectLiteral = {
-                name: "calvin"
-            };
-
-            // Act
-            // Assert
-            expect(objectLiteral["name"]).toBe("calvin");
-
-            // Useful to compute property name
-            let propertyName = 'na';
-            propertyName += 'me';
-
-            expect(objectLiteral[propertyName]).toBe("calvin");
+    });
 
 
-            // Can even access properties being invalid identifiers
-            
-            invalidIdentifier = "1/0";
+  });
+  describe('access to object content', function () {
+    test('access to properties', () => {
+
+      // Arrange
+      const objectLiteral = {
+        name: "calvin",
+        surname: "hyperMan"
+      };
+
+      // Act
+      // Assert
+      expect(objectLiteral.name).toBe("calvin");
+
+    });
+    test('alternate access to properties with brackets', () => {
+
+      // Arrange
+      const objectLiteral = {
+        name: "calvin"
+      };
+
+      // Act
+      // Assert
+      expect(objectLiteral["name"]).toBe("calvin");
+
+      // Useful to compute property name
+      let propertyName = 'na';
+      propertyName += 'me';
+
+      expect(objectLiteral[propertyName]).toBe("calvin");
+
+
+      // Can even access properties being invalid identifiers
+
+      invalidIdentifier = "1/0";
 
 //          objectLiteral."1/0" = "crazy stuff";
-            objectLiteral[invalidIdentifier] = "crazy stuff";
-            expect(objectLiteral[invalidIdentifier]).toBe("crazy stuff");
+      objectLiteral[invalidIdentifier] = "crazy stuff";
+      expect(objectLiteral[invalidIdentifier]).toBe("crazy stuff");
 
-        });
+    });
+    test('access to methods', () => {
 
+      // Arrange
+      const objectLiteral = {
+        introduce: function () {
+          return "hi!";
+        }
+      };
 
-        test('access to methods', () => {
+      // Act
+      // Assert
+      expect(objectLiteral.introduce()).toBe("hi!");
 
-            // Arrange
-            const objectLiteral = {
-                introduce : function (){
-                    return "hi!";
-                }
-            };
+    });
+    test('access to non-existing methods', () => {
 
-            // Act
-            // Assert
-            expect(objectLiteral.introduce()).toBe("hi!");
+      // Arrange
+      const objectLiteral = {};
 
-        });
+      // Act
+      // Assert
+      // TODO: find Jest assertion throw not a function
+      //expect(objectLiteral.introduce()).toThrowError();
 
-        test('access to non-existing methods', () => {
+      let testResult;
+      if (objectLiteral.introduce !== undefined) {
+        testResult = false;
+      } else {
+        testResult = true;
+      }
 
-            // Arrange
-            const objectLiteral = {                
-            };
+      expect(testResult).toBe(true);
 
-            // Act
-            // Assert
-            // TODO: find Jest assertion throw not a function
-            //expect(objectLiteral.introduce()).toThrowError();
+    });
+    test('correctly handling access (check for non-existing methods)', () => {
 
-            let testResult;
-            if (objectLiteral.introduce !== undefined) {
-                testResult = false;       
-            }
-            else {
-                testResult = true;
-            }
+      // Arrange
+      const objectLiteral = {
+        introduce: function () {
+          return ("hello");
+        }
+      };
 
-            expect(testResult).toBe(true);
+      // Act
+      // Assert
+      // TODO: find Jest assertion throw not a function
+      //expect(objectLiteral.introduce()).toThrowError();
 
-        });
+      let testResult;
+      if (objectLiteral.introduce !== undefined && objectLiteral.introduce() === "hello") {
+        testResult = true;
+      } else {
+        testResult = false;
+      }
 
-        test('correctly handling access (check for non-existing methods)', () => {
+      expect(testResult).toBe(true);
 
-            // Arrange
-            const objectLiteral = {
-                introduce : function (){ return ("hello"); }
-            };
+    });
+    describe('access all (properties and methods)', () => {
+      test('values', () => {
 
-            // Act
-            // Assert
-            // TODO: find Jest assertion throw not a function
-            //expect(objectLiteral.introduce()).toThrowError();
+        // Arrange
+        const objectLiteral = {
+          name: "calvin",
+          surname: "hyperMan"
+        };
 
-            let testResult;
-            if (objectLiteral.introduce !== undefined && objectLiteral.introduce() === "hello") {
-                testResult = true;       
-            }
-            else {
-                testResult = false;
-            }
+        // Act
+        const properties = Object.values(objectLiteral);
+        // Assert
+        expect(properties).toStrictEqual(["calvin", "hyperMan"]);
 
-            expect(testResult).toBe(true);
+      });
+      test('names', () => {
 
-        });
+        // Arrange
+        const objectLiteral = {
+          name: "calvin",
+          surname: "hyperMan",
+          introduce: function () {
+            return "hi!";
+          }
+        };
+
+        // Act
+        const properties = Object.keys(objectLiteral);
+        // Assert
+        expect(properties).toStrictEqual(["name", "surname", "introduce"]);
+
+      });
+    })
+  });
+  describe('method call', function () {
+
+    test('simple', () => {
+
+      const anObject = {
+
+        name: 'world',
+        greet: function (name) {
+          return ('Hello, ' + this.name + ' !')
+        }
+      }
+
+      expect(anObject.greet()).toBe('Hello, world !');
+
+    });
+
+    test('this is also an object', () => {
+
+      const anObject = {
+
+        name: 'world',
+        getName: function () {
+          return this.name;
+        },
+        greet: function (name) {
+          return ('Hello, ' + this.getName() + ' !')
+        }
+      }
+
+      expect(anObject.greet()).toBe('Hello, world !');
+
+    });
+
+    test('but inner function are not bound', () => {
+
+      const anObject = {
+
+        name: 'world',
+        greet: function (name) {
+
+          function getName() {
+            return this.name;
+          };
+
+          return ('Hello, ' + getName() + ' !')
+        }
+      }
+
+      expect(anObject.greet()).toBe('Hello, undefined !');
+
+    });
+
+    test('and only method call are bound', () => {
+
+      const anObject = {
+
+        name: 'world',
+        greet: function () {
+          return ('Hello, ' + this.name + ' !')
+        }
+      }
+
+      const aGreet = anObject.greet; // there is no direct call
+
+      expect(aGreet()).toBe('Hello, undefined !');
+
+    });
+
+    test('this is dynamically bound (caller, not maker)', () => {
+
+      const anObject = {
+
+        do_what_you_want_with_me: function () {
+
+          const firstElement = this[0];
+          this[0] = 'ah ah !';
+
+          return firstElement;
+        }
+      }
+
+      anArray = ['super secret password', anObject.do_what_you_want_with_me];
+
+      const output = anArray[1]();
+      //expect(anArray[1].do_what_you_want_with_me()).toBe('super secret password');
+
+      expect(output).toBe('super secret password');
+      expect(anArray[0]).toBe('ah ah !');
 
     });
 
 
-    describe('method call', function () {
+    test('this is dynamically bound (following)', () => {
 
-        test('simple', () => {
+      const anObject = {
 
-            const anObject = {
+        name: 'calvin',
+        surname: 'hyper man',
 
-                name : 'world',
-                greet : function(name){
-                    return ('Hello, ' + this.name + ' !')
-                }
-            }
+        getName: function () {
 
-            expect(anObject.greet()).toBe('Hello, world !');
+          return this.name;
+        },
 
-        });    
+        getSurname: function () {
+          // this.getWord is not a function => static checking
+          // this.getWord();
+          return this.surname;
+        }
 
-        test('this is also an object', () => {
+      }
 
-            const anObject = {
+      const anotherObject = {
+        name: 'hobbes'
+      }
 
-                name : 'world',
-                getName: function () {
-                    return this.name;
-                },
-                greet : function(name){
-                    return ('Hello, ' + this.getName() + ' !')
-                }
-            }
+      anotherObject.aFunction = anObject.getName;
 
-            expect(anObject.greet()).toBe('Hello, world !');
+      // no such property as surname in anotherObject, but creating a function is allowed
+      // => no dynamic checking
+      anotherObject.anotherFunction = anObject.getSurname;
 
-        });    
+      expect(anotherObject.aFunction()).toBe('hobbes');
 
-        test('but inner function are not bound', () => {
+      // no exception thrown
+      expect(anotherObject.anotherFunction()).toBe(undefined);
 
-            const anObject = {
+    });
 
-                name : 'world',
-                greet: function (name) {
+  });
+  describe('new and this', function () {
 
-                    function getName() {
-                        return this.name;
-                    };
-    
-                    return ('Hello, ' + getName() + ' !')
-                }
-            }
+    test('simple', () => {
 
-            expect(anObject.greet()).toBe('Hello, undefined !');
+      const GreetingConstructor = function (name) {
 
-        });    
+        this.name = name;
 
-        test('and only method call are bound', () => {
+        this.greet = function (name) {
+          return ('Hello, ' + this.name + ' !')
+        }
 
-            const anObject = {
+        return this;
 
-                name : 'world',
-                greet: function () {            
-                    return ('Hello, ' + this.name + ' !')
-                }
-            }
+      }
 
-            const aGreet = anObject.greet; // there is no direct call
+      const aGreet = new GreetingConstructor('world');
 
-            expect(aGreet()).toBe('Hello, undefined !');
 
-        });    
+      expect(aGreet.greet()).toBe('Hello, world !');
 
-        test('this is dynamically bound (caller, not maker)', () => {
+      expect(aGreet).toBeInstanceOf(GreetingConstructor);
+      expect(aGreet.constructor.name).toBe('GreetingConstructor');
 
-            const anObject = {
 
-                do_what_you_want_with_me: function () {
+    });
 
-                    const firstElement = this[0];
-                    this[0] = 'ah ah !';
+    test('but risky without new', () => {
 
-                    return firstElement;
-                }
-            }
+      const GreetingConstructor = function (name) {
 
-            anArray = ['super secret password', anObject.do_what_you_want_with_me];
-            
-            const output = anArray[1]();
-            //expect(anArray[1].do_what_you_want_with_me()).toBe('super secret password');
+        // this is a global, Jest execution object..
+        this.name = name;
 
-            expect(output).toBe('super secret password');
-            expect(anArray[0]).toBe('ah ah !');
+        this.greet = function (name) {
+          return ('Hello, ' + this.name + ' !')
+        }
 
-        });
-        
+        return this;
 
-        test('this is dynamically bound (following)', () => {
+      }
 
-            const anObject = {
+      // new is missing
+      const aGreet = GreetingConstructor('world');
 
-                name: 'calvin',
-                surname : 'hyper man',
+      expect(aGreet.greet()).toBe('Hello, world !');
 
-                getName: function () {
+      // Not an instance of GreetingConstructor.. (duplicated code)
+      expect(aGreet).toBeInstanceOf(Object);
+      expect(aGreet.constructor.name).toBe('Object');
+      expect({}.constructor.name).toBe('Object');
 
-                    return this.name;
-                },
+      // that would work, too, but is rejected by linter
+      // expect(this.greet()).toBe('Hello, world !');
 
-                getSurname: function () {
-                    // this.getWord is not a function => static checking
-                    // this.getWord();
-                    return this.surname;
-                }
-                
-            }
 
-            const anotherObject = {
-                name: 'hobbes'
-            }
+    });
 
-            anotherObject.aFunction = anObject.getName;
+    test('but risky without return', () => {
 
-            // no such property as surname in anotherObject, but creating a function is allowed
-            // => no dynamic checking
-            anotherObject.anotherFunction = anObject.getSurname;
-            
-            expect(anotherObject.aFunction()).toBe('hobbes');
+      const GreetingConstructor = function (name) {
 
-            // no exception thrown
-            expect(anotherObject.anotherFunction()).toBe(undefined);
-            
-        });    
-        
-    });    
+        this.name = name;
 
-    describe('new and this', function () {
+        this.greet = function (name) {
+          return ('Hello, ' + this.name + ' !')
+        }
 
-        test('simple', () => {
+        // return (this);
+      }
 
-            const GreetingConstructor = function (name) {
+      // new is missing
+      const aGreet = GreetingConstructor('world');
 
-                this.name = name;
+      // Cannot read property greet of undefined
+      //expect(aGreet.greet()).toBe('Hello, world !');
 
-                this.greet = function(name){
-                    return ('Hello, ' + this.name + ' !')
-                }
+    });
 
-                return this;
-
-            }
-
-            const aGreet = new GreetingConstructor('world');
-
-
-            expect(aGreet.greet()).toBe('Hello, world !');
-
-            expect(aGreet).toBeInstanceOf(GreetingConstructor);
-            expect(aGreet.constructor.name).toBe('GreetingConstructor');
-
-
-        });    
-
-        test('but risky without new', () => {
-
-            const GreetingConstructor = function (name) {
-
-                // this is a global, Jest execution object..
-                this.name = name;
-
-                this.greet = function(name){
-                    return ('Hello, ' + this.name + ' !')
-                }
-
-                return this;
-
-            }
-
-            // new is missing
-            const aGreet = GreetingConstructor('world');
-
-            expect(aGreet.greet()).toBe('Hello, world !');
-
-            // Not an instance of GreetingConstructor.. (duplicated code)
-            expect(aGreet).toBeInstanceOf(Object);
-            expect(aGreet.constructor.name).toBe('Object');
-            expect({}.constructor.name).toBe('Object');            
-
-            // that would work, too, but is rejected by linter
-            // expect(this.greet()).toBe('Hello, world !');
-
-
-        });    
-
-        test('but risky without return', () => {
-
-            const GreetingConstructor = function (name) {
-
-                this.name = name;
-
-                this.greet = function(name){
-                    return ('Hello, ' + this.name + ' !')
-                }
-
-                // return (this);
-            }
-
-            // new is missing
-            const aGreet = GreetingConstructor('world');
-
-            // Cannot read property greet of undefined
-            //expect(aGreet.greet()).toBe('Hello, world !');
-
-        });    
-
-    });    
-
+  });
 
 });
