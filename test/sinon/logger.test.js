@@ -44,6 +44,7 @@ describe('stub', () => {
       logger.messageCount().should.eq(messageCount);
     });
 
+
     it('using on<N>Call(), different value', () => {
       // Given
       const firstMessageCount = 1;
@@ -59,6 +60,21 @@ describe('stub', () => {
       // Then
       logger.messageCount().should.eq(secondMessageCount);
     });
+
+    it('using withArgs(), return different values based on argument', () => {
+      // Given
+      const firstMessage = "First message";
+      const secondMessage = "Second message";
+
+      const loggerStub = sinon.stub(logger, "log");
+      loggerStub.withArgs(firstMessage).returns("black");
+      loggerStub.withArgs(secondMessage).returns("white");
+
+      // When Then
+      logger.log(firstMessage).should.eq("black");
+      logger.log(secondMessage).should.eq("white");
+    });
+
     afterEach( () => {
       loggerStub.restore();
     });
