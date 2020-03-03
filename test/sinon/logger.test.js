@@ -11,10 +11,11 @@ let expect = chai.expect;
 describe('spy ', () => {
 
   describe('log function call', () => {
+    let logger;
     let loggerSpy;
     const message = 'Message';
     beforeEach(() => {
-      const logger = new Logger();
+      logger = new Logger();
       loggerSpy = sinon.spy(logger, 'log');
       logger.log(message);
     });
@@ -27,6 +28,39 @@ describe('spy ', () => {
     it('callCount increments', () => {
       loggerSpy.callCount.should.be.eq(1);
     });
+    it('calledOnce return true if called once', () => {
+      sinon.assert.calledOnce(loggerSpy);
+    });
+    describe('using sinon-chai plugin', () => {
+      describe('call count', () => {
+        it('fluent style', () => {
+          loggerSpy.should.be.calledOnce;
+        });
+        it('fluent style', () => {
+          loggerSpy.should.have.been.calledOnce;
+        });
+      });
+      describe('value', () => {
+        it('fail if called with unspecified args ', () => {
+          // 2 call (i1 in beforeEach)
+          logger.log(message);
+          loggerSpy.callCount.should.be.eq(2);
+          // then
+          loggerSpy.should.always.have.been.calledWithExactly(message);
+        });
+      });
+      describe('call count and value', () => {
+        it('fail if called more than once, and not with specified args ', () => {
+          // when - second call
+          // uncomment to fail
+          //logger.log(message);
+
+          // then
+          loggerSpy.should.always.have.been.calledOnceWithExactly(message);
+        });
+      });
+    });
+
   });
 
 });
