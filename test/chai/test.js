@@ -42,6 +42,15 @@ describe('primitive', () => {
   });
 });
 
+describe('object', () => {
+    it('be.deep.equal compare object content', () => {
+      const expected = { name: 'calvin', type: 'human'};
+      const actual = { name: 'calvin', type: 'human'};
+      actual.should.be.deep.equal(expected);
+    });
+});
+
+
 describe('error handling', () => {
 
   it('should check it throws', ()=>{
