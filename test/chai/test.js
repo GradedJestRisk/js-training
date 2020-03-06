@@ -48,6 +48,11 @@ describe('object', () => {
       const actual = { name: 'calvin', type: 'human'};
       actual.should.be.deep.equal(expected);
     });
+  it('include compare object partial content', () => {
+    const expected = {type: 'human'};
+    const actual = { name: 'calvin', type: 'human'};
+    actual.should.include(expected);
+  });
 });
 
 
