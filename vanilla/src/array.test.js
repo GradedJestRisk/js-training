@@ -105,6 +105,13 @@ describe('pure actions', () => {
       expect(anElement).toBe(you);
     })
   });
+  describe('some', () => {
+    it('true if at least ome element match', () => {
+      const anArray = [1, 0, 3, 0, 5];
+      const found = anArray.some((element) => element === 0);
+      expect(found).toBe(true);
+    });
+  });
 });
 
 describe('impure actions', () => {
