@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mkdirp": "^0.5.1",
-    "request": "^2.88.0",
-    "underscore": "^1.9.1"
+    "mkdirp": "^1.0.4",
+    "request": "^2.88.2",
+    "underscore": "^1.10.2"
   }
 }
