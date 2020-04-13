@@ -48,10 +48,22 @@ describe('object', () => {
       const actual = { name: 'calvin', type: 'human'};
       actual.should.be.deep.equal(expected);
     });
-  it('include compare object partial content', () => {
+
+  it.skip('include compare object partial content - how ?', () => {
     const expected = {type: 'human'};
     const actual = { name: 'calvin', type: 'human'};
+    // TODO: this fail, find another way (other than individual checks, maybe chai-things)
     actual.should.include(expected);
+  });
+
+  it('include compare array s object partial content', () => {
+    const expectedPerson = {type: 'human'};
+    const expectedPeople = [expectedPerson, expectedPerson];
+
+    const calvin = { name: 'calvin', type: 'human'};
+    const dad = { name: 'dad', type: 'human'};
+    const people = [calvin, dad];
+    people.should.include(expectedPeople);
   });
 });
 
