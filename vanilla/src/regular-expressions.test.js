@@ -155,7 +155,7 @@ describe('regular expressions', () => {
 
         test('exception path', () => {
 
-          const atLeastOneCapital = 'Feature(admin)_add-perpetual-token'
+          const atLeastOneCapital = 'feature(admin)_Add-perpetual-token'
           const missingChangeType = '(admin)_add-perpetual-token'
           const missingScope = 'feature_add-perpetual-token'
           const wrongSeparatorsForScope = 'feature[admin]_add-perpetual-token'
