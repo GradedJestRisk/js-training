@@ -1,14 +1,12 @@
-const knex = require('./knex/knex.js');
+const {getAll} = require('./src/repositories/recipe.js');
 
-knex.from('recipe').select('name', 'serving')
-    .then((rows) => {
-        const recipeCount = rows.length;
-        console.log(`Here are the ${ recipeCount } recipes:`);
-        for (row of rows) {
-            console.log(` * ${ row['name']} serves ${ row['serving']} people`);
-        }
-    })
-    .catch((err) => { console.log( err); throw err })
-    .finally(() => {
-        knex.destroy();
-    });
+(async function () {
+    const recipes = await getAll();
+    const recipeCount = recipes.length;
+    console.log(`Here are the ${recipeCount} recipes:`);
+
+    for (recipe of recipes) {
+        console.log(` * ${recipe.name} serves ${recipe.serving} people`);
+    }
+})()
+
