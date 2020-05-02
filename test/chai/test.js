@@ -82,9 +82,18 @@ describe('object', () => {
 
 describe('error handling', () => {
 
-  it('should check it throws', ()=>{
+  it('should check it throws (expect)', ()=>{
     const throwingFunction = function () { throw new Error(); };
     expect(throwingFunction).to.throw();
+  });
+
+  it('should check it throws (should)', ()=>{
+    const throwingFunction = function () { throw new Error(); };
+    throwingFunction.should.throw();
+  });
+
+  it('should check it throws (IIFE)', ()=>{
+    expect( ()=> { throw new Error() } ).to.throw();
   });
 
   it('should check partial error message', ()=>{
