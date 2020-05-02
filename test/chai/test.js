@@ -1,5 +1,6 @@
 const assert = require('assert').strict;
 const chai = require('chai');
+chai.use(require('chai-string'));
 
 // Choose one of these two forms
 chai.should();
@@ -38,6 +39,17 @@ describe('primitive', () => {
     })
     it('the easy way', () => {
       true.should.be.true;
+    })
+  });
+  describe('string', () => {
+    it('the hard way', () => {
+      "hello".should.eq("hello");
+      "hello".should.equal("hello");
+      "hello".should.be.equal("hello");
+    })
+    it('the easy way', () => {
+      "hello".should.equalIgnoreCase("Hello");
+      "Hello, world !".should.startWith("Hello");
     })
   });
 });
