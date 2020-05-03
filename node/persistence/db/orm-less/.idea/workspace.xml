@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95e57318-01a3-46ee-827f-9b0c452b2cec" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../vanilla/src/function.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../vanilla/src/function.test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +51,7 @@
       <workItem from="1587988271781" duration="782000" />
       <workItem from="1588055006964" duration="1965000" />
       <workItem from="1588142391386" duration="3311000" />
+      <workItem from="1588508979290" duration="17000" />
     </task>
     <servers />
   </component>
@@ -68,10 +67,10 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="846" y="390" width="924" height="684" key="DBNavigator.ProjectSettingsDialog/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588055205210" />
-    <state x="1096" y="490" width="424" height="484" key="FileChooserDialogImpl" timestamp="1588145383527">
+    <state x="1096" y="490" width="424" height="484" key="FileChooserDialogImpl" timestamp="1588508989219">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state x="1096" y="490" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145383527" />
+    <state x="1096" y="490" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588508989219" />
     <state width="2447" height="388" key="GridCell.Tab.0.bottom" timestamp="1588145564163">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
@@ -143,7 +142,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/server.js</url>
           <line>5</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

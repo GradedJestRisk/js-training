@@ -8,4 +8,10 @@ class Rectangle {
   }
 }
 
-module.exports = Rectangle
+class Circle {
+  constructor(radius) {
+    this.radius = radius;
+  }
+}
+
+module.exports = { Rectangle, Circle }
