@@ -14,6 +14,20 @@ const nextIntegerSecondImport = secondImport.nextInteger;
 
 chai.should();
 
+describe('module.exports', () => {
+
+    it('should hide implementation details', () => {
+        let counter = require('./module.js').counter;
+        expect(counter).to.be.undefined;
+    });
+
+    it('should import the same values', () => {
+        mutableStringFirstImport.should.equal("initialMutableState");
+        mutableStringSecondImport.should.equal("initialMutableState");
+    });
+
+});
+
 describe('require', () => {
 
     it('can be called anywhere', () => {
@@ -26,6 +40,7 @@ describe('require', () => {
         mutableStringFirstImport.should.equal("initialMutableState");
         mutableStringSecondImport.should.equal("initialMutableState");
     });
+
 });
 
 describe('immutableData', () => {
