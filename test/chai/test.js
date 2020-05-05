@@ -1,6 +1,9 @@
 const assert = require('assert').strict;
 const chai = require('chai');
+
+// plugins
 chai.use(require('chai-string'));
+chai.use(require('chai-datetime'));
 
 // Choose one of these two forms
 chai.should();
@@ -52,21 +55,84 @@ describe('primitive', () => {
             "Hello, world !".should.startWith("Hello");
         })
     });
-    describe('number', ()=>{
-        it('equal', ()=>{
+    describe('number', () => {
+        it('equal', () => {
             expect(0).to.equal(0);
         })
-        it('finite', ()=>{
+        it('finite', () => {
             expect(0).to.be.finite;
             expect('calvin').not.to.be.finite;
             expect(null).not.to.be.finite;
             expect(NaN).not.to.be.finite;
-            expect(1/0).not.to.be.finite;
+            expect(1 / 0).not.to.be.finite;
         })
-        it('infinity', ()=>{
-            expect(1/0).to.equal(Infinity)
+        it('infinity', () => {
+            expect(1 / 0).to.equal(Infinity)
         })
-     })
+    })
+    describe('dateTime', () => {
+
+        describe('type', () => {
+
+            it('yes', () => {
+                const christmas = new Date(2019, 12, 24, 23, 59);
+                expect(christmas).to.be.a('Date');
+            });
+
+            it('yes', () => {
+                const string = "value";
+                expect(string).not.to.be.a('Date');
+            });
+
+        });
+
+        describe('same Day', () => {
+
+            it('yes', () => {
+                const christmasMorning = new Date(2019, 12, 24, 7, 1);
+                const christmasNight = new Date(2019, 12, 24, 23, 59);
+                christmasMorning.should.equalDate(christmasNight);
+            });
+
+            it('no', () => {
+                const christmas = new Date(2019, 12, 24, 23, 59);
+                const newYear = new Date(2020, 1, 1, 1);
+                expect(christmas).not.to.equalDate(newYear);
+            });
+
+            it('no (with guards)', () => {
+                const oneMinuteBeforeMidnight = new Date(2019, 12, 24, 23, 59);
+
+                const nullDate = null;
+                expect(nullDate).to.be.null;
+                expect(nullDate).not.to.be.a('Date');
+
+                const undefinedDate = undefined;
+                expect(undefinedDate).be.undefined;
+                expect(undefinedDate).not.to.be.a('Date');
+
+                const oneAM = new Date(2019, 12, 24, 1);
+                expect(oneAM).to.be.a("Date");
+                oneAM.should.equalDate(oneMinuteBeforeMidnight);
+            })
+        });
+
+        describe('before', () => {
+
+            it('with plugin', () => {
+                const christmas = new Date(2019, 12, 24, 23, 59);
+                const newYear = new Date(2020, 1, 1, 1);
+                christmas.should.beforeTime(newYear);
+            });
+
+            it('without plugin', () => {
+                const christmasMorning = new Date(2019, 12, 24, 07, 01);
+                const christmasNight = new Date(2019, 12, 24, 23, 59);
+                christmasNight.should.be.above(christmasMorning);
+                christmasMorning.should.be.below(christmasNight);
+            });
+        });
+    });
 });
 
 describe('object', () => {
@@ -92,7 +158,7 @@ describe('object', () => {
         const people = [calvin, dad];
         people.should.include(expectedPeople);
     });
-    
+
     // TODDO: add sealed and frozen
 });
 
@@ -133,7 +199,7 @@ describe('corner case', () => {
             expect(undefined).to.be.undefined;
         });
 
-        it('undefined', () => {
+        it('null', () => {
             expect(null).to.be.null;
         });
 
