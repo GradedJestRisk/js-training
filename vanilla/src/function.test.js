@@ -23,32 +23,54 @@ describe('function', function () {
             expect(greet()).toBe('Hello, world !');
         });
 
-        test('parameter object ', () => {
+        describe('parameter object', () => {
 
-            function greet(args) {
+            test('implicit ', () => {
 
-                let firstWord, name;
+                function greet(args) {
 
-                firstWord = args.firstWord;
-                name = args.name;
+                    let firstWord, name;
 
-                return firstWord + ', ' + name + ' !';
-            };
+                    firstWord = args.firstWord;
+                    name = args.name;
 
-            expect(greet({ name: 'world', firstWord: 'Hello' })).toBe('Hello, world !');
-        });
+                    return firstWord + ', ' + name + ' !';
+                };
 
+                expect(greet({name: 'world', firstWord: 'Hello'})).toBe('Hello, world !');
+            });
 
-        test('parameter object (alternate)', () => {
+            test('implicit (destructuring)', () => {
 
-            function greet(args) {
+                function greet(args) {
 
-                let { firstWord, name } = args;
+                    let {firstWord, name} = args;
 
-                return firstWord + ', ' + name + ' !';
-            };
+                    return firstWord + ', ' + name + ' !';
+                };
 
-            expect(greet({ name: 'world', firstWord: 'Hello' })).toBe('Hello, world !');
+                expect(greet({name: 'world', firstWord: 'Hello'})).toBe('Hello, world !');
+            });
+
+            test('explicit', () => {
+
+                function greet( { firstWord, name } ) {
+
+                    return firstWord + ', ' + name + ' !';
+                };
+
+                expect(greet({name: 'world', firstWord: 'Hello'})).toBe('Hello, world !');
+            });
+
+            test('explicit (1 parameter)', () => {
+
+                function greet( { name } ) {
+
+                    return 'Hello, ' + name + ' !';
+                };
+
+                expect(greet({name: 'world', firstWord: 'Hello'})).toBe('Hello, world !');
+            });
         });
 
         test('ellipsis in arguments (spread)', () => {
@@ -94,7 +116,6 @@ describe('function', function () {
         });
 
 
-
     });
 
     describe('return value', function () {
@@ -137,7 +158,7 @@ describe('function', function () {
         test('use object to return multiple values', () => {
 
             function bark() {
-                return { dog: 'fido', sound: 'woof!' };
+                return {dog: 'fido', sound: 'woof!'};
             };
 
             let result = bark();
@@ -152,10 +173,10 @@ describe('function', function () {
             let dog, sound;
 
             function bark() {
-                return { dog: 'fido', sound: 'woof!' };
+                return {dog: 'fido', sound: 'woof!'};
             };
 
-           // { dog, sound } = bark();
+            // { dog, sound } = bark();
             expect(dog).toBe('fido');
             expect(sound).toBe('woof!');
 
