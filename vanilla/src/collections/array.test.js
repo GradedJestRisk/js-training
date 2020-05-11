@@ -83,7 +83,7 @@ describe('array', () => {
                 expect(myNewArray).toStrictEqual(['@0: one', '@1: two']);
             });
 
-
+            // TOOD: add map for asynchronous calls + Promise.all
         });
         describe('find', () => {
             it('test each value', () => {
