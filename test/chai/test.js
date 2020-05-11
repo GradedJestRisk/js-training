@@ -126,7 +126,7 @@ describe('primitive', () => {
             });
 
             it('without plugin', () => {
-                const christmasMorning = new Date(2019, 12, 24, 07, 01);
+                const christmasMorning = new Date(2019, 12, 24, 7, 1);
                 const christmasNight = new Date(2019, 12, 24, 23, 59);
                 christmasNight.should.be.above(christmasMorning);
                 christmasMorning.should.be.below(christmasNight);
