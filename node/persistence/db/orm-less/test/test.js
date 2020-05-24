@@ -17,6 +17,24 @@ describe('test', async () => {
         currentDatabase.should.eq('cooking_db');
     })
 
+
+    it('toSQL() show generated SQL', async () => {
+        const minServing = 4;
+        const query = await knex.from(tableName).select('name', 'serving').where('serving', '>=', minServing).toSQL();
+        // console.dir(query);
+        query.sql.should.eq('select \"name\", \"serving\" from \"recipe\" where \"serving\" >= ?');
+        query.bindings[0].should.eq(minServing);
+    })
+
+    it('toNative() show final generated SQL', async () => {
+        const minServing = 4;
+        const query = await knex.from(tableName).select('name', 'serving').where('serving', '>=', minServing).toSQL().toNative();
+        // console.dir(query);
+        query.sql.should.eq('select \"name\", \"serving\" from \"recipe\" where \"serving\" >= $1');
+        query.bindings[0].should.eq(minServing);
+    })
+
+
     it('error in transaction should prevent data insertion', async () => {
 
         const recipe = {
