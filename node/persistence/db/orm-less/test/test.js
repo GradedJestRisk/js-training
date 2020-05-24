@@ -32,10 +32,10 @@ describe('test', async () => {
             })
         } catch (error) {
             //console.error("Error raised:" + error);
-            const count = await recipeRepository.count();
-            count.should.equal(0);
         }
 
+        const count = await recipeRepository.count();
+        count.should.equal(0);
     })
 
     it('call rollback  in transaction should prevent data insertion', async () => {
@@ -53,9 +53,10 @@ describe('test', async () => {
             })
         } catch (error) {
             //console.error("Error raised:" + error);
-            const count = await recipeRepository.count();
-            count.should.equal(0);
         }
+
+        const count = await recipeRepository.count();
+        count.should.equal(0);
 
     })
 

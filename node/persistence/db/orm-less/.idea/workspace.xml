@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="95e57318-01a3-46ee-827f-9b0c452b2cec" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../../vanilla/src/function.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../vanilla/src/function.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/knexfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/knexfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repositories/recipe.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/repositories/recipe.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +45,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/index.js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../test/refactoring-test" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
@@ -52,11 +73,27 @@
       <workItem from="1588055006964" duration="1965000" />
       <workItem from="1588142391386" duration="3311000" />
       <workItem from="1588508979290" duration="17000" />
+      <workItem from="1588747375495" duration="4141000" />
+      <workItem from="1588766177626" duration="2624000" />
+      <workItem from="1589102316051" duration="1010000" />
+      <workItem from="1589265806407" duration="697000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="771" y="390" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588145384167">
@@ -67,10 +104,10 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="846" y="390" width="924" height="684" key="DBNavigator.ProjectSettingsDialog/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588055205210" />
-    <state x="1096" y="490" width="424" height="484" key="FileChooserDialogImpl" timestamp="1588508989219">
+    <state x="1096" y="490" width="424" height="484" key="FileChooserDialogImpl" timestamp="1588751483074">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state x="1096" y="490" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588508989219" />
+    <state x="1096" y="490" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588751483074" />
     <state width="2447" height="388" key="GridCell.Tab.0.bottom" timestamp="1588145564163">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
@@ -135,16 +172,5 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state width="2447" height="476" key="GridCell.Tab.3.right/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/server.js</url>
-          <line>5</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
