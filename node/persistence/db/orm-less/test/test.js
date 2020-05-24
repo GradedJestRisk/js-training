@@ -38,5 +38,26 @@ describe('test', async () => {
 
     })
 
+    it('call rollback  in transaction should prevent data insertion', async () => {
+
+        const recipe = {
+            name: 'caramelized-garlic-tart',
+            serving: 4,
+            source: 'https://www.theguardian.com/lifeandstyle/2008/mar/01/foodanddrink.shopping1'
+        };
+
+        try {
+            await knex.transaction(async trx => {
+                await trx(tableName).insert(recipe);
+                await trx.rollback();
+            })
+        } catch (error) {
+            //console.error("Error raised:" + error);
+            const count = await recipeRepository.count();
+            count.should.equal(0);
+        }
+
+    })
+
 
 });
