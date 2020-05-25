@@ -19,12 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95e57318-01a3-46ee-827f-9b0c452b2cec" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/knexfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/knexfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repositories/recipe.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/repositories/recipe.js" afterDir="false" />
-    </list>
+    <list default="true" id="95e57318-01a3-46ee-827f-9b0c452b2cec" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,7 +41,9 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../test/refactoring-test" />
+    <property name="nodejs.mocha.mocha_node_package_dir" value="$PROJECT_DIR$/node_modules/mocha" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -54,10 +51,98 @@
       <recent name="$PROJECT_DIR$/knex/migrations" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Mocha.knex">
     <configuration name="Debug" type="NodeJSConfigurationType" path-to-js-file="$PROJECT_DIR$/server.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
+    <configuration name="knex" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options />
+      <test-kind>SUITE</test-kind>
+      <test-file>$PROJECT_DIR$/test/test.js</test-file>
+      <test-names>
+        <name value="knex" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="test.call rollback in transaction does not affect other transaction" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options />
+      <test-kind>TEST</test-kind>
+      <test-file>$PROJECT_DIR$/test/test.js</test-file>
+      <test-names>
+        <name value="test" />
+        <name value="call rollback in transaction does not affect other transaction" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="test.toNative() show final generated SQL" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options />
+      <test-kind>TEST</test-kind>
+      <test-file>$PROJECT_DIR$/test/test.js</test-file>
+      <test-names>
+        <name value="test" />
+        <name value="toNative() show final generated SQL" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="test.toSQL show generated SQL" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options />
+      <test-kind>TEST</test-kind>
+      <test-file>$PROJECT_DIR$/test/test.js</test-file>
+      <test-names>
+        <name value="test" />
+        <name value="toSQL show generated SQL" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="test.toSQL() show generated SQL" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options />
+      <test-kind>TEST</test-kind>
+      <test-file>$PROJECT_DIR$/test/test.js</test-file>
+      <test-names>
+        <name value="test" />
+        <name value="toSQL() show generated SQL" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Mocha.knex" />
+        <item itemvalue="Mocha.test.toSQL() show generated SQL" />
+        <item itemvalue="Mocha.test.toNative() show final generated SQL" />
+        <item itemvalue="Mocha.test.toSQL show generated SQL" />
+        <item itemvalue="Mocha.test.call rollback in transaction does not affect other transaction" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -77,6 +162,7 @@
       <workItem from="1588766177626" duration="2624000" />
       <workItem from="1589102316051" duration="1010000" />
       <workItem from="1589265806407" duration="697000" />
+      <workItem from="1590322940583" duration="4418000" />
     </task>
     <servers />
   </component>
@@ -100,6 +186,10 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="771" y="390" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145384167" />
+    <state x="167" y="125" width="2293" height="1215" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1590327358807">
+      <screen x="67" y="27" width="2493" height="1413" />
+    </state>
+    <state x="167" y="125" width="2293" height="1215" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358807" />
     <state x="846" y="390" width="924" height="684" key="DBNavigator.ProjectSettingsDialog" timestamp="1588055205210">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
@@ -108,69 +198,81 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="1096" y="490" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588751483074" />
-    <state width="2447" height="388" key="GridCell.Tab.0.bottom" timestamp="1588145564163">
+    <state width="2447" height="388" key="GridCell.Tab.0.bottom" timestamp="1590327358749">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="388" key="GridCell.Tab.0.bottom/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145564163" />
-    <state width="2447" height="388" key="GridCell.Tab.0.center" timestamp="1588145564163">
+    <state width="2447" height="388" key="GridCell.Tab.0.bottom/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358749" />
+    <state width="2447" height="388" key="GridCell.Tab.0.center" timestamp="1590327358749">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="388" key="GridCell.Tab.0.center/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145564163" />
-    <state width="2447" height="388" key="GridCell.Tab.0.left" timestamp="1588145564163">
+    <state width="2447" height="388" key="GridCell.Tab.0.center/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358749" />
+    <state width="2447" height="388" key="GridCell.Tab.0.left" timestamp="1590327358749">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="388" key="GridCell.Tab.0.left/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145564163" />
-    <state width="2447" height="388" key="GridCell.Tab.0.right" timestamp="1588145564163">
+    <state width="2447" height="388" key="GridCell.Tab.0.left/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358749" />
+    <state width="2447" height="388" key="GridCell.Tab.0.right" timestamp="1590327358749">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="388" key="GridCell.Tab.0.right/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145564163" />
-    <state width="2447" height="476" key="GridCell.Tab.1.bottom" timestamp="1588145478457">
+    <state width="2447" height="388" key="GridCell.Tab.0.right/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358749" />
+    <state width="2447" height="476" key="GridCell.Tab.1.bottom" timestamp="1590327358495">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="476" key="GridCell.Tab.1.bottom/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
-    <state width="2447" height="476" key="GridCell.Tab.1.center" timestamp="1588145478457">
+    <state width="2447" height="476" key="GridCell.Tab.1.bottom/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358495" />
+    <state width="2447" height="476" key="GridCell.Tab.1.center" timestamp="1590327358495">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="476" key="GridCell.Tab.1.center/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
-    <state width="2447" height="476" key="GridCell.Tab.1.left" timestamp="1588145478457">
+    <state width="2447" height="476" key="GridCell.Tab.1.center/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358495" />
+    <state width="2447" height="476" key="GridCell.Tab.1.left" timestamp="1590327358495">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="476" key="GridCell.Tab.1.left/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
-    <state width="2447" height="476" key="GridCell.Tab.1.right" timestamp="1588145478457">
+    <state width="2447" height="476" key="GridCell.Tab.1.left/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358495" />
+    <state width="2447" height="476" key="GridCell.Tab.1.right" timestamp="1590327358495">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="476" key="GridCell.Tab.1.right/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
-    <state width="2447" height="476" key="GridCell.Tab.2.bottom" timestamp="1588145478457">
+    <state width="2447" height="476" key="GridCell.Tab.1.right/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358495" />
+    <state width="2447" height="476" key="GridCell.Tab.2.bottom" timestamp="1590327358495">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="476" key="GridCell.Tab.2.bottom/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
-    <state width="2447" height="476" key="GridCell.Tab.2.center" timestamp="1588145478457">
+    <state width="2447" height="476" key="GridCell.Tab.2.bottom/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358495" />
+    <state width="2447" height="476" key="GridCell.Tab.2.center" timestamp="1590327358495">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="476" key="GridCell.Tab.2.center/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
-    <state width="2447" height="476" key="GridCell.Tab.2.left" timestamp="1588145478457">
+    <state width="2447" height="476" key="GridCell.Tab.2.center/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358495" />
+    <state width="2447" height="476" key="GridCell.Tab.2.left" timestamp="1590327358495">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="476" key="GridCell.Tab.2.left/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
-    <state width="2447" height="476" key="GridCell.Tab.2.right" timestamp="1588145478457">
+    <state width="2447" height="476" key="GridCell.Tab.2.left/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358495" />
+    <state width="2447" height="476" key="GridCell.Tab.2.right" timestamp="1590327358495">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="476" key="GridCell.Tab.2.right/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
-    <state width="2447" height="476" key="GridCell.Tab.3.bottom" timestamp="1588145478457">
+    <state width="2447" height="476" key="GridCell.Tab.2.right/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358495" />
+    <state width="2447" height="476" key="GridCell.Tab.3.bottom" timestamp="1590327358495">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="476" key="GridCell.Tab.3.bottom/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
-    <state width="2447" height="476" key="GridCell.Tab.3.center" timestamp="1588145478457">
+    <state width="2447" height="476" key="GridCell.Tab.3.bottom/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358495" />
+    <state width="2447" height="476" key="GridCell.Tab.3.center" timestamp="1590327358495">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="476" key="GridCell.Tab.3.center/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
-    <state width="2447" height="476" key="GridCell.Tab.3.left" timestamp="1588145478457">
+    <state width="2447" height="476" key="GridCell.Tab.3.center/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358495" />
+    <state width="2447" height="476" key="GridCell.Tab.3.left" timestamp="1590327358495">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="476" key="GridCell.Tab.3.left/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
-    <state width="2447" height="476" key="GridCell.Tab.3.right" timestamp="1588145478457">
+    <state width="2447" height="476" key="GridCell.Tab.3.left/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358495" />
+    <state width="2447" height="476" key="GridCell.Tab.3.right" timestamp="1590327358495">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
-    <state width="2447" height="476" key="GridCell.Tab.3.right/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1588145478457" />
+    <state width="2447" height="476" key="GridCell.Tab.3.right/67.27.2493.1413/2560.0.1680.1050@67.27.2493.1413" timestamp="1590327358495" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/test.js</url>
+          <line>18</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
