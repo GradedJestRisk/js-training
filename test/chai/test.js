@@ -13,6 +13,8 @@ chai.should();
 const expect = chai.expect;
 //const expect = require('chai').expect;
 
+chai.use(require('chai-as-promised'));
+
 describe('assertion modes', () => {
     describe('native (node)', () => {
         describe('assert', () => {
@@ -191,6 +193,17 @@ describe('corner case', () => {
             };
             expect(throwingFunction).to.throw('message');
         });
+
+        it('should check error message in promise (chai-as-promised)', async () => {
+            const rejectionMessage = 'error message';
+            const throwingFunction =  new Promise ((resolve, reject) => {
+                   reject('error message');
+                });
+
+            return throwingFunction.should.be.rejectedWith(rejectionMessage);
+        });
+
+
     });
 
     describe('special values', () => {
