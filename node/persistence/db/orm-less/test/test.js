@@ -7,6 +7,13 @@ const tableName = 'recipe';
 
 describe('knex', async () => {
 
+    const recipe = {
+        name: 'caramelized-garlic-tart',
+        serving: 4,
+        source: 'https://www.theguardian.com/lifeandstyle/2008/mar/01/foodanddrink.shopping1'
+    };
+
+
     beforeEach(async () => {
         await recipeRepository.removeAll();
     });
@@ -41,12 +48,6 @@ describe('knex', async () => {
 
         it('error in transaction should prevent data insertion', async () => {
 
-            const recipe = {
-                name: 'caramelized-garlic-tart',
-                serving: 4,
-                source: 'https://www.theguardian.com/lifeandstyle/2008/mar/01/foodanddrink.shopping1'
-            };
-
             try {
                 await knex.transaction(async trx => {
                     await trx(tableName).insert(recipe);
@@ -61,12 +62,6 @@ describe('knex', async () => {
         })
 
         it('call rollback in transaction should prevent data insertion', async () => {
-
-            const recipe = {
-                name: 'caramelized-garlic-tart',
-                serving: 4,
-                source: 'https://www.theguardian.com/lifeandstyle/2008/mar/01/foodanddrink.shopping1'
-            };
 
             try {
                 await knex.transaction(async trx => {
@@ -84,12 +79,6 @@ describe('knex', async () => {
 
         it('call rollback in transaction does not affect other transaction', async () => {
 
-            const recipe = {
-                name: 'caramelized-garlic-tart',
-                serving: 4,
-                source: 'https://www.theguardian.com/lifeandstyle/2008/mar/01/foodanddrink.shopping1'
-            };
-
             try {
                 await knex.transaction(async trx => {
                     await recipeRepository.create(recipe);
@@ -104,6 +93,48 @@ describe('knex', async () => {
             count.should.equal(1);
 
         })
+
+
+        describe('transaction can return a value', async () => {
+
+            it('when transaction succeed', async () => {
+
+                const RETURN_CODE = 1;
+
+
+                let actualCode;
+                try {
+                    actualCode = await knex.transaction(async trx => {
+                        await trx(tableName).insert(recipe);
+                        return RETURN_CODE;
+                    })
+                } catch (error) {
+                    console.error("Error raised in transaction:" + error);
+                }
+
+                actualCode.should.equal(RETURN_CODE);
+
+            })
+
+            it('when transaction fails', async () => {
+
+                const RETURN_CODE = 1;
+
+                let actualCode;
+                try {
+                    actualCode = await knex.transaction(async trx => {
+                        await trx.rollback();
+                    })
+                } catch (error) {
+                    console.error("Error raised in transaction:" + error);
+                    return RETURN_CODE;
+                }
+
+                actualCode.should.equal(RETURN_CODE);
+
+            });
+
+        });
 
     });
 });

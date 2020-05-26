@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="PROJECT" libraries="{@types/chai, @types/chai-as-promised, @types/chai-things, @types/jest, @types/mocha, @types/sinon, @types/sinon-chai}" />
+  </component>
+</project>
