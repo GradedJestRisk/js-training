@@ -2,6 +2,12 @@ const knex = require('../../knex/knex.js');
 const tableName = 'recipe';
 // knex.on('query', console.log)
 
+const testDatabaseConnection = async function()  {
+    const rawResult = await knex.raw('SELECT current_database() AS "databaseName"' );
+    const databaseName = rawResult.rows[0].databaseName;
+    console.log('Successfully connected to ' + databaseName);
+}
+
 const getAll = async function()  {
     const recipes = await  knex.from(tableName).select('name', 'serving');
     return recipes;
@@ -29,4 +35,4 @@ const removeAll = async function () {
     await knex(tableName).del();
 };
 
-module.exports = { getAll, get, create, getByName, removeAll, count };
+module.exports = { testDatabaseConnection, getAll, get, create, getByName, removeAll, count };

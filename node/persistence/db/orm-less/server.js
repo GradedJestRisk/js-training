@@ -1,8 +1,16 @@
-const { getAll, get } = require('./src/repositories/recipe.js');
+const { getAll, get, testDatabaseConnection } = require('./src/repositories/recipe.js');
 
 (async function () {
 
-    const recipes = await getAll();
+    testDatabaseConnection();
+
+
+    try {
+        const recipes = await getAll();
+    }
+    catch (error){
+        console.log(error);
+    }
     const recipeCount = recipes.length;
     console.log(`Here are the ${recipeCount} recipes:`);
 
@@ -19,6 +27,7 @@ const { getAll, get } = require('./src/repositories/recipe.js');
     for (recipe of recipeOnMinServing) {
         console.log(` * ${recipe.name} serves ${recipe.serving} people`);
     }
+
 
 })()
 
