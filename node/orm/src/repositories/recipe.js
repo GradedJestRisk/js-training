@@ -6,7 +6,7 @@ const testDatabaseConnection = async function()  {
     console.log('Successfully connected to ' + databaseName);
 }
 
-const printRecipe = async function () {
+const printRecipes = async function () {
 
     const recipes = await new Recipe().fetchAll();
     console.dir(recipes.toJSON());
@@ -33,4 +33,4 @@ const getUsersRecipes = async function () {
 
 }
 
-module.exports = { testDatabaseConnection, printRecipe, getUsersRecipes };
+module.exports = { testDatabaseConnection, printRecipes, getUsersRecipes };
