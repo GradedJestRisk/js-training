@@ -20,10 +20,10 @@ const printRecipe = async function () {
 }
 
 
-const printUserRecipe = async function () {
+const getUsersRecipes = async function () {
 
     const recipes = await Recipe.where("id",0).fetch({withRelated: ["user"]});
-    console.dir(recipes.toJSON());
+    return recipes.toJSON();
 
     // new Recipe({id: 1}).fetch({withRelated: ['ingredient']}).then((recipe) => {
     //     console.log(recipe.related('ingredient').toJSON())
@@ -33,4 +33,4 @@ const printUserRecipe = async function () {
 
 }
 
-module.exports = { testDatabaseConnection, printRecipe, printUserRecipe };
+module.exports = { testDatabaseConnection, printRecipe, getUsersRecipes };
