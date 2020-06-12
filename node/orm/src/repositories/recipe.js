@@ -6,10 +6,9 @@ const testDatabaseConnection = async function()  {
     console.log('Successfully connected to ' + databaseName);
 }
 
-const printRecipes = async function () {
+const getRecipes = async function () {
 
-    const recipes = await new Recipe().fetchAll();
-    console.dir(recipes.toJSON());
+   return (await new Recipe().fetchAll()).toJSON();
 
     // new Recipe({id: 1}).fetch({withRelated: ['ingredient']}).then((recipe) => {
     //     console.log(recipe.related('ingredient').toJSON())
@@ -33,4 +32,4 @@ const getUsersRecipes = async function () {
 
 }
 
-module.exports = { testDatabaseConnection, printRecipes, getUsersRecipes };
+module.exports = { testDatabaseConnection, getRecipes, getUsersRecipes };

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --exit test/**/test.js",
+    "test": "npm run db:reset && mocha --exit test/**/test.js",
     "db:create-schema-migration": "npx knex --knexfile db/db-agent-configuration.js migrate:make $migrationname",
     "db:create-data-insertion": "npx knex --knexfile db/db-agent-configuration.js seed:make $seedname",
     "db:reset": "npm run db:reset-schema && npm run db:schema && npm run db:data",
