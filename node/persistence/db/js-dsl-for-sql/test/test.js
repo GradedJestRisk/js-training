@@ -94,6 +94,38 @@ describe('knex', async () => {
 
         })
 
+        it('is more slowly than without transaction ', async () => {
+
+            const insert = async function () {
+                return knex(tableName).insert(recipe);
+            }
+
+            const insertTransaction = async function () {
+                await knex.transaction(async trx => {
+                    await trx(tableName).insert(recipe);
+                })
+            }
+            const MAX_ITERATIONS = 200;
+            let currentIterationCount;
+
+            const begin = Date.now();
+            currentIterationCount = 0;
+            while (currentIterationCount++ <= MAX_ITERATIONS) {
+                await insert();
+            }
+            const duration = Date.now() - begin;
+
+            const beginTransaction = Date.now();
+            currentIterationCount = 0;
+            while (currentIterationCount++ <= MAX_ITERATIONS) {
+                await insertTransaction();
+            }
+            const durationTransaction = Date.now() - beginTransaction;
+
+            console.log('With transaction  (ms): ' + durationTransaction);
+            console.log('Without transaction (ms): ' + duration);
+            durationTransaction.should.be.greaterThan(duration);
+        })
 
         describe('transaction can return a value', async () => {
 
