@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --exit test/**/test.js"
+    "test": "mocha --exit test/**/test.js",
+    "db:reset": "npm run db:create-schema && npm run db:insert-data",
+    "db:create-schema": "npx knex migrate:latest",
+    "db:insert-data": "npx knex seed:run"
   },
   "keywords": [],
   "author": "",
