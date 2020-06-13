@@ -1,0 +1,32 @@
+@startuml
+actor User #blue
+participant code
+participant Bookshelf
+participant Knex
+participant Tarn
+participant node_postgres
+participant postgresDB
+
+User -> code: npm start
+code -> Knex : require
+Knex -> node_postgres: connect()
+node_postgres -> postgresDB : AUTHENTICATE
+postgresDB -> node_postgres : CONNECTED
+node_postgres -> Knex: connexion1
+Knex -> Tarn: Add connexion1, connexion2, ..MAX to Pool
+Knex -> code: knex instance
+code -> Bookshelf : require \n (passing knex instance)
+code -> Bookshelf : Recipe().fetchAll()
+Bookshelf -> Knex : knex.from('recipe').select()
+Knex -> Tarn: acquiring connection from pool
+Tarn -> Knex : acquired connection from pool:\n connexion1
+Knex -> node_postgres : select "recipe".* from "recipe" \n USING connexion1
+node_postgres -> postgresDB: select "recipe".* from "recipe"
+postgresDB -> node_postgres : (0, 'flatbread', 1, 0)\n(1, 'bread', 2, 1)
+node_postgres -> Knex: [ { id: 0, name: 'flatbread', serving: 1, user_id: 0 }, \n  { id: 1, name: 'bread', serving: 2, user_id: 1 }]
+Knex -> Tarn : releasing connection1 to pool
+Knex -> Bookshelf: [ { id: 0, name: 'flatbread', serving: 1, user_id: 0 }, \n  { id: 1, name: 'bread', serving: 2, user_id: 1 }]
+Bookshelf -> code: [ { id: 0, name: 'flatbread', serving: 1, user_id: 0 }, \n  { id: 1, name: 'bread', serving: 2, user_id: 1 }]
+code -> User: recipe n°0: flatbread, serving 1 \nrecipe n°1: bread, serving 2
+
+@enduml
