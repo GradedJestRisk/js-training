@@ -13,20 +13,40 @@ describe('knex', async () => {
         source: 'https://www.theguardian.com/lifeandstyle/2008/mar/01/foodanddrink.shopping1'
     };
 
-
     beforeEach(async () => {
         await recipeRepository.removeAll();
+        await knex(tableName).insert(recipe);
     });
+
+    describe('pools on tarn', async ()=>{
+        it('should return metrics', async ()=>{
+
+            const pool = knex.client.pool;
+            console.log('number of non-free resources: ' + pool.numUsed());
+            console.log('number of free resources: ' + pool.numFree());
+            console.log('how many acquires are waiting for a resource to be released: ' + pool.numPendingAcquires());
+            console.log('how many asynchronous create calls are running: ' + pool.numPendingCreates());
+
+        })
+    })
+
+    describe('select', async ()=>{
+        it('should select all columns', async ()=>{
+            await knex(tableName).insert(recipe);
+            const recipes = await knex.from(tableName).select();
+            recipes[0].should.deep.equal(recipe);
+        })
+    })
 
     describe('diagnostic', async () => {
 
-        it('raw() should run plain SQL', async () => {
+        it('raw() should run plain SQL, but do not execute query', async () => {
             const currentDatabaseQuery = 'SELECT * FROM current_database()';
             const currentDatabase = (await knex.raw(currentDatabaseQuery)).rows[0].current_database;
             currentDatabase.should.eq('cooking_db');
         })
 
-        it('toSQL() show generated SQL', async () => {
+        it('toSQL() returns generated SQL, but do not execute query', async () => {
             const minServing = 4;
             const query = await knex.from(tableName).select('name', 'serving').where('serving', '>=', minServing).toSQL();
             // console.dir(query);
@@ -34,12 +54,20 @@ describe('knex', async () => {
             query.bindings[0].should.eq(minServing);
         })
 
-        it('toNative() show final generated SQL', async () => {
+        it('toNative() returns final generated SQL and bindings, but do not execute query', async () => {
             const minServing = 4;
             const query = await knex.from(tableName).select('name', 'serving').where('serving', '>=', minServing).toSQL().toNative();
             // console.dir(query);
             query.sql.should.eq('select \"name\", \"serving\" from \"recipe\" where \"serving\" >= $1');
             query.bindings[0].should.eq(minServing);
+        })
+
+        it('debug(true) shows query and bindings, and execute query', async () => {
+            const minServing = 4;
+            const query = await knex.from(tableName).select().where('serving', '>=', minServing).debug(true);
+            // console.dir(query);
+            query[0].should.deep.equal(recipe);
+
         })
 
     });
