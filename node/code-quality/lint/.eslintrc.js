@@ -4,8 +4,9 @@ module.exports = {
     es2021: true
   },
   extends: [
-     'standard' // 2 space-indent
-    //'eslint:recommended' // 4 space indent
+    // 'standard' // 2 space-indent
+    'eslint:recommended', // 4 space indent => doesn't work despite https://github.com/eslint/eslint/blob/master/lib/rules/indent.js#L633
+    'plugin:node/recommended'
   ],
   parserOptions: {
     ecmaVersion: 12,
@@ -19,6 +20,7 @@ module.exports = {
     {
       files: [
         'bar.js',
+        'folder/*.js'
       ],
       env: {
         node: true,
