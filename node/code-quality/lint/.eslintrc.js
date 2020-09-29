@@ -19,7 +19,7 @@ module.exports = {
     {
       files: [
         'bar.js',
-        'folder/*.js'
+        'node/*.js'
       ],
       env: {
         node: true,
