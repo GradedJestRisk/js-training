@@ -4,8 +4,7 @@ module.exports = {
     es2021: true
   },
   extends: [
-    // 'standard' // 2 space-indent
-    'eslint:recommended', // 4 space indent => doesn't work despite https://github.com/eslint/eslint/blob/master/lib/rules/indent.js#L633
+    'standard',
     'plugin:node/recommended'
   ],
   parserOptions: {
@@ -28,7 +27,6 @@ module.exports = {
       },
       extends: [
         'standard' // 2 space-indent
-        //'eslint:recommended', // 4 space indent
       ],
       parserOptions: {
         ecmaVersion: 12,
