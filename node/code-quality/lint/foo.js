@@ -1,5 +1,5 @@
 const foo = () => {
-     return 'a 5 spaces-indented statement'
+  return 'a 5 spaces-indented statement'
 }
 
 module.exports = foo
