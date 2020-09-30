@@ -17,7 +17,19 @@ module.exports = {
       ],
       rules: {
         indent: ['error', 3],
-        'no-restricted-imports': ['error', { paths: ['to-be-restricted-on-import'] }]
+        'no-restricted-imports': ['error', 'fs']
+      }
+    },
+    {
+      files: [
+        'browser/*.js'
+      ],
+      parserOptions: {
+        ecmaVersion: 5,
+        sourceType: 'script'
+      },
+      env: {
+        browser: true
       }
     }
   ]
