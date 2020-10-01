@@ -10,6 +10,9 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   },
+  rules: {
+    'no-restricted-modules': ['error', { paths: ['fs'] }]
+  },
   overrides: [
     {
       files: [
