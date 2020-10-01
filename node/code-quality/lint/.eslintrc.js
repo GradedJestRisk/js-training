@@ -11,16 +11,16 @@ module.exports = {
     sourceType: 'module'
   },
   rules: {
-    'no-restricted-modules': ['error', { paths: ['fs'] }]
+    'no-restricted-modules': ['error', { paths: ['fs', './src/to-be-restricted-on-import'] }]
   },
   overrides: [
     {
       files: [
-        'src/*.js'
+        './src/*.js'
       ],
       rules: {
         indent: ['error', 3],
-        'no-restricted-imports': ['error', 'fs']
+        'no-restricted-modules': ['error', { paths: ['to-be-restricted-on-contextual-import'] }]
       }
     },
     {

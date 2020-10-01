@@ -6,4 +6,11 @@ const bar = () => {
   return 'a 3 spaces-indented statement'
 }
 
-export { bar }
+// eslint-disable-next-line no-restricted-modules
+const bor = require('./src/to-be-restricted-on-import')
+bor()
+
+const borfoo = require('./src/to-be-restricted-on-contextual-import')
+borfoo()
+
+module.exports = { bar }
