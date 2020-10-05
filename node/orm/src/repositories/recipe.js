@@ -7,15 +7,7 @@ const testDatabaseConnection = async function()  {
 }
 
 const getRecipes = async function () {
-
    return (await new Recipe().fetchAll()).toJSON();
-
-    // new Recipe({id: 1}).fetch({withRelated: ['ingredient']}).then((recipe) => {
-    //     console.log(recipe.related('ingredient').toJSON())
-    // }).catch((error) => {
-    //     console.error(error)
-    // })
-
 }
 
 

@@ -8,4 +8,8 @@ require("../src/to-be-restricted-on-import")()
 // eslint-disable-next-line no-restricted-modules
 const fs = require("fs")
 
-fs.existsSync("../.eslintrc.yaml")
+if (fs.existsSync("../.eslintrc.yaml")) {
+  // ../.eslintrc indent 2 space rule is used
+  // eslint-disable-next-line indent
+ console.log("foo!")
+}
