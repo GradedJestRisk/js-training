@@ -1,4 +1,13 @@
 # Title
+
+Suppress previous empty line to get
+
+```shell
+README.md:1 MD022/blanks-around-headings/blanks-around-headers
+Headings should be surrounded by blank lines
+[Expected: 1; Actual: 0; Below] [Context: "# Title"]
+```
+
 This is a file to test markdown linting.
 
 ```js
@@ -20,4 +29,4 @@ function hello () {
 hello()
 ```
 
-##Subtitle
+## Subtitle
