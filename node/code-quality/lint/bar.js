@@ -3,7 +3,10 @@ const fs = require('fs')
 fs.existsSync('../.eslintrc.yaml')
 
 const bar = () => {
-  return 'a 3 spaces-indented statement'
+  const message = 'a 3 spaces-indented statement'
+
+  return message
+  // add empty lien here to get padding-line-between-statements warning
 }
 
 // eslint-disable-next-line no-restricted-modules

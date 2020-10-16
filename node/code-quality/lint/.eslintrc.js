@@ -12,7 +12,15 @@ module.exports = {
     sourceType: 'module'
   },
   rules: {
-    'no-restricted-modules': ['error', { paths: ['fs', './src/to-be-restricted-on-import'] }]
+    'no-restricted-modules': ['error', { paths: ['fs', './src/to-be-restricted-on-import'] }],
+    'padding-line-between-statements': [
+      'error',
+      {
+        blankLine: 'never',
+        prev: '*',
+        next: 'block'
+      }
+    ]
   },
   overrides: [
     {
