@@ -4,7 +4,8 @@
   "description": "",
   "main": "module.js",
   "scripts": {
-    "test": "mocha *.test.js"
+    "test": "mocha *.test.js",
+    "metadata": "node ./metadata/caller.js "
   },
   "keywords": [],
   "author": "",
