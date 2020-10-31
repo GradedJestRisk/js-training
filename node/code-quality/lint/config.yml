@@ -1,0 +1,15 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: cimg/node:14.10.1 # the primary container, where your job's commands are run
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    # add one whitespace below to raise lint error error
+          # bad indentation of a mapping entry in "js-training/node/code-quality/lint/config.yml" at line 9, column 6:
+          #         steps:
+          #         ^  invalid-yaml
+    steps:
+      - checkout # check out the code in the project directory
+      - run: echo "hello world" # run the `echo` command

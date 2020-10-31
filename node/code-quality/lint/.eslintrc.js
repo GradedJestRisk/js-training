@@ -43,6 +43,11 @@ module.exports = {
       env: {
         browser: true
       }
+    },
+    {
+      files: ['*.yaml', '*.yml'],
+      plugins: ['yaml'],
+      extends: ['plugin:yaml/recommended']
     }
   ]
 }
