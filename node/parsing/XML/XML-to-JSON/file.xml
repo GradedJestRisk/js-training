@@ -1,0 +1,7 @@
+<xml>
+    <great-mother name="Susie">
+        <mother name="Barbara">
+            <daughter name="Alice">Hey!</daughter>
+        </mother>
+    </great-mother>
+</xml>

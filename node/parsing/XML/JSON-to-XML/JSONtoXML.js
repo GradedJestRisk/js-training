@@ -1,39 +1,40 @@
 const js2xmlparser = require("js2xmlparser");
 const faker = require('faker');
 
+const collection = function () {
+
+    const numbersJSON = { numbers : [
+                                { number: { value: 1 } },
+                                { number :{ value: 2} }
+                          ]};
+
+    const rootXMLNode = 'numbers';
+    const numbersXML = js2xmlparser.parse(rootXMLNode, numbersJSON);
+
+    console.log(numbersJSON);
+    console.log(numbersXML);
+
+}
+
 const basicUse = function () {
     const person = {
         "firstName": "John",
         "lastName": "Smith",
         "dateOfBirth": new Date(1964, 7, 26),
         "address": {
-            "@": {
-                "type": "home"
-            },
+            "@": {"type": "home" },
             "streetAddress": "3212 22nd St",
             "city": "Chicago",
             "state": "Illinois",
             "zip": 10000
         },
         "phone": [
-            {
-                "@": {
-                    "type": "home"
-                },
-                "#": "123-555-4567"
-            },
-            {
-                "@": {
-                    "type": "cell"
-                },
-                "#": "890-555-1234"
-            },
-            {
-                "@": {
-                    "type": "work"
-                },
-                "#": "567-555-8901"
-            }
+            {  "@": {"type": "home"},
+               "#": "123-555-4567"  },
+            {  "@": {"type": "cell"},
+               "#": "890-555-1234"},
+            {  "@": {"type": "work"},
+                "#": "567-555-8901"}
         ],
         "email": "john@smith.com"
     };
@@ -59,10 +60,12 @@ const useWithFaker = function() {
         users.push(user);
     }
 
-    const rootXMLNode = 'persons';
+    const rootXMLNode = 'per' +
+        'sons';
     const usersRootNode = { 'user' : users };
     console.log(js2xmlparser.parse(rootXMLNode, usersRootNode));
 }
 
-basicUse();
-useWithFaker();
+//collection();
+//basicUse();
+// useWithFaker();
