@@ -7,6 +7,7 @@ const XMLString = fs.readFileSync('file.xml', 'utf8');
 
 parseString(XMLString, function (err, result) {
     XMLinJSON = result;
+    console.log(util.inspect(XMLinJSON, { depth: Infinity }));
 });
 
-console.log(util.inspect(XMLinJSON, { depth: Infinity }));
+
