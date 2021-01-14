@@ -1,0 +1,16 @@
+{
+  "name": "error",
+  "version": "1.0.0",
+  "description": "",
+  "main": "www",
+  "scripts": {
+    "start": "node ./www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.15"
+  }
+}

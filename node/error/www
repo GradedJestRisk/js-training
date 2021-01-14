@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+const logger = require('./logger');
+
+async function main() {
+
+   // Uncomment to test error handling
+   //throwError();
+
+   // Uncomment to test promise rejection handling
+   //return rejectPromise();
+
+   // Uncomment to test signal handling
+   // SIGINT:
+   // * hit Ctrl -C
+   // SIGTERM:
+   // * get PID: ps -aux | grep "node ./www"
+   // * kill -s SIGTERM <PID>
+   const aMinute = 60 * 1000;
+   setTimeout(
+      function(){logger.info('Exit on success'); },
+      aMinute
+   );
+
+};
+
+const throwError = function(){
+   throw new Error('throwing from throwError');
+}
+
+const rejectPromise = function (){
+   return new Promise( function(resolve, reject) {
+      reject('reject from rejectPromise');
+   })
+}
+
+main()
+   .catch((error) => {
+      logger.info('catched in main');
+      logger.error(error);
+      exitFailure();
+   });
+
+process.on('uncaughtException', (error) => {
+   logger.error(`Uncaught Exception : {error}`);
+   exitOnSignal('uncaughtException');
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+   logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
+   exitOnSignal('unhandledRejection');
+});
+
+process.on('SIGTERM', () => { exitOnSignal('SIGTERM'); });
+process.on('SIGINT', () => { exitOnSignal('SIGINT'); });
+
+const exitOnSignal = function (signal) {
+   logger.info('logged in exitOnSignal');
+   logger.info(`Received signal ${signal}.`);
+   exitFailure();
+}
+
+const exitFailure = function(){
+   const failureExitCode = 1;
+   process.exit(failureExitCode);
+}
+
+
