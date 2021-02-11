@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "pipe-to-parent": "node src/pipe-out-to-parent.js",
+    "get-shell": "node src/shell.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,6 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "colors": "^1.4.0",
-    "execa": "^4.0.3"
+    "default-shell": "^1.0.1",
+    "execa": "^4.0.3",
+    "shell-env": "^3.0.1"
   }
 }

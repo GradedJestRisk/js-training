@@ -161,7 +161,88 @@ describe('object', () => {
         people.should.include(expectedPeople);
     });
 
-    // TODDO: add sealed and frozen
+    // TODO: add sealed and frozen
+});
+
+
+describe('array', () => {
+
+   describe('of values', () => {
+
+      describe('check content', () => {
+
+         it('regardless of order ', () => {
+            const sortedArray = [1, 3, 2];
+            const unsortedArray = [1, 2, 3];
+
+            expect(sortedArray).to.have.members(unsortedArray);
+         });
+
+         it('including order ', () => {
+            const sortedArray = [1, 3, 2];
+            const unsortedArray = [1, 2, 3];
+
+            expect(sortedArray).not.to.have.ordered.members(unsortedArray);
+         });
+      });
+
+      describe('check inclusion of set in superset', () => {
+
+         it('regardless of order', () => {
+            const set = [1, 2];
+            const superset = [1, 2, 2, 3];
+
+            expect(superset).to.include.members(set);
+         });
+
+         it('including order', () => {
+            const set = [1, 2];
+            const superset = [1, 3, 2];
+
+            expect(superset).not.to.include.ordered.members(set);
+         });
+
+      });
+
+   });
+
+   describe('of objects', ()=>{
+
+      describe('check content', ()=> {
+
+         it('regardless of order ', () => {
+            const sortedArray = [{name: 'bar'}, {name: 'foo'}];
+            const unsortedArray = [{name: 'foo'}, {name: 'bar'}];
+
+            expect(sortedArray).to.have.deep.members(unsortedArray);
+         });
+
+         it('including order ', () => {
+            const sortedArray = [{name: 'bar'}, {name: 'foo'}];
+            const unsortedArray = [{name: 'foo'}, {name: 'bar'}];
+
+            expect(sortedArray).not.to.have.deep.ordered.members(unsortedArray);
+         });
+      });
+
+      describe('check inclusion of set in superset', ()=> {
+
+         it('regardless of order ', () => {
+            const set = [{name: 'foo'}, {name: 'bar'}];
+            const superset = [{name: 'foo'}, {name: 'foobar'}, {name: 'bar'}];
+
+            expect(superset).to.deep.include.members(set);
+         });
+
+         it('including order ', () => {
+            const set = [{name: 'foo'}, {name: 'bar'}];
+            const superset = [{name: 'foo'}, {name: 'foobar'}, {name: 'bar'}];
+
+            expect(superset).not.to.deep.include.ordered.members(set);
+         });
+      });
+   });
+
 });
 
 describe('corner case', () => {
