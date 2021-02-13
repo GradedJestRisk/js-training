@@ -3,16 +3,34 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "14.15.0",
+    "npm": "6.14.8"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dotenv-external-require": "node -r dotenv/config -e \"console.log('string is :', process.env.string)\"",
+    "debug-dotenv-cli-var": "dotenv -p string",
+    "debug-dotenv-cli-file": "dotenv --debug",
+    "debug-dotenv-cli-args": "dotenv -- mocha --version",
+    "node-env": "NODE_ENV=test mocha ./env-variable/node-env.js",
+    "preinstall": "npx check-engine",
+    "test-dotenv": "dotenv mocha ./env-variable/dotenv.js",
+    "test-dotenv-cli": "dotenv mocha ./env-variable/dotenv-cli.js",
+    "test-dotenv-cli-param": " mocha ./env-variable/dotenv-cli.js",
+    "test-dotenv-cli-custom-file": "dotenv -e .env.test mocha ./env-variable/dotenv-cli-custom.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mkdirp": "^1.0.4",
-    "request": "^2.88.2",
-    "underscore": "^1.10.2"
+    "check-engine": "^1.10.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.3.0",
+    "dotenv": "^8.2.0",
+    "dotenv-cli": "^4.0.0",
+    "dotenv-expand": "^5.1.0",
+    "ensurism": "^0.5.1",
+    "mocha": "^8.3.0"
+  }
 }
