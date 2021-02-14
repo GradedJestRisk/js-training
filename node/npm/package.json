@@ -8,6 +8,7 @@
     "npm": "6.14.8"
   },
   "scripts": {
+    "dotenv-precedence": "string=foo node -r dotenv/config -e \"console.log('string is :', process.env.string)\"",
     "dotenv-external-require": "node -r dotenv/config -e \"console.log('string is :', process.env.string)\"",
     "debug-dotenv-cli-var": "dotenv -p string",
     "debug-dotenv-cli-file": "dotenv --debug",
