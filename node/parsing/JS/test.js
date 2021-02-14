@@ -63,6 +63,25 @@ context('#validate', () => {
         expect(error.details[0].path[0]).to.eq('password')
     });
 
+    it('should return error on incorrect boolean primitive type', () => {
+        // given
+        const schema = Joi.object({
+            isValidated: Joi.boolean()
+        });
+
+        const invalidObject = { isValidated: "false ,"}
+
+        // when
+        const { error } = schema.validate(invalidObject);
+
+        // then
+        expect(error).not.to.be.undefined
+
+        expect(error.details[0].message).to.eq('\"isValidated\" must be a boolean');
+        expect(error.details[0].type).to.eq('boolean.base')
+        expect(error.details[0].path[0]).to.eq('isValidated')
+    });
+
     context('email', () => {
 
         it('should not return error on correct email', () => {
@@ -217,7 +236,7 @@ context('#validate', () => {
 
     });
 
-    context('test', () => {
+    context('regular expression', () => {
 
         const pattern = '[a-z]+[.]{1}[a-z]+[0-9]{4}';
         const regExp = new RegExp(pattern, 'i');
