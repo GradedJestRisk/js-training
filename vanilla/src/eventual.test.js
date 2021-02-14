@@ -100,6 +100,8 @@ describe('async/await', () => {
 
    describe('await', () => {
 
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#Description
+
       it('on success, return the resolved value', async () => {
 
          const aPromise = () => new Promise(aNonBlockingFunction);
@@ -123,5 +125,9 @@ describe('async/await', () => {
       });
 
    });
+
+   //check: (plain, hash) => { bcrypt.compare(plain, hash).catch((reject) => reject(new PasswordNotMatching())); },
+   //check: (plain, hash) => { bcrypt.compare(plain, hash).then((resolve, reject) => { (resolve) ? resolve() : reject(new PasswordNotMatching()); }); },
+
 
 });
