@@ -1,8 +1,9 @@
 const chai = require('chai');
 const expect = chai.expect;
 const {collect, ensure} = require('ensurism');
+const Joi = require('joi')
 
-describe('ensure type', () => {
+describe('ensure type with ensure', () => {
 
    describe('on variable', () => {
 
@@ -73,6 +74,41 @@ describe('ensure type', () => {
 
       });
    })
+
+});
+
+describe('ensure type with joi', () => {
+
+   const schema = Joi.object({
+      FOO: Joi.string().required().valid('bar', 'BAR'),
+      BASE_URL: Joi.string().uri().required(),
+      PORT: Joi.number().required(),
+      CHANGE_PASSWORD: Joi.string().required().valid('enabled', 'disabled'),
+   }).options({ allowUnknown: true });
+
+      it('should not throw if all values are valid', () => {
+
+         process.env.FOO = 'bar';
+         process.env.BASE_URL = 'http://example.net';
+         process.env.PORT = 80;
+         process.env.CHANGE_PASSWORD = 'enabled';
+
+         const {error} = schema.validate(process.env);
+         expect(error).to.be.undefined
+
+      });
+
+      it('should throw if one of the values is invalid', () => {
+
+         process.env.FOO = 'bar';
+         process.env.BASE_URL = 'http://example.net';
+         process.env.PORT = 80;
+         process.env.CHANGE_PASSWORD = 'true';
+
+         const {error} = schema.validate(process.env);
+         expect(error.message).to.equal('"CHANGE_PASSWORD" must be one of [enabled, disabled]')
+
+      });
 
 });
 
