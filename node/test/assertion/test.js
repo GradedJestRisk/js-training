@@ -115,6 +115,7 @@ describe('primitive ', () => {
       it('finite', () => {
          expect(0).to.be.finite;
          expect('calvin').not.to.be.finite;
+         expect(undefined).not.to.be.finite;
          expect(null).not.to.be.finite;
          expect(NaN).not.to.be.finite;
          expect(1 / 0).not.to.be.finite;
