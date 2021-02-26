@@ -1,19 +1,18 @@
-const dbAgent = require('./db/db-agent');
+const dbAgent = require('../db/db-agent');
 const bookshelf = require('bookshelf')(dbAgent);
 
 const User = bookshelf.model('User', {
-    tableName: "user"
+   tableName: "user"
 });
 
-
 const Recipe = bookshelf.model('Recipe', {
-    tableName: 'recipe',
-    user() {
-        return this.belongsTo(User, "user_id", "id")
-    }
-    // ingredients() {
-    //     return this.belongsToMany('Ingredient')
-    // }
+   tableName: 'recipe',
+   user() {
+      return this.belongsTo(User, "user_id", "id")
+   }
+   // ingredients() {
+   //     return this.belongsToMany('Ingredient')
+   // }
 })
 
 /*
@@ -26,4 +25,4 @@ const Ingredient = bookshelf.model('Ingredient', {
 */
 
 
-module.exports = {dbAgent, Recipe};
+module.exports = {Recipe};

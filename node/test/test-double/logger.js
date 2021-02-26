@@ -3,11 +3,16 @@ class Logger {
     this.messages = [];
   }
 
-  log(message) {
+  log(message, level) {
     if (message === undefined){
       //throw new Error('empty message cannot be logged');
     } else {
-      this.messages.push(message);
+       if (level){
+          this.messages.push(`[${level}] ${message}`);
+       } else {
+          this.messages.push(message);
+       }
+
       // eslint-disable-next-line no-console
       console.log(message);
     }
