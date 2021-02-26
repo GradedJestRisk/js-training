@@ -232,7 +232,7 @@ describe('mock log call, return values, check assertions', () => {
    describe('on a function of a object', () => {
 
       it('should return value', () => {
-         // Can't find the syntax in docs
+         // can't find syntax in docs
       });
 
       it('should log call and check one assertion', () => {
@@ -266,6 +266,25 @@ describe('mock log call, return values, check assertions', () => {
          loggerMock.verify();
          // Expected messageCount([...]) once (never called)
       });
+   });
+
+   describe('on a object', () => {
+
+      it('should return value', () => {
+
+         // given
+         const expectedResponse ='foo';
+         const loggerMock = sinon.mock();
+         loggerMock.returns(expectedResponse)
+         const logger = { log: loggerMock}
+
+         // when
+         const response = logger.log('message');
+
+         // Then
+         response.should.equal(expectedResponse);
+      });
+
    });
 
 });
