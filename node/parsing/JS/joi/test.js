@@ -1,5 +1,5 @@
-const Joi = require('@hapi/joi')
-const { expect }  = require('chai');
+const Joi = require('joi')
+const {expect} = require('chai');
 
 context('#validate', () => {
 
