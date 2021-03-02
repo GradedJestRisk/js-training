@@ -3,6 +3,7 @@ chai.should();
 
 const recipeRepository = require('../src/repositories/recipe');
 const Recipe = require('../src/entities/recipe');
+const helper = require('./helper');
 
 describe('recipeRepository', async () => {
 
@@ -89,7 +90,8 @@ describe('recipeRepository', async () => {
             const recipe = new Recipe({ id: 5, name : 'foo', serving : 2})
             recipe.user_id = 0;
             await recipeRepository.create(recipe);
-
+            const recipeInDatabase = await helper.getRecipe(recipe.id);
+            recipeInDatabase.should.deep.equal(recipe);
 
          });
 
@@ -101,6 +103,9 @@ describe('recipeRepository', async () => {
 
             recipe.serving = 4;
             await recipeRepository.update(recipe);
+
+            const recipeInDatabase = await helper.getRecipe(recipe.id);
+            recipeInDatabase.should.deep.equal(recipe);
 
          });
 
@@ -115,6 +120,9 @@ describe('recipeRepository', async () => {
             recipe.user_id = 0;
             await recipeRepository.create(recipe);
             await recipeRepository.clear(recipe);
+
+            const recipeInDatabase = await helper.getRecipe(recipe.id);
+            (recipeInDatabase === undefined).should.be.true;
 
          });
 

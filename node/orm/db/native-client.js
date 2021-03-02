@@ -1,9 +1,10 @@
-const { Client } = require('pg');
+const databaseConfiguration = require('./database-configuration');
+const {Client} = require('pg');
 
 const client = new Client({
-    database: 'cooking_db',
-    user:     'postgres',
-    port:      7432
+   database: databaseConfiguration.databaseName,
+   port: databaseConfiguration.serverPort,
+   user: databaseConfiguration.userName
 });
 
 client.connect();

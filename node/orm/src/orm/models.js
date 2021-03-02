@@ -1,4 +1,4 @@
-const dbAgent = require('../db/db-agent');
+const dbAgent = require('../../db/db-agent');
 const bookshelf = require('bookshelf')(dbAgent);
 
 const User = bookshelf.model('User', {
