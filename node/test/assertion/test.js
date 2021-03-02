@@ -218,7 +218,6 @@ describe('object', () => {
    // TODO: add sealed and frozen
 });
 
-
 describe('array', () => {
 
    describe('of values', () => {
@@ -299,6 +298,28 @@ describe('array', () => {
 
 });
 
+describe('promise (with chai-as-promised', ()=>{
+   it('should check return value', async () => {
+      const value = 1;
+      const foo = new Promise((resolve, reject) => {
+         resolve(value)
+      });
+
+      return foo.should.eventually.equal(value);
+   });
+
+   it('should check return value with argument', async () => {
+      const value = 1;
+      const invert = function (value){
+         return new Promise((resolve) => {
+            resolve(value * -1)
+         });
+      }
+
+      return invert(value).should.eventually.equal(value * -1);
+   });
+})
+
 describe('corner case', () => {
 
    describe('error case', () => {
@@ -337,7 +358,6 @@ describe('corner case', () => {
 
          return throwingFunction.should.be.rejectedWith(rejectionMessage);
       });
-
 
    });
 
