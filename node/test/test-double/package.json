@@ -9,12 +9,16 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^7.1.1",
+    "nock": "^13.0.10",
     "sinon": "^9.0.2",
-    "sinon-chai": "^3.5.0",
-    "v": "^0.3.0"
+    "sinon-chai": "^3.5.0"
   },
   "engines": {
     "node": ">=13.8.0",
     "npm": ">= 6.13.6"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "sib-api-v3-sdk": "^8.2.0"
   }
 }
