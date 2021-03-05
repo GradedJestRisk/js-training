@@ -10,7 +10,7 @@ describe('Functional tests ', function() {
 				const expectedWord = 'foo';
 
 				const actualWord = (() => 'foo')();
-							
+
 				expect(actualWord).toStrictEqual(expectedWord);
 
 			});
@@ -32,7 +32,7 @@ describe('Functional tests ', function() {
 				const thisString = "Hello", thatString = ", world !";
 				const expectedString = "Hello, world !"
 
-				const actualString = 
+				const actualString =
 							((aString, anotherString) => { return(aString + anotherString); } )
 							(thisString, thatString);
 
@@ -47,7 +47,7 @@ describe('Functional tests ', function() {
 				const expectedLength = [ 8, 6, 7];
 
 				actualLength =  materials.map(material => material.length);
-				
+
 				expect(actualLength).toStrictEqual(expectedLength);
 
 			});
@@ -64,7 +64,7 @@ describe('Functional tests ', function() {
 					const flag = Math.random() > 0.5
 					return flag ? 'true' : 'false'
 				}
-						
+
 				expect(generateBoolean().toBeBoolean);
 
 			});
@@ -75,12 +75,12 @@ describe('Functional tests ', function() {
 
 				const expectedGreeting = 'hello foo';
 
-				const actualGreeting = ( function (nameParameter) { return ('hello ' + nameParameter); } (name));						
+				const actualGreeting = ( function (nameParameter) { return ('hello ' + nameParameter); } (name));
 
 				expect(
-					( function (nameParameter)  { return ('hello ' + nameParameter); } (name)) 
+					( function (nameParameter)  { return ('hello ' + nameParameter); } (name))
 					)
-					.toStrictEqual(expectedGreeting);		
+					.toStrictEqual(expectedGreeting);
 
 			});
 
@@ -88,7 +88,7 @@ describe('Functional tests ', function() {
 
 		});
 
-	
+
 	});
 
 	describe('Map features', function() {
@@ -99,12 +99,12 @@ describe('Functional tests ', function() {
 			const squaredArray = [1, 4, 9];
 
 			const mappedArray =  anArray.map(function(elem){ return elem * elem });
-			
+
 			expect( mappedArray).toStrictEqual(squaredArray);
 
 		});
 
-	
+
 	});
 
 	describe('Reduce features', function() {
@@ -115,7 +115,7 @@ describe('Functional tests ', function() {
 			const anArray    = [1,  2,  3];
 			const arrayTotal =  1 + 2 + 3;
 
-			expect( 
+			expect(
 				anArray.reduce(function(total, elem){ return elem + total }, 0)
 			).toBe(arrayTotal);
 
@@ -131,12 +131,24 @@ describe('Functional tests ', function() {
 			const arrayWithEvenNumber = [   2,    4];
 
 			const filteredArray =  anArray.filter(function(elem){return elem % 2 == 0; });
-				
+
 			expect(filteredArray).toStrictEqual(arrayWithEvenNumber);
 
 		});
 
-	});
+      test('filter keep all elements matching a condition ', () => {
+
+         const anArray             = {1, 2, 3, 4};
+         const arrayWithEvenNumber = [   2,    4];
+
+         const filteredArray =  anArray.filter(function(elem){return elem % 2 == 0; });
+
+         expect(filteredArray).toStrictEqual(arrayWithEvenNumber);
+
+      });
+
+
+   });
 
 	describe('Closure features', function() {
 
@@ -153,7 +165,7 @@ describe('Functional tests ', function() {
 
 			const expectedResult = multiplier * multiplied;
 			const actualResult = multiplierByTwo(multiplied);
-				
+
 			expect(actualResult).toStrictEqual(expectedResult);
 
 		});
@@ -161,17 +173,17 @@ describe('Functional tests ', function() {
 		test('Closure (fat arrow form) ', () => {
 
 			const createMultiplier = x => y => x * y ;
-	
+
 			const multiplier = 2;
 			const multiplied = 3;
-	
+
 			const multiplierByTwo = createMultiplier (multiplier);
-	
+
 			const expectedResult = multiplier * multiplied;
 			const actualResult = multiplierByTwo(multiplied);
-				
+
 			expect(actualResult).toStrictEqual(expectedResult);
-	
+
 		});
 
 		test('Closure (object alternative) ', () => {
@@ -193,9 +205,9 @@ const multiplied = 3;
 const expectedResult = multiplier * multiplied;
 
 const actualResult = multiplierObject.multiply(multiplied);
-	
+
 expect(actualResult).toStrictEqual(expectedResult);
-	
+
 		});
 
 
