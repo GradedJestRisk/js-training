@@ -17,8 +17,17 @@ chai.use(require('chai-as-promised'));
 
 describe('native (node)', () => {
    describe('assert', () => {
-      it('works this way', () => {
+      it('with primitive', () => {
          assert.equal(true, true);
+      });
+      it('with object reference', () => {
+         const bar = {name: 'foo'};
+         assert.equal(bar, bar);
+         assert.notEqual(bar, {name: 'foo'});
+      });
+      it('with object content', () => {
+         assert.deepStrictEqual({name: 'foo'}, {name: 'foo'});
+         assert.notDeepStrictEqual({name: 'foo'}, {name: 'bar'});
       });
    });
 });
@@ -198,20 +207,24 @@ describe('object', () => {
       actual.should.be.deep.equal(expected);
    });
 
-   it.skip('include compare object partial content - how ?', () => {
+   it('include compare object partial content', () => {
       const expected = {type: 'human'};
-      const actual = {name: 'calvin', type: 'human'};
-      // TODO: this fail, find another way (other than individual checks, maybe chai-things)
-      actual.should.include(expected);
+
+      const including = {name: 'calvin', type: 'human'};
+      including.should.include(expected);
+
+      const nonIncluding = {name: 'calvin', color: 'red'};
+      nonIncluding.should.not.include(expected);
    });
 
-   it('include compare array s object partial content', () => {
+   it.skip('include compare array s object partial content', () => {
       const expectedPerson = {type: 'human'};
       const expectedPeople = [expectedPerson, expectedPerson];
 
       const calvin = {name: 'calvin', type: 'human'};
       const dad = {name: 'dad', type: 'human'};
       const people = [calvin, dad];
+      // TODO: this fail, find another way (other than individual checks, maybe chai-things)
       people.should.include(expectedPeople);
    });
 
