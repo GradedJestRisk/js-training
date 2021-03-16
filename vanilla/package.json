@@ -19,7 +19,8 @@
   "jest": {
     "coverageDirectory": "coverage",
     "testEnvironment": "node",
-    "resetMocks": true
+    "resetMocks": true,
+     "setupFilesAfterEnv": ["jest-extended"]
   },
   "comments": {
     "scripts": "--colors is for GitBash"
