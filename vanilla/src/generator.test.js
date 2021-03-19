@@ -178,20 +178,39 @@ describe('collect', () => {
 
 describe('objectify', () => {
 
-    test('make an object', () => {
+   const greet = function () {
+      return 'Hello, ' + this.name + ' !';
+   };
 
-        greet = function () {
-            return 'Hello, ' + this.name + ' !';  
-        };
-        
+    test('make regular-looking object', () => {
+
         const peopleMaker = objectify(greet, 'name', 'surname');
-        
         const calvin = peopleMaker('calvin', 'hyper_man');
+
+       // then
+       // can read value
         expect(calvin.name).toBe('calvin');
         expect(calvin.surname).toBe('hyper_man');
 
+        // can call function
         expect(calvin.greet()).toBe('Hello, calvin !');
-        
     });
+
+   test('but prevent mutation', () => {
+
+      const peopleMaker = objectify(greet, 'name', 'surname');
+      const calvin = peopleMaker('calvin', 'hyper_man');
+
+      // then
+
+      // prevent data mutation
+      calvin.name = 'foo'
+      expect(calvin.name).toBe('calvin');
+
+      // prevent function mutation
+      calvin.greet = ()=>{ return 'foo'}
+      expect(calvin.greet()).toBe('Hello, calvin !');
+
+   });
 
 });
