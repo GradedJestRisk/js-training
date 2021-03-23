@@ -1,8 +1,8 @@
 const tableName = 'ingredient';
 exports.up = function(knex) {
     return knex.schema.createTable(tableName, table => {
-        table.integer('id').notNullable().unique().primary()
-        table.string('name')
+        table.increments('id').primary();
+        table.string('name').unique();
     });
 };
 

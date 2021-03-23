@@ -3,11 +3,11 @@
    "version": "1.0.0",
    "main": "server.js",
    "scripts": {
-      "test": "npm run db:reset && mocha --exit test/**/test.js",
+      "test": "npm run db:reset && mocha --exit test/*-test.js",
       "dev:test-connexion": "node server.js",
       "dev:db:create-structure-change": "npx knex --knexfile db/db-agent-configuration.js migrate:make $migrationname",
       "dev:db:create-data-insertion": "npx knex --knexfile db/db-agent-configuration.js seed:make $seedname",
-      "db:reset": "npm run db:create-schema && npm run db:create-structure && npm run db:insert-data",
+      "db:reset": "npm run db:create-schema && npm run db:create-structure",
       "db:create-schema": "node db/create-schema.js",
       "db:create-structure": "knex --knexfile db/db-agent-configuration.js migrate:latest",
       "db:insert-data": "knex --knexfile db/db-agent-configuration.js seed:run"

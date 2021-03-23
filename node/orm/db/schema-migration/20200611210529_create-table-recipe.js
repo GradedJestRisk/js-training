@@ -1,9 +1,9 @@
 const tableName = 'recipe';
 exports.up = function(knex) {
     return knex.schema.createTable(tableName, table => {
-        table.integer('id').notNullable().unique().primary()
-        table.string('name')
-        table.integer('serving')
+        table.increments('id').primary();
+        table.string('name').unique();
+        table.integer('serving');
     });
 };
 

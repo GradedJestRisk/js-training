@@ -4,7 +4,7 @@ module.exports = {
 
    development: {
       client: 'postgresql',
-      // debug: true,
+      //debug: true,
       connection: {
          database: databaseConfiguration.databaseName,
          port: databaseConfiguration.serverPort,

@@ -17,6 +17,11 @@ const getRecipesById = async function (id) {
    return recipes.toJSON();
 }
 
+const getRecipesByIngredientId = async function (id) {
+   const user = await ormModel.Ingredient.where("id", id).fetch({withRelated: ['recipes']});
+   return user.related('recipes').toJSON();
+}
+
 const create = async function (recipe) {
    const ormRecipe = new ormModel.Recipe(recipe);
    await ormRecipe.save(null, {method: 'insert'});
@@ -31,4 +36,4 @@ const clear = async function (recipe) {
    const ormRecipe = new ormModel.Recipe(recipe);
    await ormRecipe.destroy();
 }
-module.exports = { getRecipes, getRecipesById, getRecipesAsEntity, create, update, clear};
+module.exports = { getRecipes, getRecipesById, getRecipesAsEntity, getRecipesByIngredientId, create, update, clear};
