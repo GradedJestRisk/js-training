@@ -8,6 +8,7 @@ const tableName = 'recipe';
 describe('knex', async () => {
 
     const recipe = {
+        dietType: 'vegetarian',
         name: 'caramelized-garlic-tart',
         serving: 4,
         source: 'https://www.theguardian.com/lifeandstyle/2008/mar/01/foodanddrink.shopping1'
@@ -15,7 +16,6 @@ describe('knex', async () => {
 
     beforeEach(async () => {
         await recipeRepository.removeAll();
-        await knex(tableName).insert(recipe);
     });
 
     describe('pools on tarn', async ()=>{
@@ -63,8 +63,8 @@ describe('knex', async () => {
         })
 
         it('debug(true) shows query and bindings, and execute query', async () => {
-            const minServing = 4;
-            const query = await knex.from(tableName).select().where('serving', '>=', minServing).debug(true);
+            await knex(tableName).insert(recipe);
+            const query = await knex.from(tableName).select().where('serving', '>=',  recipe.serving).debug(true);
             // console.dir(query);
             query[0].should.deep.equal(recipe);
 
@@ -97,7 +97,7 @@ describe('knex', async () => {
                     await trx.rollback();
                 })
             } catch (error) {
-                //console.error("Error raised:" + error);
+                console.error("Error raised:" + error);
             }
 
             const count = await recipeRepository.count();

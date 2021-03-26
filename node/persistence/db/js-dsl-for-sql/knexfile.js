@@ -2,10 +2,11 @@ module.exports = {
 
   development: {
     client: 'postgresql',
+    // debug: true,
     connection: {
       database: 'cooking_db',
       user:     'postgres',
-      port:      7432
+      port:      5432
      //  password: 'password'
     },
     pool: {
