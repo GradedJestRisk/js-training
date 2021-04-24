@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const testServer = require('./server');
+const testServer = require('../server');
 
 // https://hapi.dev/tutorials/testing/?lang=en_US
 describe('Test', ()=>{
@@ -7,7 +7,7 @@ describe('Test', ()=>{
    let server;
 
    before(async () => {
-      server = await testServer.init();
+      server = await testServer.initialize();
    });
 
    describe('a route', ()=>{
@@ -56,6 +56,4 @@ describe('Test', ()=>{
 
    });
 
-
-
-})
+});
