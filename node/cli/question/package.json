@@ -1,0 +1,10 @@
+{
+   "name": "question",
+   "version": "1.0.0",
+   "scripts" : {
+      "start": "node ./samples/pizza.js"
+   },
+   "dependencies": {
+      "inquirer": "^8.0.0"
+   }
+}
