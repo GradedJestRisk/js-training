@@ -1,5 +1,6 @@
 require('dotenv').config();
 const Hapi = require('@hapi/hapi');
+const routesConfiguration = require('./routes');
 
 process.on('unhandledRejection', (err) => {
    console.log(err);
@@ -44,35 +45,7 @@ const createServer = function () {
 }
 
 const registerRoutes = function (server) {
-   const routes = [{
-      method: 'GET',
-      path: '/',
-      handler: function () {
-         return 'Hello World!';
-      }
-   }, {
-      method: 'GET',
-      path: '/foo',
-      config: {
-         auth: false,
-         handler: function () {
-            return 'bar';
-         }
-      }
-   },
-      {
-         method: 'GET',
-         path: '/throw-error',
-         config: {
-            auth: false,
-            handler: function () {
-               throw new Error('OMG, something bad happened!');
-            }
-         }
-      }];
-
-   server.route(routes);
-
+   server.route(routesConfiguration);
 }
 
 const registerPlugins = async function (server) {
@@ -124,7 +97,7 @@ const registerPlugins = async function (server) {
             message: 'Server up and running'
          },
       },
-      healthCheck: async function(server) {
+      healthCheck: async function (server) {
          //throw new Error('Server not healthy');
          return true;
       }
@@ -134,6 +107,42 @@ const registerPlugins = async function (server) {
       plugin: require('hapi-alive'),
       options: healthcheckOptions
    });
+
+   const eachFiveSecond = 5 * 1000;
+   const goodMonitoringOptions = {
+      ops: {
+         interval: eachFiveSecond
+      },
+      reporters: {
+         myConsoleReporter: [
+            {
+               module: '@hapi/good-console'
+            },
+            'stdout'
+         ]
+      }
+   }
+
+   if (process.env.LOG_SERVER_STATE === 'yes') {
+      await server.register({
+         plugin: require('@hapi/good'),
+         options: goodMonitoringOptions
+      });
+   }
+
+   const prometheusOptions = {
+      livenessProbes: {
+         status: () => Promise.resolve('Yeah !')
+      },
+      readinessProbes: {
+         sequelize: () => container.sequelize.authenticate()
+      }
+   }
+
+   // server.register({
+   //    plugin: require('hapi-k8s-health'),
+   //    options: prometheusOptions
+   // })
 
 }
 

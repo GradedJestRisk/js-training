@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const testServer = require('../server');
+const testServer = require('../code/server');
 
 // https://hapi.dev/tutorials/testing/?lang=en_US
 describe('Test', ()=>{
