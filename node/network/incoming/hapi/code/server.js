@@ -139,10 +139,10 @@ const registerPlugins = async function (server) {
       }
    }
 
-   // server.register({
-   //    plugin: require('hapi-k8s-health'),
-   //    options: prometheusOptions
-   // })
+   await server.register({
+      plugin: require('hapi-k8s-health').HealthPlugin,
+      options: prometheusOptions
+   })
 
 }
 

@@ -9,7 +9,8 @@
     "manual-test:foo": "curl localhost:3000/foo",
     "manual-test:throw-error": "curl localhost:3000/throw-error",
     "manual-test:reject-promise": "curl localhost:3000/reject-promise",
-    "manual-test:healthcheck": "curl localhost:3000/healthcheck"
+    "manual-test:healthcheck": "curl localhost:3000/healthcheck",
+    "manual-test:metrics": "curl localhost:3000/metrics"
   },
   "keywords": [],
   "author": "",
