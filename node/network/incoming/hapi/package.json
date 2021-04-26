@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "start:ops-metrics": "node ./code/ops-metrics.js",
     "test": "mocha --recursive ./tests/**-test.js",
     "manual-test:foo": "curl localhost:3000/foo",
     "manual-test:throw-error": "curl localhost:3000/throw-error",
@@ -19,6 +20,7 @@
     "@hapi/good": "^9.0.1",
     "@hapi/good-console": "^9.0.1",
     "@hapi/hapi": "^20.1.2",
+    "@hapi/oppsy": "^3.0.0",
     "blipp": "^4.0.2",
     "dotenv": "^8.2.0",
     "hapi-alive": "^2.0.4",

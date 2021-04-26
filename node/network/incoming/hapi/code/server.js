@@ -2,6 +2,8 @@ require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const routesConfiguration = require('./routes');
 
+const customEvent = 'custom-event';
+
 process.on('unhandledRejection', (err) => {
    console.log(err);
    process.exit(1);
@@ -30,9 +32,13 @@ const start = async () => {
 
    await registerPlugins(server);
 
+   registerNativeEvents(server);
+   registerCustomEvents(server);
+
    await server.start();
 
-   // console.log(`Server running at: ${server.info.uri}`);
+   await server.events.emit('custom-event', 'emitted in start()');
+   server.log('info', 'native log event (info level) emitted in start()');
 
    return server;
 };
@@ -145,5 +151,25 @@ const registerPlugins = async function (server) {
    })
 
 }
+
+const registerCustomEvents = (server) => {
+   server.event(customEvent);
+   server.events.on(customEvent, (update) => console.log(`custom event ${customEvent} received, got: ${update}`));
+}
+
+
+const registerNativeEvents = (server) => {
+
+   // a server-related event
+   server.events.on('start', () => {
+      console.log('Server started');
+   });
+
+   // a request-related event
+   server.events.on('response', (request) => {
+      console.log(`Response sent for request on ${request.path}`);
+   });
+}
+
 
 module.exports = {initialize, start};

@@ -9,8 +9,10 @@ const routes = [{
    path: '/foo',
    config: {
       auth: false,
-      handler: function (request) {
+      handler: async function (request) {
          request.server.log(['tag'], 'a message logged by /foo');
+         request.server.log(['tag'], 'another message logged by /foo');
+         await request.server.events.emit('custom-event', 'emitted in /foo route');
          return 'bar';
       }
    }
