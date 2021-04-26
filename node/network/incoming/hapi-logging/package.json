@@ -1,0 +1,25 @@
+{
+  "name": "hapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "generate-traffic": "watch -n 5 curl localhost:3000/foo",
+    "test": "mocha --recursive ./tests/**-test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^20.1.2",
+    "@hapi/oppsy": "^3.0.0",
+    "dotenv": "^8.2.0",
+    "hapi-pino": "^8.3.0",
+    "laabr": "^6.1.3"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2"
+  }
+}
