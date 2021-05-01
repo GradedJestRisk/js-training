@@ -1,0 +1,21 @@
+{
+  "name": "libraries",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pino": "node pino.js",
+    "bunyan": "node bunyan.js",
+    "bunyan:color": "node bunyan.js | ./node_modules/.bin/bunyan",
+    "bunyan:color-stripped": "node bunyan.js | ./node_modules/.bin/bunyan -o short",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.15",
+    "pino": "^6.11.3",
+    "pino-pretty": "^4.7.1"
+  }
+}
