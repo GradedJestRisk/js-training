@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "start:ops-metrics": "node ./code/ops-metrics.js",
     "test": "mocha --recursive ./tests/**-test.js",
     "manual-test:foo": "curl localhost:3000/foo",
     "manual-test:throw-error": "curl localhost:3000/throw-error",
+    "manual-test:send-param": "curl localhost:3000/hello/you",
+    "manual-test:send-json-payload": "curl -X POST localhost:3000/payload  -H \"Content-Type: application/json\" -d \"{ id:1, name='john' }\"",
+    "manual-test:send-form-payload": "curl -X POST localhost:3000/payload  -H \"Content-Type: application/x-www-form-urlencoded\" -d \"id=1&name=john\"",
     "manual-test:reject-promise": "curl localhost:3000/reject-promise",
     "manual-test:healthcheck": "curl localhost:3000/healthcheck",
     "manual-test:metrics": "curl localhost:3000/metrics"
@@ -22,15 +25,22 @@
     "@hapi/hapi": "^20.1.2",
     "@hapi/oppsy": "^3.0.0",
     "blipp": "^4.0.2",
+    "bunyan": "^1.8.15",
+    "chalk": "^4.1.1",
+    "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
+    "good-squeeze": "^5.1.0",
     "hapi-alive": "^2.0.4",
     "hapi-k8s-health": "^1.1.1",
     "hapi-sentry": "^3.2.0",
     "hapijs-status-monitor": "^1.0.1",
+    "http-status-codes": "^2.1.4",
+    "joi": "^17.4.0",
     "laabr": "^6.1.3"
   },
   "devDependencies": {
     "chai": "^4.3.4",
-    "mocha": "^8.3.2"
+    "mocha": "^8.3.2",
+    "nodemon": "^2.0.7"
   }
 }
