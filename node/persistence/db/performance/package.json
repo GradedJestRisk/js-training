@@ -1,0 +1,25 @@
+{
+  "name": "performance",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "queries": "dotenv node index.js",
+    "start": "npm run database:start && npm run database:create-schema && npm run queries",
+    "database:start": "docker-compose --env-file ./.env --file ./database/docker-compose.yml up --detach && sleep 1",
+    "database:create-schema": "dotenv node ./database/initialize.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "dotenv-cli": "^4.0.0",
+    "knex": "^0.95.4",
+    "newline-remove": "^1.0.2",
+    "node-sql-parser": "^3.2.0",
+    "performance-now": "^2.1.0",
+    "pg": "^8.6.0"
+  }
+}
