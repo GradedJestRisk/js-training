@@ -5,17 +5,8 @@ const dayjs = require('dayjs');
 const bunyan = require('bunyan');
 const chalk = require('chalk');
 
-const logLevels = {
-   TRACE: 'trace',
-   DEBUG: 'debug',
-   INFO: 'info',
-   WARN: 'warn',
-   ERROR: 'error',
-   FATAL: 'fatal'
-}
-const defaultLogLevel = logLevels.TRACE;
-const logger = bunyan.createLogger({name: "hapi", level: defaultLogLevel});
 let logBunyan;
+
 if (process.env.LOG_BUNYAN === 'yes') {
    logBunyan = true;
 }
@@ -59,6 +50,7 @@ const start = async () => {
 
    await server.events.emit('custom-event', 'emitted in start()');
    server.log('info', 'native log event (info level) emitted in start()');
+   server.log('trace', 'native log event (trace level) emitted in start()');
 
    return server;
 };
@@ -320,10 +312,23 @@ const registerNativeEvents = (server) => {
 
    // a message-related event
    server.events.on('log', (message) => {
+
       const formattedMessage= `[${message.tags[0]}] ${message.data} (got 'log' event)`;
 
       if(logBunyan){
-         logger.info(formattedMessage);
+
+         const logLevels = {
+            TRACE: 'trace',
+            DEBUG: 'debug',
+            INFO: 'info',
+            WARN: 'warn',
+            ERROR: 'error',
+            FATAL: 'fatal'
+         }
+         const defaultLogLevel = logLevels.TRACE;
+         const logger = bunyan.createLogger({name: "hapi", level: defaultLogLevel});
+
+         logger.info(formattedMessage + '(logged by bunyan)');
       } else {
          console.log(formattedMessage + '(logged by console.log)');
       }
