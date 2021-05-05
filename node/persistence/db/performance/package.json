@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "execute-queries": "dotenv node index.js",
+    "load-test": "artillery run ./code/scenario.yml --quiet",
+    "start-server": "npm run database:start && npm run database:create-schema && node server.js",
     "start": "npm run database:start && npm run database:create-schema && npm run execute-queries && npm run display-statistics",
     "database:start": "docker-compose --env-file ./.env --file ./database/docker-compose.yml up --detach && sleep 1",
     "database:create-schema": "dotenv node ./database/initialize.js",
@@ -15,6 +17,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hapi/hapi": "^20.1.2",
+    "artillery": "^1.7.2",
+    "artillery-plugin-expect": "^1.3.0",
     "dotenv": "^8.2.0",
     "dotenv-cli": "^4.0.0",
     "knex": "^0.95.4",

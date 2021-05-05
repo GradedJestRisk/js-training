@@ -1,0 +1,24 @@
+config:
+   target: "http://localhost:3000"
+   plugins:
+      expect: {}
+   phases:
+      -  duration: 2
+         arrivalRate: 5
+      -  duration: 10
+         arrivalRate: 5
+         rampTo: 50
+
+scenarios:
+   -  name: 'insert data'
+      flow:
+         -  post:
+               url: "/"
+               expect:
+                  -  statusCode: 200
+   -  name: 'select data'
+      flow:
+         -  get:
+               url: "/"
+               expect:
+                  -  statusCode: 200
