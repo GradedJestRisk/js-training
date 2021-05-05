@@ -1,6 +1,12 @@
 const removeNewline = require('newline-remove');
 const {Parser} = require('node-sql-parser');
 
+const normalizeString = (string)=>{
+   const stringWithoutNewLine = removeNewline(string);
+   const stringWithoutConsecutiveSpaces = stringWithoutNewLine.replace(/\s+/g, ' ').trim()
+   return stringWithoutConsecutiveSpaces
+}
+
 const parser = new Parser();
 const queries = [
    'SELECT * FROM foo',
@@ -12,7 +18,7 @@ const queries = [
 ];
 
 const normalizedQueries = queries.map((query) => {
-   return removeNewline(query)
+   return normalizeString(query)
 })
 
 normalizedQueries.map((query) => {
