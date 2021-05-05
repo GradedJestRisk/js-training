@@ -1,27 +1,9 @@
-const knexMonitoring = require('knex')({
-   client: 'pg',
-   connection: {
-      host: process.env.MONITORING_DATABASE_HOST,
-      port: process.env.MONITORING_DATABASE_PORT,
-      user: process.env.MONITORING_DATABASE_USERNAME,
-      database: process.env.MONITORING_DATABASE_INSTANCE_NAME
-   }
-});
-
-const knexMonitored = require('knex')({
-   client: 'pg',
-   connection: {
-      host: process.env.MONITORED_DATABASE_HOST,
-      port: process.env.MONITORED_DATABASE_PORT,
-      user: process.env.MONITORED_DATABASE_USERNAME,
-      database: process.env.MONITORED_DATABASE_INSTANCE_NAME
-   }
-});
+const {knexMonitoring, knexMonitored} = require('./database-client');
 
 const initializePerformanceTrace = async (knex) => {
 
+   await knex.raw(`DROP VIEW IF EXISTS query_statistics`);
    await knex.raw(`DROP TABLE IF EXISTS query`);
-
    await knex.raw(`DROP TABLE IF EXISTS query_execution`);
 
    await knex.raw(`CREATE TABLE query (
@@ -36,6 +18,24 @@ const initializePerformanceTrace = async (knex) => {
         duration BIGINT,
         PRIMARY KEY(id, start_date)
     )`);
+
+
+   await knex.raw(`CREATE VIEW query_statistics AS (
+                  SELECT
+                     SUBSTRING(q.text FROM 1 FOR 50) QUERY_SOURCE,
+                     COUNT(1)                        COUNT,
+                     TO_CHAR(TIMESTAMP 'epoch' + MIN(start_date) * INTERVAL '1 millisecond', 'HH:MI:SS')      FIRST_EXECUTED,
+                     TO_CHAR(TIMESTAMP 'epoch' + MAX(start_date) * INTERVAL '1 millisecond', 'HH:MI:SS')      LAST_EXECUTED,
+                     MIN(qe.duration)                MIN_DURATION_MS,
+                     MAX(qe.duration)                MAX_DURATION_MS,
+                     TRUNC(AVG(qe.duration))         AVERAGE_DURATION_MS,
+                     TRUNC(STDDEV_POP(qe.duration))  STANDARD_DEVIATION_MS
+                  FROM query q
+                  INNER JOIN query_execution qe ON qe.id = q.id
+                  WHERE 1=1
+                  GROUP BY q.text
+                  ORDER BY
+                  q.text ASC)`);
 
 }
 

@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "queries": "dotenv node index.js",
-    "start": "npm run database:start && npm run database:create-schema && npm run queries",
+    "execute-queries": "dotenv node index.js",
+    "start": "npm run database:start && npm run database:create-schema && npm run execute-queries && npm run display-statistics",
     "database:start": "docker-compose --env-file ./.env --file ./database/docker-compose.yml up --detach && sleep 1",
     "database:create-schema": "dotenv node ./database/initialize.js",
+    "display-statistics": "psql postgresql://postgres@localhost:5432/monitoring -c 'SELECT * FROM query_statistics' ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

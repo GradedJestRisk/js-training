@@ -5,26 +5,7 @@ const removeNewline = require('newline-remove');
 
 const parser = new Parser();
 
-
-const knexMonitoring = require('knex')({
-   client: 'pg',
-   connection: {
-      host: process.env.MONITORING_DATABASE_HOST,
-      port: process.env.MONITORING_DATABASE_PORT,
-      user: process.env.MONITORING_DATABASE_USERNAME,
-      database: process.env.MONITORING_DATABASE_INSTANCE_NAME
-   }
-});
-
-const knexMonitored = require('knex')({
-   client: 'pg',
-   connection: {
-      host: process.env.MONITORED_DATABASE_HOST,
-      port: process.env.MONITORED_DATABASE_PORT,
-      user: process.env.MONITORED_DATABASE_USERNAME,
-      database: process.env.MONITORED_DATABASE_INSTANCE_NAME
-   }
-});
+const {knexMonitoring, knexMonitored} = require('./database/database-client');
 const queries = {};
 let count = 0;
 
@@ -42,7 +23,18 @@ const issueAGroupQuery = async (knex) => {
    await knex.raw('SELECT id, COUNT(1) FROM foo GROUP BY id');
 }
 const issueACartesianJoin = async (knex) => {
-   await knex.raw('SELECT COUNT(1) FROM (SELECT f1.id, f2.id FROM foo f1, foo f2) t');
+   try {
+      const query = 'SELECT COUNT(1) FROM (SELECT f1.id, f2.id FROM foo f1, foo f2) t';
+      await knex.raw(query).timeout(
+         process.env.QUERY_TMEOUT_SECOND * 1000,
+         {cancel: true});
+   } catch (error) {
+      if (error.name === 'KnexTimeoutError') {
+         const queryText = error.sql;
+         console.log(`${queryText} execution exceeded the maximum allowed time (${process.env.QUERY_TMEOUT_SECOND} s)`);
+      } else throw(error);
+   }
+
 }
 
 const fakeAQuery = async ({knex, timeToWaitSeconds}) => {
@@ -96,19 +88,25 @@ const registerEventsHandlers = ({knexMonitoring, knexMonitored}) => {
 }
 
 
-
 (async () => {
 
    //registerDebugEventsHandlers(knexMonitored);
    registerEventsHandlers({knexMonitoring, knexMonitored});
 
+   await insertSomeData({knex: knexMonitored, count: 100});
+   await issueAFirstRowSelect(knexMonitored);
+   await issueAGroupQuery(knexMonitored);
+   await issueAGroupQuery(knexMonitored);
+   await issueACartesianJoin(knexMonitored);
+
    await insertSomeData({knex: knexMonitored, count: 10000});
    await issueAFirstRowSelect(knexMonitored);
    await issueAGroupQuery(knexMonitored);
    await issueACartesianJoin(knexMonitored);
-   await issueACartesianJoin(knexMonitored);
 
    await insertSomeData({knex: knexMonitored, count: 100000});
+   await issueAFirstRowSelect(knexMonitored);
+   await issueAGroupQuery(knexMonitored);
    await issueAGroupQuery(knexMonitored);
    // const timeToWaitSeconds = 2;
    // await fakeAQuery({knex: knexMonitored, timeToWaitSeconds});
