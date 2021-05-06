@@ -1,7 +1,6 @@
 const crypto = require('crypto');
-const {Parser} = require('node-sql-parser');
 const removeNewline = require('newline-remove');
-const parser = new Parser();
+const sqlParser = require('./sqlParser');
 
 const normalizeString = (string) => {
    const stringWithoutNewLine = removeNewline(string);
@@ -16,41 +15,45 @@ const registerDebugEventsHandlers = (knex) => {
    knex.on('query-response', (response, query) => {
       console.log(`Query finished: ${query.sql} (id: ${query.__knexQueryUid})`);
    })
+   knex.on('query-error', (response, query) => {
+      console.log(`Query error: ${query.sql} (id: ${query.__knexQueryUid})`);
+   })
 }
 
 const registerEventsHandlers = ({ queries, knexMonitoring, knexMonitored}) => {
 
    knexMonitored.on('query', (query) => {
-      const uid = query.__knexQueryUid;
-      queries[uid] = {
-         query,
-         startTime: Date.now(),
-         // I keep track of when a query is finished with a boolean instead of
-         // presence of an end time. It makes the logic easier to read.
-         finished: false,
+      const queryExecutionId = query.__knexQueryUid;
+      queries[queryExecutionId] = {
+         startTime: Date.now()
       };
-   })
-      .on('query-response', async (response, query) => {
-         const uid = query.__knexQueryUid;
+   });
+
+   knexMonitored.on('query-response', async (response, query) => {
+
+         const queryExecutionId = query.__knexQueryUid;
+         const queryDuration = Date.now() - queries[queryExecutionId].startTime;
 
          const queryText = normalizeString(query.sql);
          const queryHash = crypto.createHash('sha1').update(queryText).digest('hex');
-         let queryType = 'UNKNOWN';
-         try {
-            const queryAST = parser.astify(queryText);
-            queryType = queryAST.type;
-         } catch (error) {
-            //console.log(`${queryText} cannot be parsed`)
-         }
-         const insertQuery = `INSERT INTO query (id, type, text) VALUES ('${queryHash}','${queryType}', '${queryText}') ON CONFLICT ON CONSTRAINT query_pkey DO NOTHING;`;
+         const queryType = sqlParser.getQueryType(queryText);
+
+         const insertQuery = `INSERT INTO query (id, type, text)
+                              VALUES ('${queryHash}','${queryType}', '${queryText}')
+                              ON CONFLICT ON CONSTRAINT query_pkey DO NOTHING;`;
+
          await knexMonitoring.raw(insertQuery);
 
-         const queryDuration = Date.now() - queries[uid].startTime;
-
-         const insertQueryExecution = `INSERT INTO query_execution (id, start_date, duration) VALUES ('${queryHash}', ${queries[uid].startTime} ,${queryDuration})`;
+         const insertQueryExecution = `INSERT INTO query_execution (id, query_id, start_date, duration)
+                                       VALUES ('${queryExecutionId}', '${queryHash}',  ${queries[queryExecutionId].startTime} ,${queryDuration})`;
          await knexMonitoring.raw(insertQueryExecution);
-         queries[uid] = null;
+         queries[queryExecutionId] = null;
       })
+
+   knexMonitored.on('query-error', (response, query) => {
+      const queryExecutionId = query.__knexQueryUid;
+      queries[queryExecutionId] = null;
+   });
 }
 
 module.exports = { registerDebugEventsHandlers, registerEventsHandlers}

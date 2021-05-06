@@ -13,12 +13,11 @@ const initializePerformanceTrace = async (knex) => {
     )`);
 
    await knex.raw(`CREATE TABLE query_execution (
-        id TEXT NOT NULL,
+        id TEXT PRIMARY KEY,
+        query_id TEXT NOT NULL,
         start_date BIGINT,
-        duration BIGINT,
-        PRIMARY KEY(id, start_date)
+        duration BIGINT
     )`);
-
 
    await knex.raw(`CREATE VIEW query_statistics AS (
                   SELECT
@@ -31,11 +30,11 @@ const initializePerformanceTrace = async (knex) => {
                      TRUNC(AVG(qe.duration))         AVERAGE_DURATION_MS,
                      TRUNC(STDDEV_POP(qe.duration))  STANDARD_DEVIATION_MS
                   FROM query q
-                  INNER JOIN query_execution qe ON qe.id = q.id
+                     INNER JOIN query_execution qe ON qe.query_id = q.id
                   WHERE 1=1
                   GROUP BY q.text
                   ORDER BY
-                  q.text ASC)`);
+                     q.text ASC)`);
 
 }
 

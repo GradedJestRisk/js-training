@@ -1,0 +1,5 @@
+config:
+  processor: "./helper.js"
+  environments:
+    local:
+      target: http://localhost:3000

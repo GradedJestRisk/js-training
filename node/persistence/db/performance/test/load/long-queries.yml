@@ -1,0 +1,37 @@
+config:
+   http:
+      # Responses have to be sent within 10 seconds or the request will be aborted
+      timeout: 10
+   plugins:
+      expect: {}
+   phases:
+      -  duration: 1
+         arrivalRate: 1
+
+scenarios:
+   -  name: 'execute a long query'
+      flow:
+         - function: "removeAll"
+         -  post:
+               url: "/foo"
+               json:
+                  count: 1000
+               expect:
+                  -  statusCode: 200
+         -  get:
+               url: "/foo/long-query"
+               expect:
+                  -  statusCode: 200
+   -  name: 'execute a very long query (should timeout)'
+      flow:
+         - function: "removeAll"
+         -  post:
+               url: "/foo"
+               json:
+                  count: 10000
+               expect:
+                  -  statusCode: 200
+         -  get:
+               url: "/foo/long-query"
+               expect:
+                  -  statusCode: 200

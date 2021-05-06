@@ -1,0 +1,27 @@
+config:
+   http:
+      # Responses have to be sent within 10 seconds or the request will be aborted
+      timeout: 10
+#   plugins:
+#      expect: {}
+   phases:
+      -  duration: 2
+         arrivalRate: 5
+      -  duration: 10
+         arrivalRate: 5
+         rampTo: 50
+
+scenarios:
+   -  name: 'query on a few data'
+      flow:
+         - function: "removeAll"
+         -  post:
+               url: "/foo"
+               json:
+                  count: 10
+               expect:
+                  -  statusCode: 200
+         -  get:
+               url: "/foo/short-query"
+               expect:
+                  -  statusCode: 200
