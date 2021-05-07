@@ -1,0 +1,20 @@
+{
+  "name": "correlate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "database:start": "docker-compose --env-file ./.env --file ./database/docker-compose.yml up --detach && sleep 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/sqlcommenter-knex": "^0.0.3",
+    "@opentelemetry/core": "^0.19.0",
+    "dotenv": "^9.0.0",
+    "knex": "^0.95.4",
+    "pg": "^8.6.0"
+  }
+}

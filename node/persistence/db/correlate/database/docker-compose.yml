@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+
+  monitoring_database:
+    image: postgres:alpine
+    container_name: ${MONITORING_DATABASE_INSTANCE_NAME}
+    restart: always
+    environment:
+      POSTGRES_DB: ${MONITORING_DATABASE_INSTANCE_NAME}
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - ${MONITORING_DATABASE_PORT}:5432
+
+  monitored_database:
+     image: postgres:alpine
+     container_name: ${MONITORED_DATABASE_INSTANCE_NAME}
+     restart: always
+     environment:
+        POSTGRES_DB: ${MONITORED_DATABASE_INSTANCE_NAME}
+        POSTGRES_HOST_AUTH_METHOD: trust
+     ports:
+        - ${MONITORED_DATABASE_PORT}:5432
+     deploy:
+        resources:
+           limits:
+              cpus: '1'
+              memory: 128m
