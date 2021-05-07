@@ -34,9 +34,9 @@ const registerEventsHandlers = ({ queries, knexMonitoring, knexMonitored}) => {
          const queryExecutionId = query.__knexQueryUid;
          const queryDuration = Date.now() - queries[queryExecutionId].startTime;
 
-         const queryText = normalizeString(query.sql);
+         const rawQueryText = normalizeString(query.sql);
+         const { queryType, correlationId, queryText} = sqlParser.parseQuery(rawQueryText);
          const queryHash = crypto.createHash('sha1').update(queryText).digest('hex');
-         const queryType = sqlParser.getQueryType(queryText);
 
          const insertQuery = `INSERT INTO query (id, type, text)
                               VALUES ('${queryHash}','${queryType}', '${queryText}')
@@ -44,8 +44,8 @@ const registerEventsHandlers = ({ queries, knexMonitoring, knexMonitored}) => {
 
          await knexMonitoring.raw(insertQuery);
 
-         const insertQueryExecution = `INSERT INTO query_execution (id, query_id, start_date, duration)
-                                       VALUES ('${queryExecutionId}', '${queryHash}',  ${queries[queryExecutionId].startTime} ,${queryDuration})`;
+         const insertQueryExecution = `INSERT INTO query_execution (id, query_id, start_date, duration, correlation_id)
+                                       VALUES ('${queryExecutionId}', '${queryHash}',  ${queries[queryExecutionId].startTime}, ${queryDuration}, '${correlationId}')`;
          await knexMonitoring.raw(insertQueryExecution);
          queries[queryExecutionId] = null;
       })
