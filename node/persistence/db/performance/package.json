@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "execute-queries-cli": "dotenv node index.js",
+    "get:foo": "curl -X GET http://localhost:3000/foo/short-query -H 'X-Correlation-ID:1'",
     "load-test": "npm-run-all --serial load-test:*",
     "load-test:a": "artillery run --config ./test/load/config/common.yml --environment local ./test/load/short-queries.yml",
     "load-test:b": "artillery run --config ./test/load/config/common.yml --environment local ./test/load/medium-queries.yml",

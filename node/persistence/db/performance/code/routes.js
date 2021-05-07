@@ -2,6 +2,7 @@ require('dotenv').config();
 const Joi = require('joi');
 
 const {knexMonitoring, knexMonitored} = require('../database/database-client');
+const correlation = require('./correlation');
 const repository = require('./repository');
 const knexHandlers = require('./knexHandlers');
 
@@ -36,15 +37,34 @@ const routes = [
          await repository.removeAll(knexMonitored);
          return 'Done';
       }
-   },{
+   }, {
       method: 'GET',
       path: '/foo/short-query',
       config: {
          description: 'Execute a SELECT query (brief)',
+         validate: {
+            headers: Joi.object({
+               'x-correlation-id': Joi.string().required()
+               // 'foo': Joi.string().required()
+            }),
+            options: {
+               allowUnknown: true
+            }
+         }
       },
-      handler: async function () {
-         await repository.issueAFirstRowSelect(knexMonitored);
-         await repository.issueAGroupQuery(knexMonitored);
+      handler: async function (request) {
+
+         const correlationId = request.headers['x-correlation-id'];
+         await correlation.insertCorrelation({knexMonitoring, correlationId});
+
+         await repository.issueAFirstRowSelect({
+            correlationId,
+            knex: knexMonitored
+         });
+         await repository.issueAGroupQuery({
+            correlationId,
+            knex: knexMonitored
+         });
          return 'Done';
       }
    },

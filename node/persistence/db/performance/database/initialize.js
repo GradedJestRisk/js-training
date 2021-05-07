@@ -3,8 +3,8 @@ const {knexMonitoring, knexMonitored} = require('./database-client');
 const initializePerformanceTrace = async (knex) => {
 
    await knex.raw(`DROP VIEW IF EXISTS query_statistics`);
-   await knex.raw(`DROP TABLE IF EXISTS correlation`);
    await knex.raw(`DROP TABLE IF EXISTS query_execution`);
+   await knex.raw(`DROP TABLE IF EXISTS correlation`);
    await knex.raw(`DROP TABLE IF EXISTS query`);
 
    await knex.raw(`CREATE TABLE correlation (
