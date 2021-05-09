@@ -1,11 +1,24 @@
 const dbAgent = require('../../db/db-agent');
 const bookshelf = require('bookshelf')(dbAgent);
+bookshelf.plugin('bookshelf-virtuals-plugin');
 
 const User = bookshelf.model('User', {
    tableName: 'user',
    recipes() {
       return this.hasMany(Recipe, "user_id", "id")
-   }
+   },
+   // https://github.com/bookshelf/virtuals-plugin/wiki/Bookshelf-Virtuals-Plugin
+   // you can't set a non-existing property
+   // virtuals: {
+   //    correlation: {
+   //       get() {
+   //          return this.get('correlation');
+   //       },
+   //       set(value) {
+   //          this.set('correlation', value);
+   //       }
+   //    }
+   // }
 });
 
 const Recipe = bookshelf.model('Recipe', {

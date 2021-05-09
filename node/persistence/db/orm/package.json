@@ -7,6 +7,7 @@
       "dev:test-connexion": "node server.js",
       "dev:db:create-structure-change": "npx knex --knexfile db/db-agent-configuration.js migrate:make $migrationname",
       "dev:db:create-data-insertion": "npx knex --knexfile db/db-agent-configuration.js seed:make $seedname",
+      "db:start": "docker-compose --file ./db/docker-compose.yml up --detach && sleep 1",
       "db:reset": "npm run db:create-schema && npm run db:create-structure",
       "db:create-schema": "node db/create-schema.js",
       "db:create-structure": "knex --knexfile db/db-agent-configuration.js migrate:latest",
@@ -18,6 +19,7 @@
    "description": "",
    "dependencies": {
       "bookshelf": "^1.2.0",
+      "bookshelf-virtuals-plugin": "^1.0.0",
       "knex": "^0.21.0",
       "pg": "^8.0.3"
    },
