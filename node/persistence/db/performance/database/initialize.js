@@ -4,15 +4,28 @@ const initializePerformanceTrace = async (knex) => {
 
    await knex.raw(`DROP VIEW IF EXISTS query_statistics`);
    await knex.raw(`DROP TABLE IF EXISTS query_execution`);
-   await knex.raw(`DROP TABLE IF EXISTS correlation`);
    await knex.raw(`DROP TABLE IF EXISTS query`);
+   await knex.raw(`DROP TABLE IF EXISTS request`);
+   await knex.raw(`DROP TABLE IF EXISTS correlation`);
+   await knex.raw(`DROP TABLE IF EXISTS route`);
+
+   await knex.raw(`CREATE TABLE route (
+        id TEXT NOT NULL PRIMARY KEY,
+        text TEXT NOT NULL
+    )`);
 
    await knex.raw(`CREATE TABLE correlation (
         id TEXT NOT NULL PRIMARY KEY,
         text TEXT NOT NULL
     )`);
 
-   await knex.raw(`CREATE TABLE query (
+      await knex.raw(`CREATE TABLE request (
+        id TEXT NOT NULL PRIMARY KEY,
+        route_id TEXT NOT NULL REFERENCES route (id),
+        correlation_id TEXT NOT NULL REFERENCES correlation (id)
+    )`);
+
+    await knex.raw(`CREATE TABLE query (
         id TEXT NOT NULL PRIMARY KEY,
         type TEXT NOT NULL,
         text TEXT NOT NULL
@@ -20,8 +33,8 @@ const initializePerformanceTrace = async (knex) => {
 
    await knex.raw(`CREATE TABLE query_execution (
         id TEXT PRIMARY KEY,
-        query_id TEXT NOT NULL REFERENCES query (id),
-        correlation_id TEXT NOT NULL REFERENCES correlation (id),
+        query_id TEXT NOT NULL REFERENCES query(id),
+        request_id TEXT NOT NULL REFERENCES request(id),
         start_date BIGINT NOT NULL,
         duration BIGINT NOT NULL
     )`);

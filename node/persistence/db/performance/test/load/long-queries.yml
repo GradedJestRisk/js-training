@@ -7,6 +7,9 @@ config:
    phases:
       -  duration: 1
          arrivalRate: 1
+   defaults:
+      headers:
+         x-correlation-id: 3
 
 scenarios:
    -  name: 'execute a long query'
@@ -28,7 +31,7 @@ scenarios:
          -  post:
                url: "/foo"
                json:
-                  count: 10000
+                  count: 100000
                expect:
                   -  statusCode: 200
          -  get:

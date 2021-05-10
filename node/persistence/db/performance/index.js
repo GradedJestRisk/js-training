@@ -5,7 +5,11 @@ const repository = require('./code/repository');
 const knexHandlers = require('./code/knexHandlers')
 const {knexMonitoring, knexMonitored} = require('./database/database-client');
 
+const helper = require('./test/load/helper');
+
 (async () => {
+
+   await helper.removeAll();
 
    // const queries = {};
    // knexHandlers.registerDebugEventsHandlers(knexMonitored);
@@ -25,6 +29,7 @@ const {knexMonitoring, knexMonitored} = require('./database/database-client');
    await repository.insertSomeData({ correlationId, knex: knexMonitored, count: 1000});
    await repository.issueAFirstRowSelect({correlationId, knex: knexMonitored});
    await repository.issueAGroupQuery({correlationId, knex: knexMonitored});
+   await repository.removeAll({correlationId, knex: knexMonitored});
 
    await repository.insertSomeData({ correlationId, knex: knexMonitored, count: 100000});
    await repository.issueACartesianJoin({correlationId, knex : knexMonitored});

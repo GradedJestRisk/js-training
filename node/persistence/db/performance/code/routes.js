@@ -1,10 +1,8 @@
 require('dotenv').config();
 const Joi = require('joi');
-
-const {knexMonitoring, knexMonitored} = require('../database/database-client');
-const correlation = require('./correlation');
 const repository = require('./repository');
 const knexHandlers = require('./knexHandlers');
+const {knexMonitoring, knexMonitored} = require('../database/database-client');
 
 const queries = {};
 knexHandlers.registerEventsHandlers({queries, knexMonitoring, knexMonitored});
@@ -16,14 +14,24 @@ const routes = [
       config: {
          description: 'Insert data (according to payload)',
          validate: {
+            headers: Joi.object({
+               'x-correlation-id': Joi.string().required()
+            }),
             payload: Joi.object({
                count: Joi.number().integer().min(1).required(),
             }),
+            options: {
+               allowUnknown: true
+            }
          },
       },
       handler: async function (request) {
          const count = request.payload.count;
-         await repository.insertSomeData({knex: knexMonitored, count: count});
+         await repository.insertSomeData({
+            knex: knexMonitored,
+            requestId: request.requestId,
+            count: count
+         });
          return `${count} data created`;
       }
    },
@@ -32,9 +40,20 @@ const routes = [
       path: '/foo',
       config: {
          description: 'Remove all data',
+         validate: {
+            headers: Joi.object({
+               'x-correlation-id': Joi.string().default(0)
+            }),
+            options: {
+               allowUnknown: true
+            }
+         }
       },
-      handler: async function () {
-         await repository.removeAll(knexMonitored);
+      handler: async function (request) {
+         await repository.removeAll({
+            knex: knexMonitored,
+            requestId: request.requestId
+         });
          return 'Done';
       }
    }, {
@@ -45,7 +64,6 @@ const routes = [
          validate: {
             headers: Joi.object({
                'x-correlation-id': Joi.string().required()
-               // 'foo': Joi.string().required()
             }),
             options: {
                allowUnknown: true
@@ -54,17 +72,16 @@ const routes = [
       },
       handler: async function (request) {
 
-         const correlationId = request.headers['x-correlation-id'];
-         await correlation.insertCorrelation({knexMonitoring, correlationId});
-
          await repository.issueAFirstRowSelect({
-            correlationId,
+            requestId: request.requestId,
             knex: knexMonitored
          });
+
          await repository.issueAGroupQuery({
-            correlationId,
+            requestId: request.requestId,
             knex: knexMonitored
          });
+
          return 'Done';
       }
    },
@@ -73,9 +90,20 @@ const routes = [
       path: '/foo/long-query',
       config: {
          description: 'Execute a SELECT query (long)',
+         validate: {
+            headers: Joi.object({
+               'x-correlation-id': Joi.string().required()
+            }),
+            options: {
+               allowUnknown: true
+            }
+         }
       },
-      handler: async function () {
-         await repository.issueACartesianJoin(knexMonitored);
+      handler: async function (request) {
+         await repository.issueACartesianJoin({
+            knex: knexMonitored,
+            requestId: request.requestId
+         });
          return 'Done';
       }
    },

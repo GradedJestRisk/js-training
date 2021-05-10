@@ -4,37 +4,67 @@ const parser = new Parser();
 
 const parseQuery = function (rawQueryText) {
 
-   let queryType = 'UNKNOWN';
-   const {correlationId, queryText} = extractQueryAndCorrelationId(rawQueryText);
+   const {requestId, queryText} = extractQueryAndRequestId(rawQueryText);
+
+   let queryType;
 
    try {
       const queryAST = parser.astify(queryText);
       queryType = queryAST.type;
    } catch (error) {
-      //console.log(`${queryText} cannot be parsed`)
+      //console.log(`${queryText} cannot be parsed`);
+      queryType = 'UNKNOWN';
    }
 
-   return { queryType, correlationId, queryText};
+   return {queryType, requestId, queryText};
 }
 
-const extractQueryAndCorrelationId = (sql) => {
-   // See https://docs.oracle.com/cd/B12037_01/server.101/b10759/sql_elements006.htm
-   // for how to detect comments.
+const extractQueryAndRequestId = (rawQueryText) => {
+
+   const DEFAULT_CORRELATION_ID = 0;
+
+   const markers = {
+
+      // Hints are implemented
+      // http://knexjs.org/#Builder-hintComment
+      hint: {opening: '/*+', closing: '*/'},
+
+      // Query comments are not implemented yet (but in raw)
+      // https://github.com/knex/knex/pull/2815
+      comment: {opening: '/*', closing: '*/'}
+   }
+
+   let actualMarker;
+
+   if (rawQueryText.indexOf(markers.hint.opening) >= 0) {
+      actualMarker = markers.hint;
+   } else if (rawQueryText.indexOf(markers.comment.opening) >= 0) {
+      actualMarker = markers.comment;
+   } else {
+      return {requestId: DEFAULT_CORRELATION_ID, queryText: rawQueryText}
+   }
+
+   const {requestId, queryText} = appleSauce(rawQueryText, actualMarker);
+   return {requestId, queryText}
+}
+
+const appleSauce = (sql, marker) => {
 
    if (!sql)
       return null;
 
-   const indexOpeningSlashComment = sql.indexOf('/*');
-   const indexClosingSlashComment = sql.indexOf('*/');
+   const startsAt = sql.indexOf(marker.opening);
+   const endsAt = sql.indexOf(marker.closing);
 
-   if ((indexOpeningSlashComment < 0) || (indexOpeningSlashComment > indexClosingSlashComment)) {
+   if ((startsAt < 0) || (startsAt > endsAt)) {
       return null;
    }
 
-   const correlationId = sql.substring(indexOpeningSlashComment + 2, indexClosingSlashComment);
-   const queryText = sql.substring(indexClosingSlashComment + 2);
+   const segment = sql.substring(startsAt, endsAt + marker.closing.length);
+   const queryText = sql.replace(segment, '');
+   const requestId = segment.substring(marker.opening.length, segment.length - marker.closing.length).trim();
 
-   return {correlationId, queryText};
+   return {requestId, queryText};
 
 }
 

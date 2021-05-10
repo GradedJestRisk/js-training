@@ -31,24 +31,25 @@ const registerEventsHandlers = ({ queries, knexMonitoring, knexMonitored}) => {
 
    knexMonitored.on('query-response', async (response, query) => {
 
-         const queryExecutionId = query.__knexQueryUid;
-         const queryDuration = Date.now() - queries[queryExecutionId].startTime;
+      const queryExecutionId = query.__knexQueryUid;
+      const queryDuration = Date.now() - queries[queryExecutionId].startTime;
 
-         const rawQueryText = normalizeString(query.sql);
-         const { queryType, correlationId, queryText} = sqlParser.parseQuery(rawQueryText);
-         const queryHash = crypto.createHash('sha1').update(queryText).digest('hex');
+      const rawQueryText = normalizeString(query.sql);
+      const { queryType, requestId, queryText} = sqlParser.parseQuery(rawQueryText);
+      const queryId = crypto.createHash('sha1').update(queryText).digest('hex');
 
-         const insertQuery = `INSERT INTO query (id, type, text)
-                              VALUES ('${queryHash}','${queryType}', '${queryText}')
-                              ON CONFLICT ON CONSTRAINT query_pkey DO NOTHING;`;
+      const insertQuery = `INSERT INTO query (id, type, text)
+                           VALUES ('${queryId}','${queryType}', '${queryText}')
+                           ON CONFLICT ON CONSTRAINT query_pkey DO NOTHING;`;
 
-         await knexMonitoring.raw(insertQuery);
+      await knexMonitoring.raw(insertQuery);
 
-         const insertQueryExecution = `INSERT INTO query_execution (id, query_id, start_date, duration, correlation_id)
-                                       VALUES ('${queryExecutionId}', '${queryHash}',  ${queries[queryExecutionId].startTime}, ${queryDuration}, '${correlationId}')`;
-         await knexMonitoring.raw(insertQueryExecution);
-         queries[queryExecutionId] = null;
-      })
+      const insertQueryExecution = `INSERT INTO query_execution (id, query_id, start_date, duration, request_id)
+                                    VALUES ('${queryExecutionId}', '${queryId}',  ${queries[queryExecutionId].startTime}, ${queryDuration}, '${requestId}')`;
+
+      await knexMonitoring.raw(insertQueryExecution);
+      queries[queryExecutionId] = null;
+   })
 
    knexMonitored.on('query-error', (response, query) => {
       const queryExecutionId = query.__knexQueryUid;

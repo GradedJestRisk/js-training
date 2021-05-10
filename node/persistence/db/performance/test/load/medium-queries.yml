@@ -7,6 +7,9 @@ config:
       -  duration: 10
          arrivalRate: 5
          rampTo: 50
+   defaults:
+      headers:
+         x-correlation-id: 2
 
 scenarios:
    -  name: 'query on more data'
