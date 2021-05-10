@@ -29,6 +29,12 @@ const Recipe = bookshelf.model('Recipe', {
    // https://bookshelfjs.org/tutorial-many-to-many.html
    ingredients() {
        return this.belongsToMany(Ingredient, "recipes_ingredients", "recipe_id", "ingredient_id")
+   },
+   initialize() {
+      this.on('fetching', function(model, columns, options) {
+         console.log('Recipe is about be be fetched..');
+         //options.query.where('status', 'active')
+      })
    }
 })
 
