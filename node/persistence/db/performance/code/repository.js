@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config();
 const { KnexTimeoutError } = require('knex/lib/util/timeout');
 const TABLES = { foo: 'foo'}
 const crypto = require('crypto');

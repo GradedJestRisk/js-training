@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "execute-queries-cli": "dotenv node index.js",
+    "execute-queries-cli": "node index.js",
     "get:foo": "curl -X GET http://localhost:3000/foo/short-query -H 'X-Correlation-ID:1'",
     "load-test": "npm-run-all --serial load-test:*",
     "load-test:a": "artillery run --config ./test/load/config/common.yml --environment local ./test/load/short-queries.yml",
@@ -13,8 +13,8 @@
     "start-server": "npm run database:start && npm run database:create-schema && node server.js",
     "start": "npm run database:start && npm run database:create-schema && npm run execute-queries && npm run display-statistics",
     "database:start": "docker-compose --env-file ./.env --file ./database/docker-compose.yml up --detach && sleep 1",
-    "database:create-schema": "dotenv node ./database/initialize.js",
-    "display-statistics": "psql postgresql://postgres@localhost:5432/monitoring -c 'SELECT * FROM query_statistics' ",
+    "database:create-schema": "node ./database/initialize.js",
+    "display-statistics": "psql $MONITORING_DATABASE_URL -c 'SELECT * FROM query_statistics' ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -28,7 +28,6 @@
     "axios": "^0.21.1",
     "blipp": "^4.0.2",
     "dotenv": "^8.2.0",
-    "dotenv-cli": "^4.0.0",
     "joi": "^17.4.0",
     "knex": "^0.95.4",
     "laabr": "^6.1.3",

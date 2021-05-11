@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config();
 const Joi = require('joi');
 const repository = require('./repository');
 const knexHandlers = require('./knexHandlers');
