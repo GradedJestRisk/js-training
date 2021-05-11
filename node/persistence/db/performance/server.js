@@ -4,6 +4,7 @@ const repository = require('./code/repository');
 const crypto = require('crypto');
 const {trace} = require('./code/request');
 const {knexMonitoring} = require('./database/database-client');
+const applicationPackage = require('./package');
 
 const init = async () => {
 
@@ -32,13 +33,14 @@ const init = async () => {
    });
 
    await repository.insertRoutes(server.table());
+   await repository.insertVersion(applicationPackage.version);
 
    server.ext('onPreHandler', async function(request, h){
       const correlationId = request.headers['x-correlation-id']
       const routeText = `${request.method} ${request.path}`;
       const routeId = crypto.createHash('sha1').update(routeText).digest('hex');
       const requestId =  crypto.createHash('sha1').update(request.info.id).digest('hex');
-      await trace({knexMonitoring, routeId, requestId, correlationId});
+      await trace({knexMonitoring, routeId, requestId, correlationId, version: applicationPackage.version});
       request.requestId = requestId;
       return h.continue;
    });

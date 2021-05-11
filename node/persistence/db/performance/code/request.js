@@ -1,10 +1,6 @@
-const trace = async function ({knexMonitoring, correlationId, routeId, requestId}) {
-
+const trace = async function ({knexMonitoring, correlationId, routeId, requestId, version}) {
    await insertCorrelation({knexMonitoring, correlationId});
-
-   const insertQuery = `INSERT INTO request (id, route_id, correlation_id)
-                        VALUES ('${requestId}', '${routeId}','${correlationId}')`;
-   await knexMonitoring.raw(insertQuery);
+   await insertRequest({knexMonitoring, correlationId, routeId, requestId, version});
 }
 
 const insertCorrelation = async function ({knexMonitoring, correlationId}) {
@@ -13,4 +9,9 @@ const insertCorrelation = async function ({knexMonitoring, correlationId}) {
    await knexMonitoring.raw(insertQuery);
 }
 
+const insertRequest = async function ({knexMonitoring, correlationId, routeId, requestId, version}) {
+   const insertQuery = `INSERT INTO request (id, route_id, correlation_id, version_id)
+                        VALUES ('${requestId}', '${routeId}','${correlationId}','${version}')`;
+   await knexMonitoring.raw(insertQuery);
+}
 module.exports = {trace}

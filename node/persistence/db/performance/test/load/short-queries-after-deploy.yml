@@ -12,6 +12,7 @@ config:
 before:
    flow:
       -  function: "removeAll"
+      -  function: "fakeNewVersionDeployment"
 
 scenarios:
    -  name: 'query on a few data'

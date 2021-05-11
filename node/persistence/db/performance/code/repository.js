@@ -4,7 +4,7 @@ const TABLES = { foo: 'foo'}
 const crypto = require('crypto');
 const Boom = require('@hapi/boom')
 
-const {knexMonitoring} = require('../database/database-client');
+const {knexMonitoring, knexMonitored} = require('../database/database-client');
 
 const insertRoutes = async(routes)=>{
    await Promise.all(routes.map((route)=> {
@@ -13,6 +13,15 @@ const insertRoutes = async(routes)=>{
       const query = `INSERT INTO route (id, text) VALUES ('${routeId}','${routeText}') ON CONFLICT ON CONSTRAINT route_pkey DO NOTHING;`;
       return knexMonitoring.raw(query);
    }));
+}
+
+const insertVersion = async(version)=>{
+   const query = `INSERT INTO version (id) VALUES ('${version}') ON CONFLICT ON CONSTRAINT version_pkey DO NOTHING;`;
+   await knexMonitoring.raw(query);
+}
+const createIndex = async()=>{
+   const query = `CREATE INDEX on foo(id);`;
+   await knexMonitored.raw(query);
 }
 
 const queryWithRequestId = ({requestId, query}) => {
@@ -28,7 +37,7 @@ const insertSomeData = async ({requestId, knex, count}) => {
 }
 
 const issueAFirstRowSelect = async ({requestId, knex}) => {
-   const query = 'SELECT * FROM foo LIMIT 1';
+   //const query = 'SELECT * FROM foo LIMIT 1';
    // await knex.raw(queryWithRequestId({query, requestId}));
    await knex.select('*').from(TABLES.foo).limit(1).hintComment(requestId);
 }
@@ -69,5 +78,5 @@ const removeAll = async ({requestId, knex}) => {
    //   await knex(TABLES.foo).truncate().hintComment(correlationId);
 }
 
-module.exports = {insertRoutes, insertSomeData, issueAFirstRowSelect, issueAGroupQuery, issueACartesianJoin, fakeAQuery, removeAll}
+module.exports = {insertRoutes, insertSomeData, issueAFirstRowSelect, issueAGroupQuery, issueACartesianJoin, fakeAQuery, removeAll, insertVersion, createIndex}
 

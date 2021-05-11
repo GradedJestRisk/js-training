@@ -13,7 +13,7 @@ const removeAll = async (context, events, done) => {
    }
    try {
       await axios.request(request);
-   } catch(error){
+   } catch (error) {
       console.error(error.message);
       throw(error);
    }
@@ -21,4 +21,26 @@ const removeAll = async (context, events, done) => {
    return done();
 }
 
-module.exports = {removeAll};
+const fakeNewVersionDeployment = async (context, events, done) => {
+
+   const request = {
+      url: 'http://localhost:3000/version',
+      method: 'PUT',
+      data: {version: '1.1.1'},
+      configuration: {
+         headers: {
+            'X-correlation-id': 0,
+         }
+      }
+   }
+   try {
+      await axios.request(request);
+   } catch (error) {
+      console.error(error.message);
+      throw(error);
+   }
+
+   return done();
+}
+
+module.exports = {removeAll, fakeNewVersionDeployment};

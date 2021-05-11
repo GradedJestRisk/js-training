@@ -11,10 +11,13 @@ config:
       headers:
          x-correlation-id: 3
 
+before:
+   flow:
+      -  function: "removeAll"
+
 scenarios:
    -  name: 'execute a long query'
       flow:
-         - function: "removeAll"
          -  post:
                url: "/foo"
                json:
@@ -27,7 +30,6 @@ scenarios:
                   -  statusCode: 200
    -  name: 'execute a very long query (should timeout)'
       flow:
-         - function: "removeAll"
          -  post:
                url: "/foo"
                json:

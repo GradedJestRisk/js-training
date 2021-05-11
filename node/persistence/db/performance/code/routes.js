@@ -1,5 +1,7 @@
 // require('dotenv').config();
 const Joi = require('joi');
+const applicationPackage = require('../package');
+
 const repository = require('./repository');
 const knexHandlers = require('./knexHandlers');
 const {knexMonitoring, knexMonitored} = require('../database/database-client');
@@ -105,6 +107,32 @@ const routes = [
             requestId: request.requestId
          });
          return 'Done';
+      }
+   },
+   {
+      method: 'PUT',
+      path: '/version',
+      config: {
+         description: 'Deploy a new version',
+         validate: {
+            headers: Joi.object({
+               'x-correlation-id': Joi.string().default(0)
+            }),
+            payload: Joi.object({
+               version: Joi.string().required(),
+            }),
+            options: {
+               allowUnknown: true
+            }
+         },
+      },
+      handler: async function (request) {
+         const deployedVersion = request.payload.version;
+         applicationPackage.version = deployedVersion;
+         await repository.insertVersion(deployedVersion);
+         await repository.createIndex();
+         console.log(`New version deployed: ${request.payload.version}`);
+         return 'Done'
       }
    },
 ];

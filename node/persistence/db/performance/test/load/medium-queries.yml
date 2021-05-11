@@ -11,10 +11,13 @@ config:
       headers:
          x-correlation-id: 2
 
+before:
+   flow:
+      -  function: "removeAll"
+
 scenarios:
    -  name: 'query on more data'
       flow:
-         - function: "removeAll"
          -  post:
                url: "/foo"
                json:
