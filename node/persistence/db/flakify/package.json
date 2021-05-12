@@ -1,0 +1,26 @@
+{
+   "name": "flakify",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "test": "mocha test --exit",
+      "start": "npm run start:database",
+      "start:database": "npm run database:start-container && npm run database:create-schema",
+      "database:start-container": "docker-compose --env-file ./.env --file ./database/docker-compose.yml up --detach && sleep 1",
+      "database:create-schema": "node ./database/initialize.js"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "devDependencies": {
+      "chai": "^4.3.4",
+      "mocha": "^8.4.0"
+   },
+   "dependencies": {
+      "dotenv": "^9.0.2",
+      "knex": "^0.95.5",
+      "node-sql-parser": "^3.3.0",
+      "pg": "^8.6.0"
+   }
+}
