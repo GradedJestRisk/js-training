@@ -7,7 +7,8 @@ const initializeDummySchema = async (knex) => {
    await knex.raw(`DROP TABLE IF EXISTS foo`);
 
    await knex.raw(`CREATE TABLE foo (
-        id INTEGER PRIMARY KEY
+        id INTEGER PRIMARY KEY,
+        created_at DATE DEFAULT NOW()
     )`);
 
    await knex.raw(`CREATE TABLE bar (
