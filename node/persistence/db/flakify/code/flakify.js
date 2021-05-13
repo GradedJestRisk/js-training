@@ -1,3 +1,6 @@
+const tables = ['foo','foobar']
+const shuffledViewPrefix = '_shuffled';
+
 const flakify = (knex) => {
 
    // https://knexjs.org/#Interfaces-Events
@@ -9,22 +12,21 @@ const flakify = (knex) => {
       } else {
 
          if (builder._method === 'select') {
-            if (builder._single.table === 'foo') {
-               builder._single.table = 'foo_shuffled AS foo';
-            } else if(Object.values(builder._single.table)[0] === 'foo'){
-               const keyName =  Object.keys(builder._single.table).find(key => builder._single.table[key] === 'foo')
-               builder._single.table[keyName] = 'foo_shuffled';
+            if (tables.includes(builder._single.table)) {
+               builder._single.table = `${builder._single.table}${shuffledViewPrefix} AS ${builder._single.table}`;
+            } else if(tables.includes(Object.values(builder._single.table)[0])){
+               const keyName =  Object.keys(builder._single.table).find(key => tables.includes(builder._single.table[key]));
+               builder._single.table[keyName] = `${builder._single.table[keyName]}${shuffledViewPrefix}`;
             }else {
                if (builder._statements) {
-
                   builder._statements.map((statement) => {
                      if (statement.table) {
-                        if (statement.table === 'foo') {
-                           statement.table = 'foo_shuffled AS foo'
+                        if (tables.includes(statement.table)) {
+                           statement.table = `${statement.table}${shuffledViewPrefix} AS ${statement.table}`;
                         }
                      } else if (statement.grouping) {
-                        if (statement.grouping === 'where' && statement.value._single.table === 'foo') {
-                           statement.value._single.table = 'foo_shuffled AS foo'
+                        if (statement.grouping === 'where' && tables.includes(statement.value._single.table)) {
+                           statement.value._single.table = `${statement.value._single.table}${shuffledViewPrefix} AS ${statement.value._single.table}`;
                         }
                      }
                   })

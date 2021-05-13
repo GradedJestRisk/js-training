@@ -4,7 +4,8 @@
    "description": "",
    "main": "index.js",
    "scripts": {
-      "test": "mocha test --exit",
+      "test": "mocha --recursive ./test/**_test.js --exit",
+      "test:watch": "mocha --watch --recursive ./test/**_test.js",
       "start": "npm run start:database",
       "start:database": "npm run database:start-container && npm run database:create-schema",
       "database:start-container": "docker-compose --env-file ./.env --file ./database/docker-compose.yml up --detach && sleep 1",
