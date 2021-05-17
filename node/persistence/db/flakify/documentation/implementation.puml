@@ -1,0 +1,22 @@
+@startuml
+participant sut
+participant knex
+participant flakify
+participant node_sql_parser
+participant database
+
+
+== knex DSL query ==
+sut -> knex: .table('foo').\nselect().join.where()
+knex -[dotted]-> flakify: //start// event \n+ builder object
+flakify -[dotted]-> knex: builder object mutation
+knex -> database : SELECT * FROM \nfoo_shuffled INNER JOIN (..)
+
+== SQL query knex.raw() ==
+sut -> knex: .table('foo').\nselect().join.where()
+knex -[dotted]-> flakify: //start// event \n+ SQL query
+flakify -> node_sql_parser : SQL query
+node_sql_parser -> flakify: AST
+flakify -> knex: sql query mutation
+knex -> database : SELECT * FROM \nfoo_shuffled INNER JOIN (..)
+@enduml

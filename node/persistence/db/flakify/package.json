@@ -8,7 +8,9 @@
       "npm": "7.11.0"
    },
    "scripts": {
-      "doc": "puml generate overview.puml --output overview.png",
+      "doc": "npm run doc:overview && npm run doc:implementation",
+      "doc:overview": "puml generate ./documentation/overview.puml --output ./documentation/overview.png",
+      "doc:implementation":  "puml generate ./documentation/implementation.puml --output ./documentation/implementation.png",
       "test": "mocha --recursive ./test/**_test.js --exit",
       "test:watch": "mocha --watch --recursive ./test/**_test.js",
       "start": "npm run start:database && npm test",

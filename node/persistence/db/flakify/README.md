@@ -57,21 +57,26 @@ This way, you can track down which test should be fixed.
 
 ## Implementation
 
-### TL;DR.
-In a few words:
-- a shuffled SQL view is created for each table (`ORDER BY random()`);
-- each SQL `SELECT` query issued by knex query-builder is rewritten on the fly to use the shuffled view
-- the returned dataset cause fragile test to fail.
+### Overview
 
-If SQL native query `knex.raw` is used, a [SQL parser](https://github.com/taozhi8833998/node-sql-parser) is leveraged to replace knex AST
+Each SQL `SELECT` query is rewritten on the fly to use a shuffled view in place of the table.
 
-### Details
-![overview](./overview.png)
+The non-ordered dataset returned by the view cause fragile test to fail.
 
+![overview](./documentation/overview.png)
+
+
+### Query mutation
+Knex query-builder is used by most node JS application and ORMs.
+It emits a `start` event that make query rewrite easy, providing an AST-like structure.
+
+In case SQL native query `knex.raw` is used, a [SQL parser](https://github.com/taozhi8833998/node-sql-parser) is leveraged.
+
+![details](./documentation/implementation.png)
 
 ## Use
 
-Download [flakify.js](./code/flakify.js).
+Download the main script [flakify.js](./code/flakify.js).
 
 Add [node-sql-parser](https://github.com/taozhi8833998/node-sql-parser) dependency.
 
