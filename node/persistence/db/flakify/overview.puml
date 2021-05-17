@@ -1,0 +1,48 @@
+@startuml
+actor test_runner #blue
+participant test_suite
+participant sut
+participant flakify
+participant node_sql_parser
+participant knex
+participant database
+participant foo_shuffled
+participant foo
+
+== knex DSL query ==
+
+test_runner -> test_suite: execute
+test_suite -> sut: execute
+sut -> knex: .table('foo').\nselect().join.where()
+knex -[dotted]-> flakify: //start// event \n+ builder object
+flakify -[dotted]-> knex: builder object mutation
+knex -> database : SELECT * FROM \nfoo_shuffled INNER JOIN (..)
+database -> foo_shuffled: SELECT *
+foo_shuffled -> foo : SELECT * ORDER BY random()
+foo -> foo_shuffled : [2,1,3]
+foo_shuffled -> database : [2,1,3]
+database -> knex : [2,1,3]
+knex -> sut: [2,1,3]
+sut -> test_suite : [2,1,3]
+test_suite -> test_runner : 1 test failed, \n expected [1, 2, 3] but was [2,1,3]
+
+== SQL query knex.raw() ==
+
+test_runner -> test_suite: execute
+test_suite -> sut: execute
+sut -> knex: .table('foo').\nselect().join.where()
+knex -[dotted]-> flakify: //start// event \n+ SQL query
+flakify -> node_sql_parser : SQL query
+node_sql_parser -> flakify: AST
+flakify -> knex: sql query mutation
+knex -> database : SELECT * FROM \nfoo_shuffled INNER JOIN (..)
+database -> foo_shuffled: SELECT *
+foo_shuffled -> foo : SELECT * ORDER BY random()
+foo -> foo_shuffled : [2,1,3]
+foo_shuffled -> database : [2,1,3]
+database -> knex : [2,1,3]
+knex -> sut: [2,1,3]
+sut -> test_suite : [2,1,3]
+test_suite -> test_runner : 1 test failed, \n expected [1, 2, 3] but was [2,1,3]
+
+@enduml
