@@ -9,6 +9,15 @@ const {knexMonitoring, knexMonitored} = require('../database/database-client');
 const queries = {};
 knexHandlers.registerEventsHandlers({queries, knexMonitoring, knexMonitored});
 
+const fakeSomeLongComputation = async()=>{
+   const aTenthOfSecond = 1/10 * 1000;
+   await new Promise((resolve) => {
+      setTimeout(function () {
+         resolve()
+      }, aTenthOfSecond)
+   });
+}
+
 const routes = [
    {
       method: 'POST',
@@ -78,6 +87,10 @@ const routes = [
             requestId: request.requestId,
             knex: knexMonitored
          });
+
+         if (applicationPackage.version === '1.1.1'){
+            await fakeSomeLongComputation();
+         }
 
          await repository.issueAGroupQuery({
             requestId: request.requestId,

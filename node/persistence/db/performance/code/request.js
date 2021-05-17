@@ -14,4 +14,10 @@ const insertRequest = async function ({knexMonitoring, correlationId, routeId, r
                         VALUES ('${requestId}', '${routeId}','${correlationId}','${version}')`;
    await knexMonitoring.raw(insertQuery);
 }
-module.exports = {trace}
+
+const markRequestAsFinished = async function ({knexMonitoring, requestId}) {
+   const updateQuery = `UPDATE request SET ended_at = NOW() WHERE id= '${requestId}'`;
+   await knexMonitoring.raw(updateQuery);
+}
+
+module.exports = {trace, markRequestAsFinished}

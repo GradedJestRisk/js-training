@@ -9,7 +9,7 @@
    },
    "scripts": {
       "manual:get-foo": "curl -X GET http://localhost:3000/foo/short-query -H 'X-Correlation-ID:1'",
-      "manual:deploy": "curl -X PUT http://localhost:3000/version -H \"Content-Type: application/json\" -d \"{\\\"version\\\": \\\"1.1\\\"}\"",
+      "manual:deploy": "curl -X PUT http://localhost:3000/version -H \"Content-Type: application/json\" -d \"{\\\"version\\\": \\\"1.1.1\\\"}\"",
       "load-test": "npm-run-all --serial load-test:*",
       "load-test:a": "artillery run --config ./test/load/config/common.yml --environment local ./test/load/short-queries.yml",
       "load-test:b": "artillery run --config ./test/load/config/common.yml --environment local ./test/load/short-queries-after-deploy.yml",
@@ -20,8 +20,7 @@
       "start:database": "npm run database:start-container && npm run database:create-schema",
       "database:start-container": "docker-compose --env-file ./.env --file ./database/docker-compose.yml up --detach && sleep 1",
       "database:create-schema": "dotenv node ./database/initialize.js",
-      "display-statistics": "dotenv -- bash -c 'psql \"$MONITORING_DATABASE_URL\" --command 'SELECT * FROM query_statistics' '",
-      "test": "npm run load-test && npm run display-statistics"
+      "test": "npm run load-test"
    },
    "keywords": [],
    "author": "",

@@ -5,7 +5,7 @@ const Hapi = require('@hapi/hapi');
 const routesConfiguration = require('./code/routes');
 const repository = require('./code/repository');
 const crypto = require('crypto');
-const {trace} = require('./code/request');
+const {trace, markRequestAsFinished} = require('./code/request');
 const {knexMonitoring} = require('./database/database-client');
 const applicationPackage = require('./package');
 
@@ -45,6 +45,11 @@ const init = async () => {
       const requestId =  crypto.createHash('sha1').update(request.info.id).digest('hex');
       await trace({knexMonitoring, routeId, requestId, correlationId, version: applicationPackage.version});
       request.requestId = requestId;
+      return h.continue;
+   });
+
+   server.ext('onPreResponse', async function(request, h){
+      await markRequestAsFinished({knexMonitoring, requestId: request.requestId});
       return h.continue;
    });
 

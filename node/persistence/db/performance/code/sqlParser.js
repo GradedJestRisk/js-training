@@ -1,6 +1,7 @@
 const {Parser} = require('node-sql-parser');
 
 const parser = new Parser();
+const parserOptions = {database: 'postgresql'};
 
 const parseQuery = function (rawQueryText) {
 
@@ -9,7 +10,7 @@ const parseQuery = function (rawQueryText) {
    let queryType;
 
    try {
-      const queryAST = parser.astify(queryText);
+      const queryAST = parser.astify(queryText, parserOptions);
       queryType = queryAST.type;
    } catch (error) {
       //console.log(`${queryText} cannot be parsed`);
