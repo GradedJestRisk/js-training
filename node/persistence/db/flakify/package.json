@@ -3,13 +3,18 @@
    "version": "1.0.0",
    "description": "",
    "main": "index.js",
+   "engines": {
+      "node": "16.1.0",
+      "npm": "7.11.0"
+   },
    "scripts": {
       "test": "mocha --recursive ./test/**_test.js --exit",
       "test:watch": "mocha --watch --recursive ./test/**_test.js",
-      "start": "npm run start:database",
+      "start": "npm run start:database && npm test",
       "start:database": "npm run database:start-container && npm run database:create-schema",
       "database:start-container": "docker-compose --env-file ./.env --file ./database/docker-compose.yml up --detach && sleep 1",
-      "database:create-schema": "node ./database/initialize.js"
+      "database:create-schema": "node ./database/initialize.js",
+      "stop-all-containers": "./stop-all-containers.sh"
    },
    "keywords": [],
    "author": "",
