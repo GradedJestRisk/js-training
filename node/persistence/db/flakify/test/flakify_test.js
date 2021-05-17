@@ -18,7 +18,10 @@ describe('flakify', () => {
       beforeEach(async () => {
          await knex.table('bar').delete();
          await knex.table('foo').delete();
+         await knex.table('foobar').delete();
       })
+
+      describe('in knex DSL syntax',()=>{
 
       it('on single SELECT', async () => {
 
@@ -41,6 +44,36 @@ describe('flakify', () => {
          // For debug
          // flakify(knex);
          const actualData = await knex.table('foo').select('id');
+
+         // then
+         // should always pass
+         actualData.should.have.deep.members(data);
+
+         // should fail frequently (but not every time)
+         //actualData.should.be.deep.equal(data);
+      })
+
+      it('on another selected table', async () => {
+
+         // given
+         const data = [{id: 1}, {id: 2}, {id: 3}];
+         await knex.table('foobar').insert(data);
+
+         // when
+         const expectedQuery = 'select "id" from "foobar_shuffled" as "foobar"';
+         let actualQuery;
+         await knex.table('foobar').select('id').on('query', function (data) {
+            actualQuery = data.sql;
+         });
+
+         // then
+         actualQuery.should.equal(expectedQuery);
+
+         // when
+
+         // For debug
+         // flakify(knex);
+         const actualData = await knex.table('foobar').select('id');
 
          // then
          // should always pass
@@ -161,6 +194,62 @@ describe('flakify', () => {
          // actualFooData.should.be.deep.equal(fooData);
 
       })
+      })
+
+      describe('in SQL queries made by knex.raw()', async () => {
+
+         it('on single SELECT', async () => {
+            const data = [{id: 1}];
+
+            // when
+            let actualQuery;
+            await knex.raw('SELECT id FROM foo').on('query', function (data) {
+               actualQuery = data.sql;
+            });
+
+            // then
+            const expectedQuery = 'SELECT "id" FROM "foo_shuffled"';
+            actualQuery.should.equal(expectedQuery);
+
+            // await knex.table('foo').insert(data);
+            //
+            // const rawData = await knex.raw('SELECT id FROM foo');
+            // const actualData = rawData.rows;
+            // actualData.should.have.deep.members(data);
+         })
+
+         it('on single aliased SELECT', async () => {
+            const data = [{id: 1}, {id: 2}, {id: 3}];
+            await knex.table('foo').insert(data);
+
+            const expectedQuery = 'SELECT "id" FROM "foo_shuffled" AS "bar"';
+            let actualQuery;
+
+            // when
+            await knex.raw('SELECT id from foo AS bar').on('query', function (data) {
+               actualQuery = data.sql;
+            });
+            // then
+            actualQuery.should.equal(expectedQuery);
+
+            // when
+            await knex.raw('SELECT id from foo bar').on('query', function (data) {
+               actualQuery = data.sql;
+            });
+            // then
+            actualQuery.should.equal(expectedQuery);
+
+
+            const actualData = await knex.select('id').from({bar: 'foo'});
+
+            // should always pass
+            actualData.should.have.deep.members(data);
+
+            // should fail frequently (but not every time)
+            //actualData.should.be.deep.equal(data);
+         })
+
+      });
 
    });
 
@@ -244,46 +333,12 @@ describe('flakify', () => {
             // actualData.should.have.deep.members([]);
          })
 
-
-      });
-
-      describe('queries made using knex.raw(), as their content cannot be modified yet', async () => {
-
-         before(() => {
-            flakify(knex);
-         })
-
-         beforeEach(async () => {
-            await knex.table('bar').delete();
-            await knex.table('foo').delete();
-         })
-
-         it('actually', async () => {
-            const data = [{id: 1}];
-
-            // when
-            let actualQuery;
-            await knex.table('foo').insert(data).on('query', function (data) {
-               actualQuery = data.sql;
-            });
-
-            // then
-            const expectedQuery = 'insert into "foo" ("id") values (?)';
-            actualQuery.should.equal(expectedQuery);
-
-            // await knex.table('foo').insert(data);
-            //
-            // const rawData = await knex.raw('SELECT id FROM foo');
-            // const actualData = rawData.rows;
-            // actualData.should.have.deep.members(data);
-         })
-
       });
 
       describe('when a selected table name appears as an alias of another query', async () => {
 
          before(() => {
-            flakify(knex);
+            // flakify(knex);
          })
 
          beforeEach(async () => {
@@ -335,12 +390,12 @@ describe('flakify', () => {
 
             // when
             let actualQuery;
-            await knex.select('foo_id AS id').from({foo: 'bar'}).on('query', function (data) {
+            await knex.select('foo.id').from({foo:'bar'}).on('query', function (data) {
                actualQuery = data.sql;
             });
 
             // then
-            const expectedQuery = 'select "foo_id" as "id" from "bar" as "foo"';
+            const expectedQuery = 'select "foo"."id" from "bar" as "foo"';
             actualQuery.should.equal(expectedQuery);
 
             // const actualData = await knex.select('foo_id AS id').from( { foo: 'bar'});
