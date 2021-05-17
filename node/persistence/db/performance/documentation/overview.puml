@@ -1,0 +1,27 @@
+
+@startuml
+actor artillery #blue
+participant hapi
+participant route
+participant logger
+participant knex
+participant monitoring_database
+participant monitored_database
+
+artillery -> hapi: GET /foo/short-query\n -H 'X-Correlation-ID:1'
+hapi -> logger: new request id=b2f \n by 1 on route /short-query, version=1
+logger -> monitoring_database: INSERT INTO request\n (id, route, version, correlation_id)
+hapi -> route : execute
+route -> knex : .where().join(). \nhintComment(queryId)
+knex -> monitored_database : SELECT /*+b2f*/ FROM (..))
+monitored_database -> knex: [data]
+knex -> logger : query text + execution time
+logger -> logger: extract request id (b2f) \n from query text
+logger -> monitoring_database: INSERT INTO query \n (query_id, request_id, duration)
+knex -> route: [data]
+route -> hapi: [data]
+hapi -> logger : request 1 has finished
+logger -> monitoring_database: UPDATE request\n SET ended_at=
+hapi -> artillery: [data]
+
+@enduml
