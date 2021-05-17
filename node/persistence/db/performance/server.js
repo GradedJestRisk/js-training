@@ -1,3 +1,6 @@
+// debug only
+// require('dotenv').config()
+
 const Hapi = require('@hapi/hapi');
 const routesConfiguration = require('./code/routes');
 const repository = require('./code/repository');

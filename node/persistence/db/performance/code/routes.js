@@ -130,7 +130,7 @@ const routes = [
          const deployedVersion = request.payload.version;
          applicationPackage.version = deployedVersion;
          await repository.insertVersion(deployedVersion);
-         await repository.createIndex();
+         await repository.createIndex(request.requestId);
          console.log(`New version deployed: ${request.payload.version}`);
          return 'Done'
       }

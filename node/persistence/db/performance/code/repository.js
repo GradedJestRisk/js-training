@@ -19,9 +19,10 @@ const insertVersion = async(version)=>{
    const query = `INSERT INTO version (id) VALUES ('${version}') ON CONFLICT ON CONSTRAINT version_pkey DO NOTHING;`;
    await knexMonitoring.raw(query);
 }
-const createIndex = async()=>{
+const createIndex = async(requestId)=>{
    const query = `CREATE INDEX on foo(id);`;
-   await knexMonitored.raw(query);
+   await knexMonitored.raw(queryWithRequestId({query, requestId}));
+   //await knexMonitored.raw(query);
 }
 
 const queryWithRequestId = ({requestId, query}) => {
