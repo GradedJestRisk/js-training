@@ -17,6 +17,7 @@
     "preinstall": "npx check-engine",
     "test-dotenv": "dotenv mocha ./env-variable/dotenv.js",
     "test-dotenv-cli": "dotenv mocha ./env-variable/dotenv-cli.js",
+    "test-dotenv-cli-bash": " dotenv -- bash -c 'echo \" integer is $integer\"'",
     "test-dotenv-cli-param": " mocha ./env-variable/dotenv-cli.js",
     "test-dotenv-cli-custom-file": "dotenv -e .env.test mocha ./env-variable/dotenv-cli-custom.js"
   },
