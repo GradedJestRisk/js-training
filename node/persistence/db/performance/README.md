@@ -1,6 +1,14 @@
 # Performance
 
-## TL;DR
+Contents:
+ * [TL;DR](#tldr)
+ * [Goal](#goal)
+ * [Implementation](#implementation)
+ * [Usage](#usage)
+ * [Disclaimer](#disclaimer)
+
+
+## TLDR
 A proof-of-concept that API performance test can be done on both:
 - http request performance;
 - database request performance.
@@ -60,3 +68,105 @@ Each user is identified by a custom `X-CorrelationId` header logged with each re
 
 ### Overview
 ![overview](./documentation/overview.png)
+
+## Usage
+
+### Overview
+The logger itself use two components:
+- HTTP request logging : [request.js](./code/request.js)
+- queries logging : [knexHandlers.js](./code/knexHandlers.js)
+
+They have been plugged in a sample API and cannot be used out-of-the-box.
+
+### Sample API
+It offers some `CRUD` routes.
+```
+method  path              description
+------  ----------------  ----------------------------------
+POST    /foo              Insert data (according to payload)
+DELETE  /foo              Remove all data
+GET     /foo/long-query   Execute a SELECT query (long)
+GET     /foo/short-query  Execute a SELECT query (brief)
+PUT     /version          Deploy a new version
+```
+Note: The `/version` is used to fake a deployment
+
+### Activity
+Actual activity is simulated using the load test tool [Artillery](https://artillery.io/).
+
+The tests scenarios are the following:
+- insert a few some data and issue some simple `SELECT` queries
+- deploy a new version and issue the same queries as before
+- insert more date issue some simple `SELECT` queries
+- insert a lot of data and issue long-running `SELECT` queries (timeout included)
+
+The version deployment cause the following:
+- speed up of SQL queries, by creating an index;
+- slow down of the API itself, by faking a long calculation ( with setTimeout).
+
+### Setup
+Retrieve the repository locally.
+
+Create `.env` file using `sample.env`.
+
+### Create some activity
+Start the database and start the API: `npm start`.
+In another shell, launch the load test: `npm test`.
+
+### Get results
+When the tests are finished, check the following views.
+
+##### Aggregated results
+
+##### `query_statistics`
+All queries
+
+| query\_source | count | first\_executed | last\_executed | min\_duration\_ms | max\_duration\_ms | average\_duration\_ms | standard\_deviation\_ms |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| CREATE INDEX on foo\(id\); | 1 | 06:48:04 | 06:48:04 | 7 | 7 | 7 | 0 |
+| INSERT INTO foo \(id\) SELECT floor\(random\(\) \* 100 + | 596 | 06:47:51 | 06:48:16 | 1 | 12 | 2 | 1 |
+| SELECT id, COUNT\(1\) FROM foo GROUP BY id | 902 | 06:47:51 | 06:48:29 | 0 | 29 | 4 | 4 |
+| TRUNCATE TABLE foo | 4 | 06:47:50 | 06:48:30 | 2 | 6 | 4 | 1 |
+| select  \* from "foo" limit $1 | 902 | 06:47:51 | 06:48:29 | 0 | 10 | 0 | 1 |
+
+##### `query_version_statistics`
+All queries, grouped by version (to track down SQL queries issues caused by deployment)
+
+| query\_source | version\_no | count | first\_executed | last\_executed | min\_duration | max\_duration | average\_duration | standard\_deviation |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| CREATE INDEX on foo\(id\); | 1.0.0 | 1 | 06:48:04 | 06:48:04 | 7 | 7 | 7 | 0 |
+| INSERT INTO foo \(id\) SELECT floor\(random\(\) \* 100 + 1\)::int FROM generate\_series\( 1, 10\) | 1.0.0 | 304 | 06:47:51 | 06:48:02 | 1 | 12 | 2 | 1 |
+| SELECT id, COUNT\(1\) FROM foo GROUP BY id | 1.0.0 | 304 | 06:47:51 | 06:48:02 | 0 | 12 | 1 | 1 |
+| TRUNCATE TABLE foo | 1.0.0 | 2 | 06:47:50 | 06:48:04 | 2 | 3 | 2 | 0 |
+| select  \* from "foo" limit $1 | 1.1.1 | 598 | 06:48:04 | 06:48:29 | 0 | 8 | 0 | 0 |
+
+##### `route_version_statistics`
+All routes, grouped by version (to track down API issues caused by deployment)
+
+| route | version\_no | min | max | average |
+| :--- | :--- | :--- | :--- | :--- |
+| delete /foo | 1.0.0 | 8 | 13 | 10 |
+| delete /foo | 1.1.1 | 11 | 11 | 11 |
+| get /foo/long-query | 1.1.1 | 3037 | 3037 | 3037 |
+| get /foo/short-query | 1.0.0 | 4 | 31 | 8 |
+| get /foo/short-query | 1.1.1 | 104 | 138 | 112 |
+| post /foo | 1.0.0 | 4 | 38 | 9 |
+| post /foo | 1.1.1 | 4 | 310 | 9 |
+| put /version | 1.0.0 | 11 | 11 | 11 |
+
+##### Raw results
+
+You can browse the base tables:
+- `correlation`
+- `route`
+- `version`
+- `request`
+- `query`
+- `query_execution`
+
+![ER](./documentation/ER.png)
+
+## Disclaimer
+
+This code is not published as a npm package as it's a proof of concept.
+It has no automated test and cannot be used out-of-the box.
