@@ -64,7 +64,12 @@ describe('axios', () => {
             const flattenedCustomHeader = { 'X-foo' : 'bar' };
             const headers = { ...authorizationHeader, ...flattenedCustomHeader};
             // single header
-          // const headers: {Authorization: `Bearer ${apiKey}`},
+            // const headers = {Authorization: `Bearer ${apiKey}`},
+            // multiple headers
+            // const headers = {
+            //    Authorization: `Bearer ${apiKey}`
+            //    'X-foo': 'bar'
+            // };
             const config = {baseURL, headers};
             const response = await axios.get(endpoint, config);
 
