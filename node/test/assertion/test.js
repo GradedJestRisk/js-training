@@ -4,6 +4,7 @@ const chai = require('chai');
 // plugins
 chai.use(require('chai-string'));
 chai.use(require('chai-datetime'));
+chai.use(require('chai-asserttype'));
 
 // Choose one of these two forms
 chai.should();
@@ -232,6 +233,10 @@ describe('object', () => {
 });
 
 describe('array', () => {
+
+   it('check type (chai-asserttype plugin)',()=>{
+      expect([]).to.be.array();
+   })
 
    describe('of values', () => {
 
