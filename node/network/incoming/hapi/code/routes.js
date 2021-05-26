@@ -1,54 +1,58 @@
-const {StatusCodes} = require('http-status-codes');
-const Joi = require('joi');
+const { StatusCodes } = require('http-status-codes')
+const Joi = require('joi')
 
 const handleError = function (request, h, err) {
 
    if (err.isJoi && Array.isArray(err.details) && err.details.length > 0) {
-      const invalidItem = err.details[0];
+      const invalidItem = err.details[0]
       return h.response(`Data Validation Error. Schema violation. <${invalidItem.path}> \nDetails: ${JSON.stringify(err.details)}`)
          .code(400)
-         .takeover();
+         .takeover()
    }
 
    return h.response(err)
       .takeover()
-};
+}
 
-const routes = [{
-   method: 'GET',
-   path: '/',
-   handler: function () {
-      return 'Hello World!';
-   }
-}, {
-   method: 'POST',
-   path: '/payload',
-   config: {
-      auth: false,
-      validate: {
-         payload: Joi.object({
-            id: Joi.number().integer().required(),
-            name: Joi.string().required(),
-         }),
-         // failAction: (request, h) => {
-         //    return h.response(`Data Validation Error. Schema violation. <${invalidItem.path}> \nDetails: ${JSON.stringify(err.details)}`)
-         //       .code(400)
-         //       .takeover();
-         // },
-         //handleError
+const routes = [
+   {
+      method: 'GET',
+      path: '/',
+      config: {
+         description: 'return "Hello, world!"'
       },
-      handler: function (request) {
-         return `You sent ${JSON.stringify(request.payload)}`;
-      },
-   }
-},
+      handler: function () {
+         return 'Hello, world!'
+      }
+   }, {
+      method: 'POST',
+      path: '/payload',
+      config: {
+         description: 'validate payload and return it',
+         validate: {
+            payload: Joi.object({
+               id: Joi.number().integer().required(),
+               name: Joi.string().required(),
+            }),
+            // failAction: (request, h) => {
+            //    return h.response(`Data Validation Error. Schema violation. <${invalidItem.path}> \nDetails: ${JSON.stringify(err.details)}`)
+            //       .code(400)
+            //       .takeover();
+            // },
+            //handleError
+         },
+         handler: function (request) {
+            return `You sent ${JSON.stringify(request.payload)}`
+         },
+      }
+   },
    {
       method: 'GET',
       path: '/json',
       config: {
-         auth: false,
+         description: 'return single object in JSON',
          handler: function () {
-            return {hello: 'world'};
+            return { hello: 'world' }
          }
       }
    },
@@ -56,16 +60,33 @@ const routes = [{
       method: 'GET',
       path: '/hello/{name}',
       config: {
-         auth: false,
+         description: 'validate a string param',
          validate: {
             params: Joi.object({
-               name: Joi.required(),
+               name: Joi.string().required(),
             }),
          },
          handler: async function (request) {
-            request.server.log(['tag'], 'a message logged by /foo (logged by server.log())');
-            await request.server.events.emit('custom-event', 'emitted in /foo route');
-            return `Hello ${request.params.id}`;
+            request.server.log(['tag'], 'a message logged by /foo (logged by server.log())')
+            await request.server.events.emit('custom-event', 'emitted in /foo route')
+            return `Hello ${request.params.name}`
+         }
+      }
+   },
+   {
+      method: 'GET',
+      path: '/you/{peopleId}',
+      config: {
+         description: 'validate integer payload and return its type',
+         validate: {
+            params: Joi.object({
+               peopleId: Joi.number().integer().min(1).required(),
+            }),
+         },
+         handler: async function (request) {
+            const peopleId = request.params.peopleId
+            request.server.log(['tag'], 'a message logged by /you (logged by request.server.log())')
+            return `peopleId type is ${typeof peopleId}`
          }
       }
    },
@@ -73,11 +94,11 @@ const routes = [{
       method: 'GET',
       path: '/error/404',
       config: {
-         auth: false,
+         description: 'return HTTP 404',
          handler: function (request, h) {
-            const response = h.response('I am a faked 404');
-            response.code(StatusCodes.NOT_FOUND);
-            return response;
+            const response = h.response('I am a faked 404')
+            response.code(StatusCodes.NOT_FOUND)
+            return response
          }
       }
    },
@@ -85,11 +106,11 @@ const routes = [{
       method: 'GET',
       path: '/error/400',
       config: {
-         auth: false,
+         description: 'return HTTP 400',
          handler: function (request, h) {
-            const response = h.response('I am a faked 400');
-            response.code(StatusCodes.BAD_REQUEST);
-            return response;
+            const response = h.response('I am a faked 400')
+            response.code(StatusCodes.BAD_REQUEST)
+            return response
          }
       }
    },
@@ -97,21 +118,21 @@ const routes = [{
       method: 'GET',
       path: '/error/500',
       config: {
-         auth: false,
+         description: 'return HTTP 500',
          handler: function (request, h) {
-            const response = h.response('I am a faked 500');
-            response.code(StatusCodes.INTERNAL_SERVER_ERROR);
-            return response;
+            const response = h.response('I am a faked 500')
+            response.code(StatusCodes.INTERNAL_SERVER_ERROR)
+            return response
          }
       }
    },
    {
       method: 'GET',
-      path: '/throw-error',
+      path: '/error/throw',
       config: {
-         auth: false,
+         description: 'throw new Error()',
          handler: function () {
-            throw new Error('OMG, something bad happened!');
+            throw new Error('OMG, something bad happened!')
          }
       }
    },
@@ -119,13 +140,12 @@ const routes = [{
       method: 'GET',
       path: '/reject-promise',
       config: {
-         auth: false,
+         description: 'Promise.reject()',
          handler: async function () {
-            return Promise.reject(new Error('OMG, something bad happened!'));
+            return Promise.reject(new Error('OMG, something bad happened!'))
          }
       }
    },
-];
+]
 
-
-module.exports = routes;
+module.exports = routes

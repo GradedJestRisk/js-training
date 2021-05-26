@@ -68,6 +68,32 @@ const registerRoutes = function (server) {
 
 const registerPlugins = async function (server) {
 
+   await monitorUncatchedErrors(server);
+
+   await showStackTrace(server);
+
+   await showRoutingTableOnStartup(server);
+
+   await setupLogging(server);
+
+   await monitorServer(server);
+
+}
+
+const monitorServer = async(server)=>{
+
+   await monitorServerLocally(server);
+
+   await monitorServerRemotely(server);
+
+}
+
+const setupLogging = async(server)=>{
+   await registerLoggingWithLaabr(server);
+   await registerLoggingWithGood(server);
+}
+
+const monitorUncatchedErrors = async(server)=>{
    const sentryOptions = {
       client: {dsn: process.env.SENTRY_DSN},
    }
@@ -76,15 +102,26 @@ const registerPlugins = async function (server) {
       plugin: require('hapi-sentry'),
       options: sentryOptions,
    });
+}
 
-   await registerLoggingWithLaabr(server);
+const showStackTrace = async(server)=>{
+   await server.register({
+      plugin: require('hapi-dev-errors'),
+      options: {
+         showErrors: process.env.NODE_ENV !== 'production'
+      }
+   })
+}
 
+const showRoutingTableOnStartup = async(server)=>{
    const blippOptions = {};
    await server.register({
       plugin: require('blipp'),
       options: blippOptions
    });
+}
 
+const monitorServerLocally = async(server)=>{
    const monitoringOptions = {
       title: 'My Status Monitor',
       routeConfig: {
@@ -97,6 +134,34 @@ const registerPlugins = async function (server) {
       options: monitoringOptions
    });
 
+}
+
+const monitorServerRemotely = async(server)=>{
+
+   await exposeHealthCheck(server);
+
+   await exposePrometheus(server);
+
+}
+
+const exposePrometheus = async(server)=>{
+   const prometheusOptions = {
+      livenessProbes: {
+         status: () => Promise.resolve('Yeah !')
+      },
+      readinessProbes: {
+         sequelize: () => container.sequelize.authenticate()
+      }
+   }
+
+   await server.register({
+      plugin: require('hapi-k8s-health').HealthPlugin,
+      options: prometheusOptions
+   })
+}
+
+
+const exposeHealthCheck = async(server)=>{
    const healthcheckOptions = {
       path: '/healthcheck',
       tags: ['health', 'monitor'],
@@ -115,23 +180,6 @@ const registerPlugins = async function (server) {
       plugin: require('hapi-alive'),
       options: healthcheckOptions
    });
-
-   await registerLoggingWithGood(server);
-
-   const prometheusOptions = {
-      livenessProbes: {
-         status: () => Promise.resolve('Yeah !')
-      },
-      readinessProbes: {
-         sequelize: () => container.sequelize.authenticate()
-      }
-   }
-
-   await server.register({
-      plugin: require('hapi-k8s-health').HealthPlugin,
-      options: prometheusOptions
-   })
-
 }
 
 
