@@ -1,10 +1,11 @@
 // eslint-disable-next-line no-restricted-modules
 const fs = require('fs')
-fs.existsSync('../.eslintrc.yaml')
+fs.existsSync('../.someFile.json')
 
 const bar = () => {
-  const message = 'a 3 spaces-indented statement'
-
+  // eslint-disable-next-line no-restricted-syntax
+  const three = parseInt(3)
+  const message = `a ${three} spaces-indented statement`
   return message
   // add empty lien here to get padding-line-between-statements warning
 }
