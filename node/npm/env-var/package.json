@@ -13,20 +13,22 @@
     "debug-dotenv-cli-var": "dotenv -p string",
     "debug-dotenv-cli-file": "dotenv --debug",
     "debug-dotenv-cli-args": "dotenv -- mocha --version",
-    "node-env": "NODE_ENV=test mocha ./env-variable/node-env.js",
+    "node-env": "NODE_ENV=test mocha test/node-env.js",
     "preinstall": "npx check-engine",
-    "test-dotenv": "dotenv mocha ./env-variable/dotenv.js",
-    "test-dotenv-cli": "dotenv mocha ./env-variable/dotenv-cli.js",
-    "test-dotenv-cli-bash": " dotenv -- bash -c 'echo \" integer is $integer\"'",
-    "test-dotenv-cli-param": " mocha ./env-variable/dotenv-cli.js",
-    "test-dotenv-cli-custom-file": "dotenv -e .env.test mocha ./env-variable/dotenv-cli-custom.js"
+    "test": "npm-run-all test:**",
+    "test:dotenv": "dotenv mocha test/dotenv.js",
+    "test:dotenv-cli": "dotenv mocha test/dotenv-cli.js",
+    "test:dotenv-cli-bash": " dotenv -- bash -c 'echo \" integer is $integer\"'",
+    "test:dotenv-cli-param": " mocha test/dotenv-cli.js",
+    "test:dotenv-cli-custom-file": "dotenv -e .env.test mocha test/dotenv-cli-custom.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "check-engine": "^1.10.0",
-    "joi": "^17.4.0"
+    "joi": "^17.4.0",
+    "npm-run-all": "^4.1.5"
   },
   "devDependencies": {
     "chai": "^4.3.0",

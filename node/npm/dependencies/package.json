@@ -1,0 +1,25 @@
+{
+  "name": "dependencies",
+  "version": "1.0.0",
+  "description": "",
+  "main": "duplicates-size.js",
+  "scripts": {
+    "start": "node duplicates-size.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": "16.1.0",
+    "npm": "7.11.2"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "es6-promise": "^2.3.0",
+    "es6-promisify": "^6.1.1",
+    "find-duplicate-dependencies": "^2.1.1",
+    "pretty-bytes": "^5.6.0",
+    "uri-js": "^4.4.1"
+  }
+}
