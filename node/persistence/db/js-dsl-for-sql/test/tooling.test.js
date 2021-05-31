@@ -75,14 +75,39 @@ describe('tooling', async () => {
 
    });
 
+   // Full list http://knexjs.org/#Interfaces-Events
    describe('events', async () => {
 
       afterEach(()=>{
+         knex.removeAllListeners('start');
          knex.removeAllListeners('query');
          knex.removeAllListeners('query-response');
       })
 
-      it('*query* event is fired at each query', async () => {
+
+      it('*start* event is fired at before query is compiled', async () => {
+
+         // A start event is fired right before a query-builder is compiled.
+         // Note: While this event can be used to alter a builders state prior to compilation
+         // it is not to be recommended.
+         // Future goals include ways of doing this in a different manner such as hooks.
+
+         knex.on('start', (query) => {
+            // console.log(`start event on ${sqlQuery}`);
+            query._single.table.should.eq(tableName);
+            query._single.limit.should.eq(1);
+            // if (query.sql === 'select "recipe".* from "recipe" where "id" = ? and "correlation" = ? limit ?'){
+            //    const correlationId = query.bindings[1];
+            //    query.sql = `/*correlation=${correlationId}*/ select "recipe".* from "recipe" where "id" = ? limit ?`;
+            //    query.bindings[1] = query.bindings[2];
+            //    delete query.bindings[2];
+            // }
+         });
+
+         await knex.table(tableName).select().first();
+      })
+
+      it('*query* event is fired at before query is executed', async () => {
 
          const currentDatabaseQuery = 'SELECT * FROM current_database()';
 
@@ -90,12 +115,6 @@ describe('tooling', async () => {
             const sqlQuery = query.sql;
             // console.log(`query event on ${sqlQuery}`);
             sqlQuery.should.eq(currentDatabaseQuery);
-            // if (query.sql === 'select "recipe".* from "recipe" where "id" = ? and "correlation" = ? limit ?'){
-            //    const correlationId = query.bindings[1];
-            //    query.sql = `/*correlation=${correlationId}*/ select "recipe".* from "recipe" where "id" = ? limit ?`;
-            //    query.bindings[1] = query.bindings[2];
-            //    delete query.bindings[2];
-            // }
          });
 
          await knex.raw(currentDatabaseQuery);
