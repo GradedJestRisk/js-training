@@ -8,19 +8,19 @@
     "db:create-schema": "node ./knex/create-schema.js",
     "db:create-tables": "npx knex migrate:latest",
     "db:insert-data": "npx knex seed:run",
-    "db:migration:create" : "npx knex migrate:make",
-    "db:migration:execute" : "npx knex migrate:latest"
+    "db:migration:create": "npx knex migrate:make",
+    "db:migration:execute": "npx knex migrate:latest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "knex": "^0.21.0",
-    "pg": "^8.0.3"
+    "knex": "^0.95.6",
+    "pg": "^8.6.0"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^7.2.0"
+    "chai": "^4.3.4",
+    "mocha": "^8.4.0"
   }
 }
