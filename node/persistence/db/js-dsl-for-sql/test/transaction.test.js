@@ -18,41 +18,45 @@ describe('transaction', async () => {
       await recipeRepository.removeAll()
    })
 
-   it('error in transaction should prevent data insertion', async () => {
+   describe('transaction is aborted', async () => {
 
-      try {
-         await knex.transaction(async trx => {
-            await trx(tableName).insert(recipe)
-            await trx('unknownTable').insert(recipe)
-         })
-      } catch (error) {
-         //console.error("Error raised:" + error);
-      }
+      it('when an error is thrown', async () => {
 
-      const count = await recipeRepository.count()
-      count.should.equal(0)
+         try {
+            await knex.transaction(async trx => {
+               await trx(tableName).insert(recipe)
+               await trx('unknownTable').insert(recipe)
+            })
+         } catch (error) {
+            //console.error("Error raised:" + error);
+         }
+
+         const count = await recipeRepository.count()
+         count.should.equal(0)
+      })
+
+      it('when rollback is called', async () => {
+
+         try {
+            await knex.transaction(async trx => {
+               await trx(tableName).insert(recipe)
+               await trx.rollback()
+            })
+         } catch (error) {
+            //console.error('Error raised:' + error)
+         }
+
+         const count = await recipeRepository.count()
+         count.should.equal(0)
+
+      })
+
    })
 
-   it('call rollback in transaction should prevent data insertion', async () => {
+   it('transactions can be mixed', async () => {
 
       try {
-         await knex.transaction(async trx => {
-            await trx(tableName).insert(recipe);
-            await trx.rollback();
-         })
-      } catch (error) {
-         //console.error('Error raised:' + error)
-      }
-
-      const count = await recipeRepository.count();
-      count.should.equal(0);
-
-   })
-
-   it('call rollback in transaction does not affect other transaction', async () => {
-
-      try {
-         await knex.transaction(async trx => {
+         await knex.transaction(async (trx) => {
             await recipeRepository.create(recipe)
             await trx(tableName).insert(recipe)
             await trx.rollback()
@@ -64,39 +68,6 @@ describe('transaction', async () => {
       const count = await recipeRepository.count()
       count.should.equal(1)
 
-   })
-
-   it('is more slowly than without transaction ', async () => {
-
-      const insert = async function () {
-         return knex(tableName).insert(recipe)
-      }
-
-      const insertTransaction = async function () {
-         await knex.transaction(async trx => {
-            await trx(tableName).insert(recipe)
-         })
-      }
-      const MAX_ITERATIONS = 200
-      let currentIterationCount
-
-      const begin = Date.now()
-      currentIterationCount = 0
-      while (currentIterationCount++ <= MAX_ITERATIONS) {
-         await insert()
-      }
-      const duration = Date.now() - begin
-
-      const beginTransaction = Date.now()
-      currentIterationCount = 0
-      while (currentIterationCount++ <= MAX_ITERATIONS) {
-         await insertTransaction()
-      }
-      const durationTransaction = Date.now() - beginTransaction
-
-      // console.log('With transaction  (ms): ' + durationTransaction)
-      // console.log('Without transaction (ms): ' + duration)
-      durationTransaction.should.be.greaterThan(duration)
    })
 
    describe('transaction can return a value', async () => {
@@ -122,17 +93,17 @@ describe('transaction', async () => {
       it('when transaction fails', async () => {
 
          const RETURN_CODE = 1
-         const expectedErrorMessage = 'Transaction rejected with non-error: undefined';
+         const expectedErrorMessage = 'Transaction rejected with non-error: undefined'
 
-         let actualCode;
-         let errorMessage;
+         let actualCode
+         let errorMessage
 
          try {
             actualCode = await knex.transaction(async (trx) => {
                await trx.rollback()
             })
          } catch (error) {
-            errorMessage = error.message;
+            errorMessage = error.message
 //            console.error('Error raised in transaction:' + error)
             return RETURN_CODE
          }
@@ -141,6 +112,44 @@ describe('transaction', async () => {
          errorMessage.should.equal(expectedErrorMessage)
       })
 
+   })
+
+   it('is 20% slower (than with implicit transaction)', async () => {
+
+      const insertWithDefaultTransaction = async function () {
+         return knex(tableName).insert(recipe)
+      }
+
+      const insertWithDedicatedTransaction = async () => {
+         await knex.transaction(async (trx) => {
+            await trx(tableName).insert(recipe)
+         })
+      }
+
+      const MAX_ITERATIONS = 200;
+      let currentIterationCount;
+
+      const begin = Date.now()
+      currentIterationCount = 0
+      while (currentIterationCount++ <= MAX_ITERATIONS) {
+         await insertWithDefaultTransaction()
+      }
+      const duration = Date.now() - begin
+
+      const beginTransaction = Date.now()
+      currentIterationCount = 0
+      while (currentIterationCount++ <= MAX_ITERATIONS) {
+         await insertWithDedicatedTransaction()
+      }
+      const durationTransaction = Date.now() - beginTransaction
+
+      // console.log('With transaction  (ms): ' + durationTransaction)
+      // console.log('Without transaction (ms): ' + duration)
+
+      const quickerPercent = (durationTransaction - duration) / duration * 100;
+      durationTransaction.should.be.greaterThan(duration);
+      quickerPercent.should.be.greaterThan(20);
+      quickerPercent.should.be.below(100);
    })
 
 })
