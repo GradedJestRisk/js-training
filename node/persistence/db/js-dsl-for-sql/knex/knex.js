@@ -12,25 +12,17 @@ knexClient.prototype.query = function (connection, obj) {
    return origQuery.apply(this, arguments);
 };
 
-knex.on('start', async (response, query) => {
-   console.log('start event in knex');
-});
-
-
-knex.on('query', (query) => {
-   console.log('query event in knex');
-   // if (query.sql === 'select "recipe".* from "recipe" where "id" = ? and "correlation" = ? limit ?'){
-   //    const correlationId = query.bindings[1];
-   //    query.sql = `/*correlation=${correlationId}*/ select "recipe".* from "recipe" where "id" = ? limit ?`;
-   //    query.bindings[1] = query.bindings[2];
-   //    delete query.bindings[2];
-   // }
-});
-
-knex.on('query-response', async (response, query) => {
-   console.log('query-response event in knex');
-});
-
+// knex.on('start', async (response, query) => {
+//    console.log('start event in knex');
+// });
+//
+// knex.on('query', (query) => {
+//    console.log('query event in knex');
+// });
+//
+// knex.on('query-response', async (response, query) => {
+//    console.log('query-response event in knex');
+// });
 
 // npm install --legacy-peer-deps  knex-hooks
 // const knexHooks = require('knex-hooks');
