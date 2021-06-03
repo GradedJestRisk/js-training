@@ -1,0 +1,21 @@
+{
+   "name": "hello-postgres",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "start": "node index.js",
+      "test": "mocha --exit test.js",
+      "database:start": "docker-compose --file ./database/docker-compose.yml up --detach && sleep 1"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "dependencies": {
+      "pg": "^8.5.1"
+   },
+   "devDependencies": {
+      "chai": "^4.2.0",
+      "mocha": "^8.2.1"
+   }
+}
