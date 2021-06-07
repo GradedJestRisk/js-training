@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+
+   db:
+      image: postgres:alpine
+      container_name: database
+      restart: always
+      environment:
+         POSTGRES_DB: database
+         POSTGRES_HOST_AUTH_METHOD: trust
+      volumes:
+         - ./create-schema.sql:/docker-entrypoint-initdb.d/init.sql
+      ports:
+         - 5432:5432
+
+   zipkin:
+      image: openzipkin/zipkin
+      container_name: zipkin
+      restart: always
+      environment:
+         - JAVA_OPTS=-Dlogging.level.zipkin=DEBUG
+      ports:
+         - 9411:9411

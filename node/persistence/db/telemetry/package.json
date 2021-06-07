@@ -1,0 +1,22 @@
+{
+   "name": "telemetry",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "database:start": "docker-compose --file ./database/docker-compose.yml up --detach",
+      "start": "node index.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "dependencies": {
+      "@opentelemetry/api": "^0.20.0",
+      "@opentelemetry/exporter-zipkin": "^0.20.0",
+      "@opentelemetry/node": "^0.20.0",
+      "@opentelemetry/tracing": "^0.20.0",
+      "knex": "^0.95.6",
+      "pg": "^8.6.0"
+   }
+}
