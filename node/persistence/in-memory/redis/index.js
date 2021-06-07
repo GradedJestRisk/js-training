@@ -28,7 +28,7 @@ client.set('key2', 'value2', ()=>{
    console.log('key2 created');
 })
 client.get('key2', redis.print)
-client.del('key2', ()=>{
+client.getdel('key2', ()=>{
    console.log('key2 deleted');
 })
 client.get('key2', redis.print)
