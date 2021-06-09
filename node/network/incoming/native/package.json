@@ -1,0 +1,17 @@
+{
+  "name": "native",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+   "engines": {
+      "node": "16.1.0",
+      "npm": "7.11.0"
+   },
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

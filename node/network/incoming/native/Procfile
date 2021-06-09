@@ -1,0 +1,1 @@
+web: exec npm start
