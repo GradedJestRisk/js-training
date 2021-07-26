@@ -1,0 +1,18 @@
+{
+   "name": "db-migrate",
+   "engines": {
+      "node": "16.5.0",
+      "npm": "7.19.1"
+   },
+   "scripts": {
+      "database:start": "npm run database:instance:start && sleep 2 && npm run database:schema:create",
+      "database:instance:start": "docker-compose up --detach",
+      "database:migration:create": "db-migrate create test --sql-file",
+      "database:schema:create": "npm run database:migration:execute",
+      "database:migration:execute": "db-migrate up"
+   },
+   "dependencies": {
+      "db-migrate": "^0.11.12",
+      "db-migrate-pg": "^1.2.2"
+   }
+}

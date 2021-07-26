@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  database:
+    image: postgres:13-alpine
+    container_name: database
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: database
+      POSTGRES_HOST_AUTH_METHOD: trust
