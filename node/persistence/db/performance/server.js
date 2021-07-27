@@ -12,7 +12,7 @@ const applicationPackage = require('./package');
 const init = async () => {
 
    const server = Hapi.server({
-      port: 3000,
+      port: process.env.HAPI_PORT || 3000,
       host: 'localhost'
    });
 

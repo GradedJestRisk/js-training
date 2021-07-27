@@ -2,4 +2,5 @@ config:
   processor: "./helper.js"
   environments:
     local:
-      target: http://localhost:3000
+#      target: "{{ $processEnvironment.SERVER_URL }}"
+      target: http://localhost:3001

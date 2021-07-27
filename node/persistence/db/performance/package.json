@@ -18,8 +18,8 @@
       "start": "npm run start:database && npm run start:server",
       "start:server": "dotenv node server.js",
       "start:database": "npm run database:start-container && npm run database:create-schema",
-      "database:start-container": "docker-compose --env-file ./.env --file ./database/docker-compose.yml up --detach && sleep 1",
-      "database:create-schema": "dotenv node ./database/initialize.js",
+      "database:start-container": "docker-compose --env-file ./.env --file ./database/docker-compose.yml up --detach && sleep 3",
+      "database:create-schema": "node  -r dotenv/config ./database/initialize.js",
       "test": "npm run load-test"
    },
    "keywords": [],

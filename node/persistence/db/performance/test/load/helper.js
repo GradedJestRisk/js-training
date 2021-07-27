@@ -1,9 +1,10 @@
+const serverPort = 3001;
 const axios = require('axios');
 
 const removeAll = async (context, events, done) => {
 
    const request = {
-      url: 'http://localhost:3000/foo',
+      url: `http://localhost:${serverPort}/foo`,
       method: 'DELETE',
       configuration: {
          headers: {
@@ -24,7 +25,7 @@ const removeAll = async (context, events, done) => {
 const fakeNewVersionDeployment = async (context, events, done) => {
 
    const request = {
-      url: 'http://localhost:3000/version',
+      url: `http://localhost:${serverPort}/version`,
       method: 'PUT',
       data: {version: '1.1.1'},
       configuration: {
