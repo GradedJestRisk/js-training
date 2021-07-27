@@ -1,41 +1,44 @@
 {
-  "name": "npm",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "engines": {
-    "node": "14.15.0",
-    "npm": "6.14.8"
-  },
-  "scripts": {
-    "dotenv-precedence": "string=foo node -r dotenv/config -e \"console.log('string is :', process.env.string)\"",
-    "dotenv-external-require": "node -r dotenv/config -e \"console.log('string is :', process.env.string)\"",
-    "debug-dotenv-cli-var": "dotenv -p string",
-    "debug-dotenv-cli-file": "dotenv --debug",
-    "debug-dotenv-cli-args": "dotenv -- mocha --version",
-    "node-env": "NODE_ENV=test mocha test/node-env.js",
-    "preinstall": "npx check-engine",
-    "test": "npm-run-all test:**",
-    "test:dotenv": "dotenv mocha test/dotenv.js",
-    "test:dotenv-cli": "dotenv mocha test/dotenv-cli.js",
-    "test:dotenv-cli-bash": " dotenv -- bash -c 'echo \" integer is $integer\"'",
-    "test:dotenv-cli-param": " mocha test/dotenv-cli.js",
-    "test:dotenv-cli-custom-file": "dotenv -e .env.test mocha test/dotenv-cli-custom.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "check-engine": "^1.10.0",
-    "joi": "^17.4.0",
-    "npm-run-all": "^4.1.5"
-  },
-  "devDependencies": {
-    "chai": "^4.3.0",
-    "dotenv": "^8.2.0",
-    "dotenv-cli": "^4.0.0",
-    "dotenv-expand": "^5.1.0",
-    "ensurism": "^0.5.1",
-    "mocha": "^8.3.0"
-  }
+   "name": "npm",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "engines": {
+      "node": "14.15.0",
+      "npm": "6.14.8"
+   },
+   "scripts": {
+      "dotenv-precedence": "string=foo node -r dotenv/config -e \"console.log('string is :', process.env.string)\"",
+      "dotenv-external-require": "node -r dotenv/config -e \"console.log('string is :', process.env.string)\"",
+      "debug-dotenv-cli-var": "dotenv -p string",
+      "debug-dotenv-cli-file": "dotenv --debug",
+      "debug-dotenv-cli-args": "dotenv -- mocha --version",
+      "node-env": "NODE_ENV=test mocha test/node-env.js",
+      "preinstall": "npx check-engine",
+      "test": "npm-run-all test:**",
+      "test:dotenv": "dotenv mocha test/dotenv.js",
+      "test:dotenv:child": "node child.js",
+      "test:dotenv-cli": "dotenv mocha test/dotenv-cli.js",
+      "test:dotenv-cli-bash": "dotenv -- bash -c 'echo \" integer is $integer\"'",
+      "test:dotenv-cli-param": "mocha test/dotenv-cli.js",
+      "test:dotenv-cli-custom-file": "dotenv -e .env.test mocha test/dotenv-cli-custom.js",
+      "test:dotenv-cli:env": "dotenv env | grep string",
+      "test:dotenv-cli:shell": "dotenv zsh"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "dependencies": {
+      "check-engine": "^1.10.0",
+      "joi": "^17.4.0",
+      "npm-run-all": "^4.1.5"
+   },
+   "devDependencies": {
+      "chai": "^4.3.0",
+      "dotenv": "^8.2.0",
+      "dotenv-cli": "^4.0.0",
+      "dotenv-expand": "^5.1.0",
+      "ensurism": "^0.5.1",
+      "mocha": "^8.3.0"
+   }
 }
