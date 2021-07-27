@@ -1,6 +1,6 @@
 'use strict'
 
-const api = require('@opentelemetry/api')
+// const api = require('@opentelemetry/api')
 require('./tracer')('example-hapi-server')
 
 // eslint-disable-next-line
@@ -64,9 +64,9 @@ const posts = ['post 0', 'post 1', 'post 2']
 
 function addPost (_, h) {
    posts.push(`post ${posts.length}`)
-   const currentSpan = api.trace.getSpan(api.context.active())
-   currentSpan.addEvent('Added post')
-   currentSpan.setAttribute('Date', new Date())
+   // const currentSpan = api.trace.getSpan(api.context.active())
+   // currentSpan.addEvent('Added post')
+   // currentSpan.setAttribute('Date', new Date())
    console.log(`Added post: ${posts[posts.length - 1]}`)
    return h.redirect('/post/3')
 }
@@ -82,10 +82,10 @@ async function showNewPost (request) {
 }
 
 function runTest (_, h) {
-   const currentSpan = api.trace.getSpan(api.context.active())
-   const { traceId } = currentSpan.spanContext()
-   console.log(`traceid: ${traceId}`)
-   console.log(`Zipkin URL: http://localhost:9411/zipkin/traces/${traceId}`)
+   // const currentSpan = api.trace.getSpan(api.context.active())
+   // const { traceId } = currentSpan.spanContext()
+   // console.log(`traceid: ${traceId}`)
+   // console.log(`Zipkin URL: http://localhost:9411/zipkin/traces/${traceId}`)
    return h.redirect('/post/new')
 }
 

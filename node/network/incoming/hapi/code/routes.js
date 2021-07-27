@@ -25,6 +25,7 @@ const routes = [
          return 'Hello, world!'
       }
    }, {
+      // Can't GET with payload
       method: 'POST',
       path: '/payload',
       config: {
