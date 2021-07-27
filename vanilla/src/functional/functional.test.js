@@ -6,52 +6,52 @@ describe('Functional tests ', function () {
 
          test('shortest form, no parameter, expression', () => {
 
-            const expectedWord = 'foo';
+            const expectedWord = 'foo'
 
-            const actualWord = (() => 'foo')();
+            const actualWord = (() => 'foo')()
 
-            expect(actualWord).toStrictEqual(expectedWord);
+            expect(actualWord).toStrictEqual(expectedWord)
 
-         });
+         })
 
          test('use statements, a parameter, expression', () => {
 
-            const name = 'foo';
-            const expectedLength = 3;
+            const name = 'foo'
+            const expectedLength = 3
 
-            const actualLength = (nameParameter => nameParameter.length)(name);
+            const actualLength = (nameParameter => nameParameter.length)(name)
 
             expect(
                actualLength)
-               .toStrictEqual(expectedLength);
-         });
+               .toStrictEqual(expectedLength)
+         })
 
          test('use statements, several parameters, statement', () => {
 
-            const thisString = "Hello", thatString = ", world !";
-            const expectedString = "Hello, world !"
+            const thisString = 'Hello', thatString = ', world !'
+            const expectedString = 'Hello, world !'
 
             const actualString =
                ((aString, anotherString) => {
-                  return (aString + anotherString);
+                  return (aString + anotherString)
                })
-               (thisString, thatString);
+               (thisString, thatString)
 
-            expect(actualString).toStrictEqual(expectedString);
-         });
+            expect(actualString).toStrictEqual(expectedString)
+         })
 
          test('composed with a regular function ', () => {
 
-            const materials = ['Hydrogen', 'Helium', 'Lithium'];
-            const expectedLength = [8, 6, 7];
+            const materials = ['Hydrogen', 'Helium', 'Lithium']
+            const expectedLength = [8, 6, 7]
 
-            const actualLength = materials.map(material => material.length);
+            const actualLength = materials.map(material => material.length)
 
-            expect(actualLength).toStrictEqual(expectedLength);
+            expect(actualLength).toStrictEqual(expectedLength)
 
-         });
+         })
 
-      });
+      })
 
       describe('regular function style ', function () {
 
@@ -62,154 +62,175 @@ describe('Functional tests ', function () {
                return flag ? true : false
             }
 
-            expect(generateBoolean()).toBeBoolean();
+            expect(generateBoolean()).toBeBoolean()
 
-         });
+         })
 
          test('with parameter, use statements', () => {
 
-            const name = 'foo';
+            const name = 'foo'
 
-            const expectedGreeting = 'hello foo';
+            const expectedGreeting = 'hello foo'
 
             const actualGreeting = (function (nameParameter) {
-               return ('hello ' + nameParameter);
-            }(name));
+               return ('hello ' + nameParameter)
+            }(name))
 
-            expect(actualGreeting) .toStrictEqual(expectedGreeting);
+            expect(actualGreeting).toStrictEqual(expectedGreeting)
 
-         });
+         })
 
+      })
 
-      });
-
-
-   });
+   })
 
    describe('Map features', function () {
 
+      test('map extract properties', () => {
+
+         const people = [{
+            name: 'john',
+            age: 2
+         }, {
+            name: 'david',
+            age: 3
+         }, {
+            name: 'john',
+            age: 22
+         }]
+
+         // Long
+         // const names = people.map((person) => {
+         //    return person.name
+         // })
+
+         // Short
+         // const names = people.map(({name}) => name);
+
+         // Shorter (especially if the property is long)
+         const names = people.map((p) => p.name);
+
+         expect(names).toStrictEqual(['john', 'david', 'john'])
+
+      })
+
       test('map applies an operator on each element', () => {
 
-         const anArray = [1, 2, 3];
-         const squaredArray = [1, 4, 9];
+         const anArray = [1, 2, 3]
+         const squaredArray = [1, 4, 9]
 
          const mappedArray = anArray.map(function (elem) {
             return elem * elem
-         });
+         })
 
-         expect(mappedArray).toStrictEqual(squaredArray);
+         expect(mappedArray).toStrictEqual(squaredArray)
 
-      });
+      })
 
       test('map on async returns Promise', async () => {
 
-         const anArray = [1, 2, 3];
-         const squaredArray = [1, 4, 9];
+         const anArray = [1, 2, 3]
+         const squaredArray = [1, 4, 9]
 
          const mappedArray = await Promise.all(
             anArray.map((elem) => {
                   return new Promise((resolve) => {
-                     resolve(elem * elem);
+                     resolve(elem * elem)
                   })
                }
             )
-         );
+         )
 
-         expect(mappedArray).toStrictEqual(squaredArray);
+         expect(mappedArray).toStrictEqual(squaredArray)
 
-      });
+      })
 
-
-
-
-   });
+   })
 
    describe('Reduce features', function () {
 
-
       test('reduce applies an operator on all elements ', () => {
 
-         const anArray = [1, 2, 3];
-         const arrayTotal = 1 + 2 + 3;
+         const anArray = [1, 2, 3]
+         const arrayTotal = 1 + 2 + 3
 
          expect(
             anArray.reduce(function (total, elem) {
                return elem + total
             }, 0)
-         ).toBe(arrayTotal);
+         ).toBe(arrayTotal)
 
-      });
+      })
 
-   });
+   })
 
    describe('Filter features', function () {
 
       test('filter keep all elements matching a condition ', () => {
 
-         const anArray = [1, 2, 3, 4];
-         const arrayWithEvenNumber = [2, 4];
+         const anArray = [1, 2, 3, 4]
+         const arrayWithEvenNumber = [2, 4]
 
          const filteredArray = anArray.filter(function (elem) {
-            return elem % 2 === 0;
-         });
+            return elem % 2 === 0
+         })
 
-         expect(filteredArray).toStrictEqual(arrayWithEvenNumber);
+         expect(filteredArray).toStrictEqual(arrayWithEvenNumber)
 
-      });
+      })
 
       test('filter keep all elements matching a condition ', () => {
 
-         const anArray = [1, 2, 3, 4];
-         const arrayWithEvenNumber = [2, 4];
+         const anArray = [1, 2, 3, 4]
+         const arrayWithEvenNumber = [2, 4]
 
          const filteredArray = anArray.filter(function (elem) {
-            return elem % 2 === 0;
-         });
+            return elem % 2 === 0
+         })
 
-         expect(filteredArray).toStrictEqual(arrayWithEvenNumber);
+         expect(filteredArray).toStrictEqual(arrayWithEvenNumber)
 
-      });
+      })
 
-
-   });
+   })
 
    describe('Closure features', function () {
 
       test('Closure store environnement ', () => {
 
-         function createMultiplier(x) {
+         function createMultiplier (x) {
             return function (y) {
-               return x * y;
+               return x * y
             }
          }
 
-         const multiplier = 2;
-         const multiplied = 3;
+         const multiplier = 2
+         const multiplied = 3
 
-         const multiplierByTwo = createMultiplier(multiplier);
+         const multiplierByTwo = createMultiplier(multiplier)
 
-         const expectedResult = multiplier * multiplied;
-         const actualResult = multiplierByTwo(multiplied);
+         const expectedResult = multiplier * multiplied
+         const actualResult = multiplierByTwo(multiplied)
 
-         expect(actualResult).toStrictEqual(expectedResult);
+         expect(actualResult).toStrictEqual(expectedResult)
 
-      });
+      })
 
       test('Closure (fat arrow form) ', () => {
 
-         const createMultiplier = x => y => x * y;
+         const createMultiplier = x => y => x * y
 
-         const multiplier = 2;
-         const multiplied = 3;
+         const multiplier = 2
+         const multiplied = 3
 
-         const multiplierByTwo = createMultiplier(multiplier);
+         const multiplierByTwo = createMultiplier(multiplier)
 
-         const expectedResult = multiplier * multiplied;
-         const actualResult = multiplierByTwo(multiplied);
+         const expectedResult = multiplier * multiplied
+         const actualResult = multiplierByTwo(multiplied)
 
-         expect(actualResult).toStrictEqual(expectedResult);
+         expect(actualResult).toStrictEqual(expectedResult)
 
-      });
+      })
 
       test('Closure (object alternative) ', () => {
 
@@ -218,45 +239,75 @@ describe('Functional tests ', function () {
             multiplier: 0,
 
             multiply: function (multiplied) {
-               return (this.multiplier * multiplied);
+               return (this.multiplier * multiplied)
             }
          }
 
          const multiplier = 2
-         multiplierObject.multiplier = multiplier;
+         multiplierObject.multiplier = multiplier
 
-         const multiplied = 3;
+         const multiplied = 3
 
-         const expectedResult = multiplier * multiplied;
+         const expectedResult = multiplier * multiplied
 
-         const actualResult = multiplierObject.multiply(multiplied);
+         const actualResult = multiplierObject.multiply(multiplied)
 
-         expect(actualResult).toStrictEqual(expectedResult);
+         expect(actualResult).toStrictEqual(expectedResult)
 
-      });
+      })
 
       test('Nested closure is still a closure', async () => {
 
          const people = [
-            { name: 'John', friends : ['Tina', 'Paul']},
-            { name: 'Tina', friends : ['John', 'Beth']}
-         ];
+            {
+               name: 'John',
+               friends: ['Tina', 'Paul']
+            },
+            {
+               name: 'Tina',
+               friends: ['John', 'Beth']
+            }
+         ]
 
-         const expectedIntroduction =[
-            ["John is a friend of Tina",  "John is a friend of Paul"],
-            [ "Tina is a friend of John", "Tina is a friend of Beth"]
-         ];
+         const expectedIntroduction = [
+            ['John is a friend of Tina', 'John is a friend of Paul'],
+            ['Tina is a friend of John', 'Tina is a friend of Beth']
+         ]
 
          const introduction = people.map((person) => {
             return person.friends.map((friend) => {
                return `${person.name} is a friend of ${friend}`
             })
-         });
+         })
 
-         expect(introduction).toStrictEqual(expectedIntroduction);
+         expect(introduction).toStrictEqual(expectedIntroduction)
 
-      });
+      })
 
-   });
+   })
 
-});
+   describe('Set features', function () {
+
+      test('Set contains unique values', () => {
+
+         const people = [{
+            name: 'john',
+            age: 2
+         }, {
+            name: 'david',
+            age: 3
+         }, {
+            name: 'john',
+            age: 22
+         }]
+
+         const names = [...new Set(people.map(({name}) => name))];
+
+         expect(names).toStrictEqual(['john', 'david']);
+
+         expect(people.length).not.toBe(names.length)
+
+      })
+   })
+
+})
