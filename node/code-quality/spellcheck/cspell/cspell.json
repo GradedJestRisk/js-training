@@ -1,0 +1,22 @@
+{
+   "version": "0.1",
+   "language": "en,fr",
+   "words": [
+      "ullo"
+   ],
+   "flagWords": [
+      "morning"
+   ],
+   "dictionaries": [
+      "custom"
+   ],
+   "dictionaryDefinitions": [
+      {
+         "name": "custom",
+         "path": "./dictionaries/custom.txt"
+      }
+   ],
+   "import": [
+      "@cspell/dict-fr-fr/cspell-ext.json"
+   ]
+}

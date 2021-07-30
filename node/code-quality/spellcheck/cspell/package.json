@@ -1,0 +1,21 @@
+{
+   "name": "cspell",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "test": "npm run test:all",
+      "test:all": "cspell src/**/*.js",
+      "test:single": "npm run test:single:line-annotation; npm run test:single:file-annotation",
+      "test:single:line-annotation": "cspell src/line-annotation.js",
+      "test:single:file-annotation": "cspell src/file-annotation.js",
+      "test:single:dictionnary": "cspell src/external-dictionnary.js"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "dependencies": {
+      "@cspell/dict-fr-fr": "^1.2.21",
+      "cspell": "^5.6.6"
+   }
+}
