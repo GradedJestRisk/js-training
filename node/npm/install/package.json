@@ -5,8 +5,16 @@
       "npm": "6.14.8"
    },
    "scripts": {
-      "test": "installed-check",
-      "readme": "add line mocha:latest to package.json devDependencies: npm test should fail"
+      "test": "npm run readme && npm run check",
+      "check": "installed-check",
+      "readme": "echo add line \"mocha\": \"^9.0.3\" to package.json devDependencies: npm test should fail",
+      "chaining": "npm run chaining:level-one -- --fix",
+      "chaining:level-one": "echo \"level-one.sh arguments: $@\" && npm run chaining:level-two:first-child && npm run chaining:level-two:second-child",
+      "chaining:level-two:first-child": "./chaining/first-child.sh",
+      "chaining:level-two:second-child": "./chaining/second-child.sh",
+      "chaining:manual": "./chaining/level-one.sh --fix",
+      "chaining:single": "npm run chaining:single:level-one -- --fix",
+      "chaining:single:level-one": "echo \"level-one.sh arguments: $@\""
    },
    "devDependencies": {
       "installed-check": "^4.0.0"
