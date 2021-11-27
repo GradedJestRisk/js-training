@@ -13,7 +13,8 @@ const pinoPrettyOptions = {
 }
 
 const logger = pino({
-   prettyPrint: pinoPrettyOptions
+   redact: ['password'],
+   // prettyPrint: pinoPrettyOptions
 })
 
 logger.info('Use 6 log levels: trace, debug, info, warn, error, fatal');
@@ -35,6 +36,10 @@ logger.info(new Error("I am an error"))
 logger.info('Display child');
 const child = logger.child({ a: 'property' });
 child.info('hello child!');
+
+logger.info('Will log an object with mySECRET in property named password');
+logger.info('This property has been set up for redaction');
+logger.info({ user : 'John', password: 'mySECRET'})
 
 
 
