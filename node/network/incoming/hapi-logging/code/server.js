@@ -62,9 +62,14 @@ const enableLogging = async function (server) {
          prettyPrint = true;
       }
 
+      // check https://github.com/pinojs/hapi-pino#optionsserializers--key-string-pinoserializerfn
+      // to skip headers
       const loggingOptions = {
          prettyPrint,
-         ignoredEventTags
+         ignoredEventTags,
+         logRequestComplete: process.env.LOG_REQUEST ==='true',
+         logQueryParams: process.env.LOG_QUERY_PARAMS==='true',
+         logPayload: process.env.LOG_PAYLOAD === 'true'
       };
 
       await server.register({

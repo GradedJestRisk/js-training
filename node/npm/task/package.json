@@ -1,0 +1,14 @@
+{
+   "name": "task",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "test:echo": "echo \"NODE_ENV = $NODE_ENV\" && exit 0",
+      "test:echo-and-subtask": "echo \"NODE_ENV = $NODE_ENV\" && npm run test:echo",
+      "test": "NODE_ENV=test npm run test:echo-and-subtask"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC"
+}

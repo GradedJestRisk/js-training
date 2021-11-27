@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hapi/hapi": "^20.2.1",
     "chalk": "^4.1.1",
     "colors": "^1.4.0",
     "default-shell": "^1.0.1",
