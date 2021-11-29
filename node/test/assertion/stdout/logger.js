@@ -1,6 +1,9 @@
-const buildLogger = (tag) => {
+const buildLogger = ({ tag, disableLogs }) => {
    return {
       log: (message) => {
+         if(disableLogs) {
+            return
+         }
          if (tag) {
             console.log(`[${tag}] ${message}`)
          } else {
