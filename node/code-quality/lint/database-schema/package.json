@@ -1,0 +1,20 @@
+{
+  "name": "database-schema",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint:db" : "schemalint",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:migrate": "knex migrate:latest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "schemalint": "^0.5.6"
+  },
+  "dependencies": {
+    "knex": "^0.95.6"
+  }
+}

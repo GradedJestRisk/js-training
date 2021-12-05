@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
-console.log('hello, world!')
+console.log('meow, world!')
 process.exit(0)

@@ -1,2 +1,2 @@
-console.log('hello, world!')
+console.log('woof, world!')
 process.exit(0)
