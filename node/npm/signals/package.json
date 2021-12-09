@@ -1,0 +1,11 @@
+{
+   "name": "signals",
+   "version": "1.0.0",
+   "description": "Check https://github.com/npm/npm/issues/4603",
+   "main": "catch-signal.js",
+   "scripts": {
+      "catch-signal": "node catch-signal",
+      "issue-4603": "node issue-4603"
+   },
+   "license": "ISC"
+}
