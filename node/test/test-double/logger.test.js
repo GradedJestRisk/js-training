@@ -209,14 +209,33 @@ describe('stub log calls and return values', () => {
       const name = 'world';
       let actual;
 
-      beforeEach(() => {
+      it('should return the expected value', () => {
          const name = 'world';
          actual = myGreeter.greet(name);
-      });
-      it('should return the expected value', () => {
          expect(actual).to.equal(expected);
          expect(myStub.getCall(0).args[0]).to.equal(name);
       });
+
+      describe('assertions (sinon-chai)', ()=>{
+         // https://www.chaijs.com/plugins/sinon-chai/
+         it('calledWith', () => {
+            const name = 'world';
+            myGreeter.greet(name);
+            expect(myStub).to.have.been.calledWith(name);
+         });
+         it('calledWithExactly', () => {
+            const name = { name: 'world' };
+            myGreeter.greet(name);
+            expect(myStub).to.have.been.calledWithExactly(name);
+         });
+         it('alwaysCalledWith', () => {
+            myGreeter.greet('world');
+            myGreeter.greet('world');
+            sinon.assert.alwaysCalledWith(myStub, 'world');
+         });
+      })
+
+
 
       it('should spy call', () => {
          expect(myStub.getCall(0).args[0]).to.equal(name);
