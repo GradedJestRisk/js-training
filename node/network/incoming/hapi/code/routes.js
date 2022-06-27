@@ -1,5 +1,9 @@
 const { StatusCodes } = require('http-status-codes')
-const Joi = require('joi')
+const Joi = require('joi');
+
+function sleep(ms) {
+   return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 const handleError = function (request, h, err) {
 
@@ -144,6 +148,30 @@ const routes = [
          description: 'Promise.reject()',
          handler: async function () {
             return Promise.reject(new Error('OMG, something bad happened!'))
+         }
+      }
+   },
+   {
+      method: 'GET',
+      path: '/wait',
+      config: {
+         description: 'returns 200 after half a minute',
+         handler: async function (request,h) {
+            const HALF_MINUTE = 30 * 1000;
+            await sleep(HALF_MINUTE);
+            return h.response().code(StatusCodes.OK);
+         }
+      }
+   },
+   {
+      method: 'GET',
+      path: '/stop-server',
+      config: {
+         description: 'stop http server',
+         handler: async function (request,h) {
+            const oneSecond= 1 * 1000;
+            await request.server.stop({timeout: oneSecond});
+            return h.response().code(StatusCodes.NOT_FOUND);
          }
       }
    },

@@ -275,4 +275,24 @@ context('conditional', () => {
 
    })
 
+   context('in context', () => {
+
+      it('should work', () => {
+         // given
+         const isActive = true;
+         const object = { configuration: 'someValue' }
+
+         // when
+         const schema = Joi.object({
+            configuration: Joi.when('a', {
+               is: Joi.exist(),
+               then: Joi.required()
+            })
+         })
+         const { error } = schema.validate(object)
+
+         // then
+         expect(error).to.be.undefined
+      })
+
 })

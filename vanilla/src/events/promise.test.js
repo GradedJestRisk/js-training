@@ -95,6 +95,40 @@ describe('promise', () => {
 
       // what about an error throwned in reject ?
 
+      it('its all method wait for an array of promises to be resolved', async () => {
+
+         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+
+         const promise1 = Promise.resolve(3);
+         // same as
+         // const promise1 = new Promise((resolve)=>resolve(3));
+
+         const promise2 = 42;
+         const promise3 = new Promise((resolve) => {
+            setTimeout(resolve, 100, 'foo');
+         });
+
+         await Promise.all([promise1, promise2, promise3]).then((values) => {
+            expect(values).toEqual([3,42,'foo']);
+         });
+
+         //
+         // let i = 'bar';
+         // const handlePromise = function (secondsToWait) {
+         //    return new Promise( (resolve) => {
+         //       setTimeout(()=>{
+         //             // i = 'foo';
+         //             // console.log(`${secondsToWait} seconds have been waited for`);
+         //          resolve;
+         //       }, secondsToWait * 1000);
+         //    });
+         // };
+         //
+         // await Promise.all[handlePromise(2), handlePromise(1)];
+         // expect(i).toEqual('foo')
+
+      })
+
    })
 
    describe('async/await', () => {
@@ -115,19 +149,11 @@ describe('promise', () => {
          it('on success, return the resolved value', async () => {
 
             const foo = async(argument)=>{
-               console.log('in foo');
-               return 'foo' || ' ' || argument;
+               return `foo ${argument}`;
             };
 
-            const bar = async()=>{
-               console.log('in bar, calling foo');
-               const value = await foo('you');
-               console.log('in bar, after calling foo');
-               return bar || ' ' || value;
-            };
-
-            const value = await bar()
-            expect(value).toEqual(expectedReturnValue)
+            const value = await foo('bar')
+            expect(value).toEqual('foo bar')
 
          })
 

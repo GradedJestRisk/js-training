@@ -1,6 +1,6 @@
 const axios = require('axios')
 const chai = require('chai');
-const nock = require('nock')
+const nockTest = require('nock')
 
 const expect = chai.expect
 chai.should();
@@ -15,7 +15,7 @@ describe('should intercept and reply to http calls', async () => {
          const baseUrl = 'https://httpbin.org';
          const route = '/get';
 
-         nock.disableNetConnect();
+         nockTest.disableNetConnect();
 
          // when
          try {
@@ -40,7 +40,7 @@ describe('should intercept and reply to http calls', async () => {
 
          const OK_RESPONSE_STATUS = 200;
 
-         const remoteAPICall = nock(baseUrl)
+         const remoteAPICall = nockTest(baseUrl)
             .get(route)
             .reply(OK_RESPONSE_STATUS, {});
 
@@ -61,7 +61,7 @@ describe('should intercept and reply to http calls', async () => {
 
          const OK_RESPONSE_STATUS = 200;
 
-         nock(baseUrl)
+         nockTest(baseUrl)
             .get(route)
             .reply(OK_RESPONSE_STATUS, {});
 
@@ -90,7 +90,7 @@ describe('should intercept and reply to http calls', async () => {
 
          const OK_RESPONSE_STATUS = 200;
 
-         const remoteAPICall = nock(baseUrl)
+         const remoteAPICall = nockTest(baseUrl)
             .get(route)
             .reply(OK_RESPONSE_STATUS, {});
 
@@ -98,7 +98,7 @@ describe('should intercept and reply to http calls', async () => {
 
          // then
          remoteAPICall.isDone().should.be.false;
-         expect(nock.pendingMocks()).to.deep.equal(['GET https://httpbin.org:443/get']);
+         expect(nockTest.pendingMocks()).to.deep.equal(['GET https://httpbin.org:443/get']);
 
       });
 
@@ -116,7 +116,7 @@ describe('should intercept and reply to http calls', async () => {
 
          const OK_RESPONSE_STATUS = 200;
 
-         const mailjetCall = nock(baseUrl)
+         const mailjetCall = nockTest(baseUrl)
             .get(route)
             .reply(OK_RESPONSE_STATUS, {});
 

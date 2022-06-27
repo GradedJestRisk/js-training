@@ -35,12 +35,17 @@ describe('timestamp', () => {
          expect(dateString).toStrictEqual('Fri, 02 Feb 1996 03:04:05 GMT')
       })
 
+      test('#toUTCString use YYYY-MM-DD format', () => {
+         const dateString = new Date().toISOString().substring(0, 10);
+         expect(dateString).toStrictEqual('2022-02-12')
+      })
+
       test('#getTime returns milliseconds since epoch', () => {
          const date = new Date('December 20, 2017 11:20:25')
          expect(date.getTime()).toStrictEqual(1513765225000)
       })
 
-      test('#get extract portions', () => {
+      test('#get<UNIT> extract portions', () => {
 
          const year = 1996
          const monthOrdinal = 2

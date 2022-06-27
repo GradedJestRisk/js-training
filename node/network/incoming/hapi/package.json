@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "start:watch": "nodemon index.js",
     "start:bunyan": "LOG_BUNYAN=yes node index.js | ./node_modules/.bin/bunyan",
     "start:ops-metrics": "node ./code/ops-metrics.js",
     "test": "mocha --recursive ./tests/**-test.js",
