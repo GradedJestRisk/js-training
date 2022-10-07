@@ -1,16 +1,13 @@
-const axios = require('axios')
+const axios = require('axios');
 const chai = require('chai');
-const nockTest = require('nock')
+const nockTest = require('nock');
 
-const expect = chai.expect
+const expect = chai.expect;
 chai.should();
 
 describe('should intercept and reply to http calls', async () => {
-
    describe('on httpbin.org', async () => {
-
       it('disableNetConnect() throws an error on any call', async () => {
-
          let response;
          const baseUrl = 'https://httpbin.org';
          const route = '/get';
@@ -21,19 +18,19 @@ describe('should intercept and reply to http calls', async () => {
          try {
             await axios.get(baseUrl + route);
          } catch (nockError) {
-            error = nockError
+            error = nockError;
          }
 
          // then
          expect(error.code).to.equal('ENETUNREACH');
-         expect(error.message).to.equal('Nock: Disallowed net connect for "httpbin.org:443/get"');
+         expect(error.message).to.equal(
+            'Nock: Disallowed net connect for "httpbin.org:443/get"'
+         );
          expect(error.config.method).to.equal('get');
          expect(error.config.url).to.equal(baseUrl + route);
-
       });
 
       it('on first call', async () => {
-
          let response;
          const baseUrl = 'https://httpbin.org';
          const route = '/get';
@@ -50,20 +47,16 @@ describe('should intercept and reply to http calls', async () => {
          // then
          response.status.should.equal(OK_RESPONSE_STATUS);
          remoteAPICall.isDone().should.be.true;
-
       });
 
       it('throw error on second call', async () => {
-
          let error;
          const baseUrl = 'https://httpbin.org';
          const route = '/get';
 
          const OK_RESPONSE_STATUS = 200;
 
-         nockTest(baseUrl)
-            .get(route)
-            .reply(OK_RESPONSE_STATUS, {});
+         nockTest(baseUrl).get(route).reply(OK_RESPONSE_STATUS, {});
 
          await axios.get(baseUrl + route);
 
@@ -71,7 +64,7 @@ describe('should intercept and reply to http calls', async () => {
          try {
             await axios.get(baseUrl + route);
          } catch (nockError) {
-            error = nockError
+            error = nockError;
          }
 
          // then
@@ -79,11 +72,9 @@ describe('should intercept and reply to http calls', async () => {
          expect(error.status).to.equal(404);
          expect(error.config.method).to.equal('get');
          expect(error.config.url).to.equal(baseUrl + route);
-
       });
 
       it('isDone() should be false if expected call dit not occurred', async () => {
-
          let response;
          const baseUrl = 'https://httpbin.org';
          const route = '/get';
@@ -98,18 +89,16 @@ describe('should intercept and reply to http calls', async () => {
 
          // then
          remoteAPICall.isDone().should.be.false;
-         expect(nockTest.pendingMocks()).to.deep.equal(['GET https://httpbin.org:443/get']);
-
+         expect(nockTest.pendingMocks()).to.deep.equal([
+            'GET https://httpbin.org:443/get',
+         ]);
       });
-
    });
 
    describe('on external API', async () => {
-
       it('to valid URL', async () => {
-
          const SibApiV3Sdk = require('sib-api-v3-sdk');
-         const api = new SibApiV3Sdk.AccountApi()
+         const api = new SibApiV3Sdk.AccountApi();
 
          const baseUrl = 'https://api.sendinblue.com';
          const route = '/v3/account';
@@ -124,14 +113,11 @@ describe('should intercept and reply to http calls', async () => {
 
          // then
          mailjetCall.isDone().should.be.true;
-
       });
    });
-
 });
 
 describe('unmocked call', async () => {
-
    it.skip('to valid URL can be sniffed', async () => {
       // monkey-patch
       // https://chatbotsmagazine.com/track-outgoing-http-s-requests-in-nodejs-48608553f03c
@@ -145,11 +131,10 @@ describe('unmocked call', async () => {
          console.log(req.host, req.body);
          // call the original 'request' function
          return originalRequest.apply(this, arguments);
-      }
+      };
    });
 
    it('to valid URL', async () => {
-
       let response;
       const baseUrl = 'https://httpbin.org';
       const route = '/get';
@@ -161,11 +146,9 @@ describe('unmocked call', async () => {
 
       // then
       response.status.should.equal(OK_RESPONSE_STATUS);
-
    });
 
    it('to invalid URL', async () => {
-
       let response;
       const baseUrl = 'https://httpbin.org';
       const route = '/foo';
@@ -181,7 +164,5 @@ describe('unmocked call', async () => {
 
       // then
       response.status.should.equal(NOT_FOUND_RESPONSE_STATUS);
-
    });
-
 });

@@ -356,6 +356,30 @@ describe('promise (with chai-as-promised', () => {
 
       return invert(value).should.eventually.equal(value * -1)
    })
+
+
+   const chai = require('chai')
+   const expect = chai.expect
+   chai.use(require('chai-as-promised'))
+
+// Always succeeds
+   async function wins() {
+      return 'Winner'
+   }
+
+// Always fails with an error
+   async function fails() {
+      throw new Error('Contrived Error')
+   }
+
+   it('wins() returns Winner', async () => {
+      expect(await wins()).to.equal('Winner')
+   })
+
+   it('fails() throws Error', async () => {
+      await expect(fails()).to.be.rejectedWith(Error)
+   })
+
 })
 
 describe('corner case', () => {

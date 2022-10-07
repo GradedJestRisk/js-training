@@ -1,16 +1,15 @@
 {
-  "name": "scheduling",
+  "name": "sonic-boom",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node schedule.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cron": "^2.1.0",
-    "dayjs": "^1.9.4"
+    "sonic-boom": "^3.0.0"
   }
 }

@@ -6,10 +6,10 @@ const logLevels = {
    INFO: 'info',
    WARN: 'warn',
    ERROR: 'error',
-   FATAL: 'fatal'
-}
+   FATAL: 'fatal',
+};
 const defaultLogLevel = logLevels.TRACE;
-const logger = bunyan.createLogger({name: "myapp", level: defaultLogLevel});
+const logger = bunyan.createLogger({ name: 'myapp', level: defaultLogLevel });
 
 // https://github.com/trentm/node-bunyan#levels
 logger.info('Use 6 log levels: trace, debug, info, warn, error, fatal');
@@ -31,50 +31,49 @@ logger.info('Call info');
 logger.info('Info: world');
 
 logger.info('Use object');
-logger.info({foo: 'bar'}, 'hi');
+logger.info({ foo: 'bar' }, 'hi');
 
 logger.info('Use child logger');
 
-function Wuzzle({logger}) {
-   this.logger = logger.child({widget_type: 'wuzzle'});
-   this.logger.info('creating a wuzzle')
+function Wuzzle({ logger }) {
+   this.logger = logger.child({ widget_type: 'wuzzle' });
+   this.logger.info('creating a wuzzle');
 }
 
 Wuzzle.prototype.woos = function () {
-   this.logger.warn('This wuzzle is woosey.')
-}
+   this.logger.warn('This wuzzle is woosey.');
+};
 
 logger.info('start');
-const wuzzle = new Wuzzle({logger});
+const wuzzle = new Wuzzle({ logger });
 wuzzle.woos();
 logger.info('done');
 
-
 const httpRequest = function (request) {
    return `Got ${request.method} on ${request.url} authenticated with ${request.headers.authentication}`;
-}
+};
 
 const formattedLogger = bunyan.createLogger({
    name: 'myapp',
    serializers: {
-      request: httpRequest
-   }
+      request: httpRequest,
+   },
 });
-
 
 const aRequest = {
    method: 'GET',
    url: 'http://foo.com/bar',
    headers: {
       'content-type': 'JSON',
-      'authentication': 'Bearer Token 54a5d454azd6'
-   }
+      authentication: 'Bearer Token 54a5d454azd6',
+   },
 };
 
 logger.info(aRequest, 'Incoming request');
 
 formattedLogger.info(
    {
-      request: aRequest
+      request: aRequest,
    },
-   'Incoming request');
+   'Incoming request'
+);

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_DEBUG=redis node index.js",
-    "start:server": "NODE_DEBUG=redis node src/server.js",
+    "start:server": "NODE_DEBUG=module,redis node src/server.js",
     "test": "mocha --exit --recursive tests"
   },
   "keywords": [],
