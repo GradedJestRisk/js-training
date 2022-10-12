@@ -11,5 +11,5 @@ const fs = require("fs")
 if (fs.existsSync("../.eslintrc.yaml")) {
   // ../.eslintrc indent 2 space rule is used
   // eslint-disable-next-line indent
- console.log("foo!")
+  console.log("foo!")
 }

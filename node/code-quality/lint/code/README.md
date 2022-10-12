@@ -12,7 +12,7 @@ This is a file to test markdown linting.
 
 ```js
 // This gets linted - indent to check an error is raised
-var answer = 6 * 7
+const answer = 6 * 7
 console.log(answer)
 ```
 

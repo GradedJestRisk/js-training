@@ -5,6 +5,8 @@ module.exports = {
   },
   extends: [
     'plugin:markdown/recommended',
+    'plugin:mocha/recommended',
+    'plugin:chai-expect/recommended',
     'standard'
   ],
   parserOptions: {
@@ -15,7 +17,7 @@ module.exports = {
     'no-restricted-modules': ['error', { paths: ['fs', './src/to-be-restricted-on-import'] }],
     'no-restricted-syntax': ['error', {
       selector:
-            "CallExpression[callee.name='parseInt']",
+            'CallExpression[callee.name=\'parseInt\']',
       message: 'Use Joi to describe incoming request formats'
     }],
     'padding-line-between-statements': [
