@@ -1,5 +1,5 @@
 const foo = function () {
-  console.log('foo !')
-}
+   console.log('foo !');
+};
 
-export { foo }
+export { foo };

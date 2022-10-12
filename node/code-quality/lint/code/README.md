@@ -12,8 +12,8 @@ This is a file to test markdown linting.
 
 ```js
 // This gets linted - indent to check an error is raised
-const answer = 6 * 7
-console.log(answer)
+const answer = 6 * 7;
+console.log(answer);
 ```
 
 Some text
@@ -23,10 +23,10 @@ Some text
 
 /* eslint quotes: [2, "double"] */
 
-function hello () {
-  console.log("Hello, world!")
+function hello() {
+  console.log("Hello, world!");
 }
-hello()
+hello();
 ```
 
 ## Subtitle
