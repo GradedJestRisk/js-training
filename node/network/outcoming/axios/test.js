@@ -187,10 +187,12 @@ describe('axios', () => {
       it('should open socket keep-alive', async function() {
          this.timeout(100000);
          const waitForThatMilliseconds = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-
          const { Agent } = require('https');
+
+         // given
+         const keepAlive = false;
          const axiosInstance = axios.create({
-            httpsAgent: new Agent({ keepAlive: true })
+            httpsAgent: new Agent({ keepAlive })
          });
 
          // check open sockets with ss --tcp --all --options --resolve

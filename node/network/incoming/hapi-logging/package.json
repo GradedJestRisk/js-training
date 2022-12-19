@@ -6,6 +6,7 @@
    "scripts": {
       "start": "nodemon index.js",
       "generate-traffic": "watch -n 5 curl localhost:3000/foo",
+      "generate-heavy-traffic": "siege -c 10 http://localhost:3000/foo",
       "test": "mocha --recursive ./tests/**-test.js"
    },
    "keywords": [],
@@ -24,5 +25,13 @@
       "chai": "^4.3.4",
       "mocha": "^8.3.2",
       "nodemon": "^2.0.20"
+   },
+   "nodemonConfig": {
+      "signal": "SIGTERM",
+      "watch": [
+         "code",
+         "index.js",
+         ".env"
+      ]
    }
 }

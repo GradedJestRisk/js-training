@@ -1,0 +1,26 @@
+{
+   "name": "dependencies",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "test": "mocha --recursive test",
+      "lint": "npm run lint:dependencies",
+      "lint:dependencies": "npm run lint:dependencies:unused-dependencies && npm run lint:dependencies:unused-exports",
+      "lint:dependencies:unused-dependencies": "depcheck",
+      "lint:dependencies:unused-exports": "find-unused-exports",
+      "local:test:coverage": "nyc npm test"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "devDependencies": {
+      "chai": "^4.3.7",
+      "depcheck": "^1.4.3",
+      "mocha": "^10.2.0",
+      "nyc": "^15.1.0"
+   },
+   "dependencies": {
+      "cowsay": "^1.5.0"
+   }
+}

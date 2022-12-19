@@ -1,7 +1,8 @@
 const chai = require('chai');
 const sinon = require('sinon');
-const Logger = require('../src/logger');
-const fizzBuzz = require('../src/fizzbuzz');
+const Logger = require('../../src/logger');
+const fizzBuzz = require('../../src/fizzbuzz');
+const cat = require('../../src/cat');
 
 const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
@@ -83,12 +84,12 @@ describe('spy logs calls', () => {
          messages = [
             {
                text: 'message 1',
-               level: 'info',
+               level: 'info'
             },
             {
                text: 'message 2',
-               level: 'fatal',
-            },
+               level: 'fatal'
+            }
          ];
 
          beforeEach(() => {
@@ -107,15 +108,15 @@ describe('spy logs calls', () => {
             loggerSpy
                .getCall(0)
                .args.should.be.deep.equal([
-                  messages[0].text,
-                  messages[0].level,
-               ]);
+               messages[0].text,
+               messages[0].level
+            ]);
          });
 
          it('firstCall.args contains the first call arguments', () => {
             loggerSpy.firstCall.args.should.be.deep.equal([
                messages[0].text,
-               messages[0].level,
+               messages[0].level
             ]);
          });
 
@@ -254,22 +255,57 @@ describe('stub log calls and return values', () => {
       });
    });
 
-   describe('on a module (exports is a function)', () => {
-      it('does not work', () => {
-         // Given
-         const fizzBuzzStub = sinon.stub(fizzBuzz);
+   describe('on a module', () => {
 
-         // When
-         fizzBuzz(3);
+      describe('direct dependencies', () => {
+         describe('exports is a function', () => {
+            it('does not work', () => {
+               // Given
+               const fizzBuzzStub = sinon.stub(fizzBuzz);
 
-         // Then
-         try {
-            sinon.assert.calledOnce(fizzBuzzStub);
-         } catch (error) {
-            expect(error.message).to.equal('undefined is not stubbed');
-         }
-      });
-   });
+               // When
+               fizzBuzz(3);
+
+               // Then
+               try {
+                  sinon.assert.calledOnce(fizzBuzzStub);
+               } catch (error) {
+                  expect(error.message).to.equal('undefined is not stubbed');
+               }
+            });
+         });
+         describe('exports is an object', () => {
+            it('can stub a function used inside - the hard way', () => {
+               // Given
+               const catMeowStub = sinon.stub(cat, 'meow').returns('woof');
+
+               // When
+               const data = cat.talk();
+
+               // Then
+               expect(data).to.equal('woof');
+               expect(catMeowStub).to.have.been.called;
+            });
+            it('can stub a function used inside - the easy way without any mock', () => {
+               // Given
+               // No stub
+
+               // When
+               const data = cat.say(() => {
+                  return 'woof';
+               });
+
+               // Then
+               expect(data).to.equal('woof');
+            });
+         });
+      })
+
+      describe('transitive dependencies', () => {
+         // check ./module
+      })
+
+   })
 
    describe('mock log call, return values, check assertions', () => {
       // https://sinonjs.org/releases/latest/mocks/

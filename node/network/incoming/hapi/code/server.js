@@ -52,76 +52,90 @@ const start = async () => {
    server.log('info', 'native log event (info level) emitted in start()');
    server.log('trace', 'native log event (trace level) emitted in start()');
 
+   // https://futurestud.io/downloads/hapi/request-lifecycle
+   server.ext('onPreHandler', (request, h) => {
+      console.log(`handler about to be called on ${request.route.method} to ${request.route.path}`);
+      return h.continue;
+   });
+
    return server;
 };
 
-const createServer = function () {
+const createServer = function() {
    return Hapi.server({
       port: 3000,
       host: 'localhost'
    });
-}
+};
 
-const registerRoutes = function (server) {
+const registerRoutes = function(server) {
    server.route(routesConfiguration);
-}
+};
 
-const registerPlugins = async function (server) {
+const registerPlugins = async function(server) {
 
-   await monitorUncatchedErrors(server);
+   // await monitorUncatchedErrors(server);
 
-   await showStackTrace(server);
+   // await showStackTrace(server);
 
    await showRoutingTableOnStartup(server);
 
-   await setupLogging(server);
+   // await setupLogging(server);
 
    await monitorServer(server);
 
-}
+   process.on('uncaughtException', (err, origin) => {
+      console.log('Caught exception:', err, 'Exception origin:', origin);
+   });
 
-const monitorServer = async(server)=>{
+   process.on('unhandledRejection', (reason, promise) => {
+      console.log('Unhandled Rejection at:', promise, 'reason:', reason);
+   });
+
+};
+
+const monitorServer = async (server) => {
 
    await monitorServerLocally(server);
 
    await monitorServerRemotely(server);
 
-}
+};
 
-const setupLogging = async(server)=>{
+const setupLogging = async (server) => {
    await registerLoggingWithLaabr(server);
    await registerLoggingWithGood(server);
-}
+};
 
-const monitorUncatchedErrors = async(server)=>{
+const monitorUncatchedErrors = async (server) => {
    const sentryOptions = {
-      client: {dsn: process.env.SENTRY_DSN},
-   }
+      client: { dsn: process.env.SENTRY_DSN }
+   };
 
    await server.register({
       plugin: require('hapi-sentry'),
-      options: sentryOptions,
+      options: sentryOptions
    });
-}
+};
 
-const showStackTrace = async(server)=>{
+const showStackTrace = async (server) => {
    await server.register({
       plugin: require('hapi-dev-errors'),
       options: {
          showErrors: process.env.NODE_ENV !== 'production'
       }
-   })
-}
+   });
+};
 
-const showRoutingTableOnStartup = async(server)=>{
+const showRoutingTableOnStartup = async (server) => {
    const blippOptions = {};
    await server.register({
       plugin: require('blipp'),
       options: blippOptions
    });
-}
+};
 
-const monitorServerLocally = async(server)=>{
+const monitorServerLocally = async (server) => {
    const monitoringOptions = {
       title: 'My Status Monitor',
       routeConfig: {
@@ -134,17 +148,17 @@ const monitorServerLocally = async(server)=>{
       options: monitoringOptions
    });
 
-}
+};
 
-const monitorServerRemotely = async(server)=>{
+const monitorServerRemotely = async (server) => {
 
    await exposeHealthCheck(server);
 
    await exposePrometheus(server);
 
-}
+};
 
-const exposePrometheus = async(server)=>{
+const exposePrometheus = async (server) => {
    const prometheusOptions = {
       livenessProbes: {
          status: () => Promise.resolve('Yeah !')
@@ -152,25 +166,24 @@ const exposePrometheus = async(server)=>{
       readinessProbes: {
          sequelize: () => container.sequelize.authenticate()
       }
-   }
+   };
 
    await server.register({
       plugin: require('hapi-k8s-health').HealthPlugin,
       options: prometheusOptions
-   })
-}
+   });
+};
 
-
-const exposeHealthCheck = async(server)=>{
+const exposeHealthCheck = async (server) => {
    const healthcheckOptions = {
       path: '/healthcheck',
       tags: ['health', 'monitor'],
       responses: {
          healthy: {
             message: 'Server up and running'
-         },
+         }
       },
-      healthCheck: async function (server) {
+      healthCheck: async function(server) {
          //throw new Error('Server not healthy');
          return true;
       }
@@ -180,8 +193,7 @@ const exposeHealthCheck = async(server)=>{
       plugin: require('hapi-alive'),
       options: healthcheckOptions
    });
-}
-
+};
 
 const registerLoggingWithGood = async (server) => {
 
@@ -210,7 +222,7 @@ const registerLoggingWithGood = async (server) => {
       response: '*',
       log: '*',
       ops: '*'
-   }
+   };
 
    if (!logRequests) {
       delete eventToKeep.response;
@@ -227,7 +239,7 @@ const registerLoggingWithGood = async (server) => {
       ops: {
          interval: eachFiveSecond
       }
-   }
+   };
 
    if (!logCustom) {
       goodOptions.reporters = {
@@ -235,24 +247,24 @@ const registerLoggingWithGood = async (server) => {
             {
                module: 'good-squeeze',
                name: 'Squeeze',
-               args: [eventToKeep],
+               args: [eventToKeep]
             },
             {
                module: '@hapi/good-console'
             },
             'stdout'
          ]
-      }
+      };
 
    } else {
 
       class aLogTransformer extends Stream.Transform {
 
-         constructor() {
-            super({objectMode: true});
+         constructor () {
+            super({ objectMode: true });
          }
 
-         _transform(data, enc, next) {
+         _transform (data, enc, next) {
             const now = dayjs().format('HH:mm:ss');
 
             if (data.event === 'log' && logMessage) {
@@ -270,25 +282,25 @@ const registerLoggingWithGood = async (server) => {
 
                let colorName;
                const httpStatutsCodePrefix = data.statusCode.toString()[0];
-               if(httpStatutsCodePrefix === '2'){
+               if (httpStatutsCodePrefix === '2') {
                   colorName = 'green';
-               } else if (httpStatutsCodePrefix === '4'){
+               } else if (httpStatutsCodePrefix === '4') {
                   colorName = 'orange';
-               } else if (httpStatutsCodePrefix === '5'){
+               } else if (httpStatutsCodePrefix === '5') {
                   colorName = 'red';
                }
                const color = chalk.keyword(colorName);
 
                // custom format, manual pretty-printing
                // 14:27:01 - [response] GET /error/400 400
-               const message = `${now} - [${data.event}] ${data.method.toUpperCase()} ${data.path} ${color(data.statusCode)} \n`
+               const message = `${now} - [${data.event}] ${data.method.toUpperCase()} ${data.path} ${color(data.statusCode)} \n`;
                return next(null, message);
             }
 
             if (data.event === 'ops' && logServerState) {
                // Original library format (but time)
                // 210502/124403.691, [ops] memory: 65Mb, uptime (seconds): 5.417715824, load: [0.9208984375,1.36669921875,1.20654296875]
-               const message = `${now}: [${data.event}] memory: ${ Math.trunc(data.proc.mem.rss / (1024 * 1024)) }Mb, uptime (seconds): ${data.proc.uptime}, load: [${data.os.load.join()}] \n`
+               const message = `${now}: [${data.event}] memory: ${Math.trunc(data.proc.mem.rss / (1024 * 1024))}Mb, uptime (seconds): ${data.proc.uptime}, load: [${data.os.load.join()}] \n`;
 
                return next(null, message);
             }
@@ -302,19 +314,16 @@ const registerLoggingWithGood = async (server) => {
             new aLogTransformer(),
             'stdout'
          ]
-      }
+      };
 
    }
-
 
    await server.register({
       plugin: require('@hapi/good'),
       options: goodOptions
    });
 
-
-}
-
+};
 
 const registerLoggingWithLaabr = async (server) => {
 
@@ -325,8 +334,8 @@ const registerLoggingWithLaabr = async (server) => {
    }
 
    const loggingOptions = {
-      formats: {onPostStart: ':time :start :level :message'},
-      tokens: {start: () => '[start]'},
+      formats: { onPostStart: ':time :start :level :message' },
+      tokens: { start: () => '[start]' },
       indent: 0,
       colored: true
    };
@@ -334,23 +343,22 @@ const registerLoggingWithLaabr = async (server) => {
    if (logUsingLaabr) {
       await server.register({
          plugin: require('laabr'),
-         options: loggingOptions,
+         options: loggingOptions
       });
    }
 
 };
 
-
 const registerCustomEvents = (server) => {
    server.event(customEvent);
    server.events.on(customEvent, (update) => console.log(`custom event ${customEvent} received, got: ${update} (logged by console.log)`));
-}
+};
 
 const registerNativeEvents = (server) => {
 
    // a server-related event
    server.events.on('start', () => {
-      console.log("Server started (got 'start' event, logged by console.log)");
+      console.log('Server started (got \'start\' event, logged by console.log)');
    });
 
    // a request-related event
@@ -361,9 +369,9 @@ const registerNativeEvents = (server) => {
    // a message-related event
    server.events.on('log', (message) => {
 
-      const formattedMessage= `[${message.tags[0]}] ${message.data} (got 'log' event)`;
+      const formattedMessage = `[${message.tags[0]}] ${message.data} (got 'log' event)`;
 
-      if(logBunyan){
+      if (logBunyan) {
 
          const logLevels = {
             TRACE: 'trace',
@@ -372,9 +380,12 @@ const registerNativeEvents = (server) => {
             WARN: 'warn',
             ERROR: 'error',
             FATAL: 'fatal'
-         }
+         };
          const defaultLogLevel = logLevels.TRACE;
-         const logger = bunyan.createLogger({name: "hapi", level: defaultLogLevel});
+         const logger = bunyan.createLogger({
+            name: 'hapi',
+            level: defaultLogLevel
+         });
 
          logger.info(formattedMessage + '(logged by bunyan)');
       } else {
@@ -382,7 +393,9 @@ const registerNativeEvents = (server) => {
       }
    });
 
-}
+};
 
-
-module.exports = {initialize, start};
+module.exports = {
+   initialize,
+   start
+};

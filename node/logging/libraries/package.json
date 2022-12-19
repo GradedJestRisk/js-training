@@ -17,7 +17,7 @@
    "license": "ISC",
    "dependencies": {
       "bunyan": "^1.8.15",
-      "pino": "^8.2.0"
+      "pino": "^8.7.0"
    },
    "devDependencies": {
       "chai": "^4.3.6",
