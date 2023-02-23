@@ -1,0 +1,8 @@
+{
+    "name": "esm",
+    "type": "module",
+    "scripts": {
+        "start": "node --experimental-specifier-resolution=node --trace-warnings foobar.js",
+        "start:anonymous": "node --experimental-specifier-resolution=node --trace-warnings anonymous.js"
+    }
+}

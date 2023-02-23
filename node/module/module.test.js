@@ -2,13 +2,13 @@ const chai = require('chai');
 const expect = require('chai').expect;
 
 const firstImport = require('./module.js');
-let mutableStringFirstImport = firstImport.mutableString
+let mutableStringFirstImport = firstImport.mutableString;
 const immutableStringFirstImport = firstImport.immutableString;
 const mutableObjectFirstImport = firstImport.object;
 const nextIntegerFirstImport = firstImport.nextInteger;
 
 const secondImport = require('./module.js');
-let mutableStringSecondImport = secondImport.mutableString
+let mutableStringSecondImport = secondImport.mutableString;
 const mutableObjectSecondImport = secondImport.object;
 const nextIntegerSecondImport = secondImport.nextInteger;
 
@@ -22,8 +22,8 @@ describe('module.exports', () => {
     });
 
     it('should import the same values', () => {
-        mutableStringFirstImport.should.equal("initialMutableState");
-        mutableStringSecondImport.should.equal("initialMutableState");
+        mutableStringFirstImport.should.equal('initialMutableState');
+        mutableStringSecondImport.should.equal('initialMutableState');
     });
 
 });
@@ -37,8 +37,8 @@ describe('require', () => {
     });
 
     it('should import the same values', () => {
-        mutableStringFirstImport.should.equal("initialMutableState");
-        mutableStringSecondImport.should.equal("initialMutableState");
+        mutableStringFirstImport.should.equal('initialMutableState');
+        mutableStringSecondImport.should.equal('initialMutableState');
     });
 
 });
@@ -46,7 +46,7 @@ describe('require', () => {
 describe('immutableData', () => {
     it('should not be allowed to change', () => {
         expect(() => {
-            immutableStringFirstImport = "newState";
+            immutableStringFirstImport = 'newState';
         }).to.throw('Assignment to constant variable.');
     });
 });
@@ -54,13 +54,13 @@ describe('immutableData', () => {
 describe('mutableData', () => {
 
     it('state is not shared, when require returns a value (primitive type), not a reference', () => {
-        mutableStringFirstImport = "mutatedStateOnFirstImport";
-        mutableStringSecondImport.should.equal("initialMutableState");
+        mutableStringFirstImport = 'mutatedStateOnFirstImport';
+        mutableStringSecondImport.should.equal('initialMutableState');
     });
 
     it('state is shared, when require returns a reference (object)', () => {
-        mutableObjectFirstImport.string = "mutatedStateOnFirstImport";
-        mutableObjectSecondImport.string.should.equal(mutableObjectFirstImport.string);
+        mutableObjectFirstImport.string = 'mutatedStateOnFirstImport';
+        mutableObjectSecondImport.string.should.equal('mutatedStateOnFirstImport');
     });
 
     it('private state is shared', () => {
