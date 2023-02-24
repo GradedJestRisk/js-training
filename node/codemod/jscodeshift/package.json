@@ -1,0 +1,13 @@
+{
+   "name": "jscodeshift",
+   "type": "commonjs",
+   "scripts": {
+      "apply:dry": "jscodeshift --dry --transform src/foo-to-bar.js input/named-export.js",
+      "apply": "jscodeshift --transform src/foo-to-bar.js input/named-export.js"
+   },
+   "devDependencies": {
+      "chai": "^4.3.7",
+      "jscodeshift": "^0.14.0",
+      "mocha": "^10.2.0"
+   }
+}
