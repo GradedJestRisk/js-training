@@ -2,7 +2,7 @@
    "name": "jscodeshift",
    "type": "commonjs",
    "scripts": {
-      "apply:dry": "jscodeshift --dry --transform src/foo-to-bar.js input/named-export.js",
+      "apply:dry": "jscodeshift --transform src/foo-to-bar.js input/named-export.js --dry",
       "apply": "jscodeshift --transform src/foo-to-bar.js input/named-export.js"
    },
    "devDependencies": {

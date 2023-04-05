@@ -1,2 +1,2 @@
-const bar = 'bar';
-module.exports = { bar };
+const exportNamed = 'bar';
+module.exports = { exportNamed };

@@ -1,4 +1,2 @@
-// const { bar } = require('./foo.js');
-// work
-const { bar } = require('/foo.js');
+const { exportNamed } = require('./export-named.js');
 console.log(bar);

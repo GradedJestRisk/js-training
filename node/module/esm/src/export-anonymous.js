@@ -1,6 +1,7 @@
 const bar = 'bar';
 const baz = 2;
-export {
+
+export default {
     bar,
     baz
 };
