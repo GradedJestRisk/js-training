@@ -1,0 +1,21 @@
+{
+   "name": "vanilla",
+   "version": "1.0.0",
+   "description": "",
+   "type": "module",
+   "main": "index.js",
+   "scripts": {
+      "test": "mocha --recursive --exit tests",
+      "start": "node source/index.js"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "devDependencies": {
+      "chai": "^4.3.7",
+      "mocha": "^10.2.0"
+   },
+   "dependencies": {
+      "lodash": "^4.17.21"
+   }
+}

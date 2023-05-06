@@ -1,4 +1,5 @@
 const bar = 'bar';
+const baz = 2;
 
 const asynchronous = async function() {
     setTimeout(() => {
@@ -8,7 +9,6 @@ const asynchronous = async function() {
 
 await asynchronous();
 
-const baz = 2;
 export {
     bar,
     baz
