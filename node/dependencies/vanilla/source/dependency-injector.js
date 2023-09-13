@@ -5,28 +5,16 @@ const {
    mapValues
 } = lodash;
 
-import * as aDependency from './dependencies/a-dependency.js';
-import * as anotherDependency from './dependencies/another-dependency.js';
-
-const dependencies = {
-   aDependency,
-   anotherDependency
-};
-
-import { aComponent } from './components/a-component.js';
-import { anotherComponent } from './components/another-component.js';
-
-const components = {
-   aComponent,
-   anotherComponent
-};
+import { dependencies } from './dependencies/dependencies.js';
+import { components } from './components/components.js';
 
 const injectDefaults = (defaults, targetFn) => {
    return (args) => targetFn(Object.assign(Object.create(defaults), args));
 };
 
 function injectDependencies (components) {
-   return mapValues(components, partial(injectDefaults, dependencies));
+   const aFunction = partial(injectDefaults, dependencies);
+   return mapValues(components, aFunction);
 }
 
 const componentsWithInjectedDependencies = injectDependencies(components);

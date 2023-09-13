@@ -38,7 +38,7 @@ const scheduleTask = ({
    })
 }
 
-API here => https://github.com/kelektiv/node-cron#api
+// API here => https://github.com/kelektiv/node-cron#api
 const cron1 = new CronJob(eachSecond, function () {
    const now = dayjs().format(timeFormat)
    console.log(now + ': I am cron1, scheduled each second - - pattern is:' + eachSecond)
