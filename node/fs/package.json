@@ -1,7 +1,8 @@
 {
    "name": "fs",
    "scripts": {
-      "start": "node index.js"
+      "read-directory": "node read-directory.js",
+      "basics": "node basics.js"
    },
    "type": "module"
 }

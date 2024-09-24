@@ -1,0 +1,44 @@
+# https://hub.docker.com/r/bitnami/postgresql
+# docker compose --file docker-compose.16.bitnami.yml up --renew-anon-volumes --force-recreate
+# psql --dbname "host=localhost port=5432 user=username password=password123"
+# https://github:com/bitnami/containers/blob/main/bitnami/postgresql/12/debian-11/Dockerfile:
+
+# Connect to container
+# docker exec --user root --tty --interactive postgresql bash
+
+##########################
+# Customize configuration
+##########################
+
+# https://github.com/bitnami/containers/blob/main/bitnami/postgresql/README.md#configuration-file
+
+# Extract configuration
+# docker cp postgresql:/opt/bitnami/postgresql/conf/postgresql.conf .
+
+# Store in a dedicated folder
+# cp postgresql.conf eight-connexions
+# sudo chown 1001:1001 database-configurations/eight-connexions/
+
+# Add to volumes
+
+# Check it worked
+# npm run start-database
+# psql --dbname "host=localhost port=5432 user=username password=password123 dbname=postgres" -c "SHOW max_connections"
+
+# If you change a parameter tagged "# (change requires restart)", restart the container
+# npm run start-database
+
+services:
+  postgresql:
+    container_name: postgresql
+    image: docker.io/bitnami/postgresql:16
+    ports:
+      - '5432:5432'
+#    https://github.com/bitnami/containers/blob/main/bitnami/postgresql/README.md#customizable-environment-variables
+    environment:
+      - POSTGRESQL_USERNAME=username
+      - POSTGRESQL_PASSWORD=password123
+      - POSTGRESQL_POSTGRES_PASSWORD=password123
+    volumes:
+      - ./database-configurations/eight-connexions/:/bitnami/postgresql/conf/
+

@@ -1,0 +1,15 @@
+{
+  "name": "concurrency",
+  "scripts": {
+    "pool": "node pool.js",
+    "grant-statistics": "psql --dbname \"host=localhost port=5432 user=postgres password=password123 dbname=postgres\" -c \"GRANT pg_read_all_stats TO username;\"",
+    "start-database": "docker compose up --force-recreate --renew-anon-volumes postgresql",
+    "watch": "psql --dbname \"host=localhost port=5432 user=username password=password123 dbname=postgres\" -f watch.sql"
+  },
+  "license": "ISC",
+  "description": "Show how concurrency can be handled on database client",
+  "type": "module",
+  "dependencies": {
+    "pg": "^8.13.0"
+  }
+}

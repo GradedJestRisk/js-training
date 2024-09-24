@@ -1,0 +1,17 @@
+{
+  "name": "text",
+  "version": "1.0.0",
+  "main": "diff.js",
+  "scripts": {
+    "diff": "node diff.js",
+    "print-special": "node special.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "colors": "^1.4.0",
+    "diff": "^5.2.0"
+  }
+}
