@@ -2,7 +2,17 @@
 
 Demonstrate how contention may occur in database client.
 
-## Start container
+Pre-requisites:
+- nvm
+- psql, pgbench
+
+## Setup
+
+Install the libraries.
+```shell
+nvm use .
+npm install
+```
 
 In [.env](.env), locate `POSTGRESQL_MAX_CONNECTIONS`.
 Set it to the maximum number of connections you want your database to accept at the same time.
@@ -19,7 +29,83 @@ Then start the container
 npm run start-database
 ```
 
-## Benchmark using no data
+## Test maximum connection
+
+### As superuser
+
+Try connecting as many times as possible in superuser in separate terminals (5 times)
+```shell
+npm run console:superuser
+```
+
+You'll get the message as you reach `POSTGRESQL_MAX_CONNECTIONS`
+```text
+sorry, too many clients already
+```
+
+Disconnect in one terminal and try connecting as a user
+```shell
+npm run console
+```
+
+You''l get
+```text
+FATAL:  remaining connection slots are reserved for roles with the SUPERUSER attribute
+```
+
+You'll have to disconnect until you get only 2 superuser connected.
+Then you will be able to connect.
+
+Executing this query, you'll see that superuser connect to a different database.
+```shell
+npm run list-connexions
+```
+So the connexions count in `POSTGRESQL_MAX_CONNECTIONS` is for all databases.
+
+
+### As user
+
+Disconnect everyone
+```shell
+npm run terminate-all-connexions
+```
+
+
+## Benchmark from terminal
+
+### Monitor
+
+Each in one terminal
+```shell
+npm run running-queries
+npm run executed-queries
+```
+
+### Create dataset
+
+Add some data to query the database against (2 minutes, 3 GB, 100 millions records).
+```shell
+npm run create-big-table
+```
+
+### Query concurrently
+
+Execute in 2 connexions, 10 transactions per connexion (total 20)
+```shell
+npm run select-big-table-many-times
+```
+
+Check:
+- running queries
+- executed queries
+
+Reset the statistics
+```shell
+npm run reset-statistics
+```
+
+
+## Benchmark from application
 
 ### Monitor
 
@@ -28,7 +114,6 @@ Each in one terminal
 npm run database-log
 npm run running-queries
 ```
-
 
 ### Start queries
 
@@ -50,29 +135,8 @@ npm run pool:one
 
 Check they're executed in parallel, two of them.
 
-## Benchmark using data
 
-### Monitor
-
-Each in one terminal
-```shell
-npm run running-queries
-npm run executed-queries
-```
-
-### Create dataset
-
-Add some data to query the database against (2 minutes, 3 GB, 100 millions records).
-```shell
-npm run create-big-table
-```
-
-Check:
-- running queries
-- executed queries
-
-
-## Locks
+## Identify locks
 
 ### Monitor
 
@@ -118,7 +182,7 @@ Close forcefully the connexion
 SELECT pg_terminate_backend(13666);
 ```
 
-## Cache
+## Peek into the cache
 
 ### Monitor
 

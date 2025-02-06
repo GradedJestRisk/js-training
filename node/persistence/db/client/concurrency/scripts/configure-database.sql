@@ -1,7 +1,20 @@
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
-GRANT pg_read_all_stats TO "user";
+DROP OWNED BY "user";
+DROP DATABASE IF EXISTS "database";
+DROP USER IF EXISTS "user" ;
+CREATE USER "user" WITH PASSWORD 'password';
+CREATE DATABASE "database";
+ALTER DATABASE "database" OWNER TO "user";
 
-CREATE EXTENSION pg_buffercache;
+\c database
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+GRANT SELECT ON pg_stat_statements to "user";
+
+CREATE EXTENSION IF NOT EXISTS pg_buffercache;
+GRANT SELECT ON pg_buffercache to "user";
+GRANT EXECUTE ON FUNCTION pg_buffercache_pages() TO "user";
+
+GRANT pg_read_all_stats TO "user";
 
 CREATE OR REPLACE VIEW blocking_tree AS
 WITH RECURSIVE
@@ -149,5 +162,4 @@ SELECT concat(lpad('=> ', 4*depth, ' '),pid::text) AS "PID"
 FROM blocking_lock
 ORDER BY seq;
 
-
-
+GRANT SELECT ON blocking_tree to "user";
