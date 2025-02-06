@@ -1,6 +1,6 @@
 // https://node-postgres.com/features/pooling
-import pg from 'pg'
-const { Pool } = pg
+import pg from 'pg';
+const { Pool } = pg;
 
 const pool = new Pool({
    host: 'localhost',
@@ -12,7 +12,7 @@ const pool = new Pool({
    max: 3,
    idleTimeoutMillis: 30000,
    connectionTimeoutMillis: 0,
-})
+});
 
 // await pool.query('SELECT pg_sleep(1)')
 // await pool.query('SELECT pg_sleep(2)')
@@ -22,8 +22,8 @@ const pool = new Pool({
 await Promise.all([
    pool.query('SELECT pg_sleep(10)'),
    pool.query('SELECT pg_sleep(11)'),
-   pool.query('SELECT pg_sleep(12)')
+   pool.query('SELECT pg_sleep(12)'),
 ]);
 
-console.log("all queries executed !");
+console.log('all queries executed !');
 await pool.end();

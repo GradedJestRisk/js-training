@@ -1,15 +1,27 @@
 {
-  "name": "concurrency",
-  "scripts": {
-    "pool": "node pool.js",
-    "grant-statistics": "psql --dbname \"host=localhost port=5432 user=postgres password=password123 dbname=postgres\" -c \"GRANT pg_read_all_stats TO username;\"",
-    "start-database": "docker compose up --force-recreate --renew-anon-volumes postgresql",
-    "watch": "psql --dbname \"host=localhost port=5432 user=username password=password123 dbname=postgres\" -f watch.sql"
-  },
-  "license": "ISC",
-  "description": "Show how concurrency can be handled on database client",
-  "type": "module",
-  "dependencies": {
-    "pg": "^8.13.0"
-  }
+   "name": "concurrency",
+   "engines": {
+      "node": "23.7.0",
+      "npm": "10.9.2"
+   },
+   "scripts": {
+      "lint": "prettier . --check",
+      "lint:fix": "prettier . --write",
+      "preinstall": "check-engine",
+      "pool": "node pool.js",
+      "grant-statistics": "psql --dbname \"host=localhost port=5432 user=postgres password=password123 dbname=postgres\" -c \"GRANT pg_read_all_stats TO username;\"",
+      "start-database": "docker compose up --force-recreate --renew-anon-volumes postgresql",
+      "watch": "psql --dbname \"host=localhost port=5432 user=username password=password123 dbname=postgres\" -f watch.sql"
+   },
+   "license": "ISC",
+   "description": "Show how concurrency can be handled on database client",
+   "type": "module",
+   "dependencies": {
+      "@dotenvx/dotenvx": "^1.34.0",
+      "check-engine": "^1.14.0",
+      "pg": "^8.13.0"
+   },
+   "devDependencies": {
+      "prettier": "^3.4.2"
+   }
 }
