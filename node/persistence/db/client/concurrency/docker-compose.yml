@@ -1,44 +1,23 @@
-# https://hub.docker.com/r/bitnami/postgresql
-# docker compose --file docker-compose.16.bitnami.yml up --renew-anon-volumes --force-recreate
-# psql --dbname "host=localhost port=5432 user=username password=password123"
-# https://github:com/bitnami/containers/blob/main/bitnami/postgresql/12/debian-11/Dockerfile:
-
-# Connect to container
-# docker exec --user root --tty --interactive postgresql bash
-
-##########################
-# Customize configuration
-##########################
-
-# https://github.com/bitnami/containers/blob/main/bitnami/postgresql/README.md#configuration-file
-
-# Extract configuration
-# docker cp postgresql:/opt/bitnami/postgresql/conf/postgresql.conf .
-
-# Store in a dedicated folder
-# cp postgresql.conf eight-connexions
-# sudo chown 1001:1001 database-configurations/eight-connexions/
-
-# Add to volumes
-
-# Check it worked
-# npm run start-database
-# psql --dbname "host=localhost port=5432 user=username password=password123 dbname=postgres" -c "SHOW max_connections"
-
-# If you change a parameter tagged "# (change requires restart)", restart the container
-# npm run start-database
-
 services:
-  postgresql:
-    container_name: postgresql
-    image: docker.io/bitnami/postgresql:16
-    ports:
-      - '5432:5432'
-#    https://github.com/bitnami/containers/blob/main/bitnami/postgresql/README.md#customizable-environment-variables
-    environment:
-      - POSTGRESQL_USERNAME=username
-      - POSTGRESQL_PASSWORD=password123
-      - POSTGRESQL_POSTGRES_PASSWORD=password123
-    volumes:
-      - ./database-configurations/eight-connexions/:/bitnami/postgresql/conf/
 
+   postgresql:
+      image: postgres:${POSTGRESQL_IMAGE_VERSION}
+      container_name: concurrency
+      ports:
+         - "${POSTGRESQL_EXPOSED_PORT}:${POSTGRESQL_INTERNAL_PORT}"
+      environment:
+         POSTGRES_USER: ${POSTGRESQL_USER_NAME}
+         POSTGRES_PASSWORD: ${POSTGRESQL_USER_PASSWORD}
+         POSTGRES_DB: ${POSTGRESQL_DATABASE_NAME}
+      #    https://www.postgresql.org/docs/current/app-postgres.html
+      command: postgres -c shared_preload_libraries='pg_stat_statements' -c log_statement='all' -c log_min_duration_statement=0 -c max_connections=${POSTGRESQL_MAX_CONNECTIONS}
+      healthcheck:
+         test: "psql --dbname \"host=localhost port=${POSTGRESQL_INTERNAL_PORT} dbname=${POSTGRESQL_DATABASE_NAME} user=${POSTGRESQL_USER_NAME} password=${POSTGRESQL_USER_PASSWORD}\""
+         interval: 1s
+         timeout: 10s
+         retries: 20
+      deploy:
+         resources:
+            limits:
+               cpus: '${POSTGRESQL_CPU_COUNT}'
+               memory: 1G

@@ -1,0 +1,26 @@
+----------------------------------------
+-- Safety
+----------------------------------------
+
+-- Queries in write mode are disabled
+SET default_transaction_read_only = ON;
+
+-- Queries, lasting more than 10 seconds, will be cancelled
+SET statement_timeout = 10000;
+
+-- Queries, locking a resource that someone less asked for, for more than 1 second, will be cancelled
+SET lock_timeout = 1000
+
+----------------------------------------
+-- Display
+----------------------------------------
+\pset null 'NULL'
+\set enable_write 'SET default_transaction_read_only = OFF;'
+\set remove_query_timeout 'SET statement_timeout = 0;'
+\set whoami 'WITH info AS ( SELECT CURRENT_USER AS user, CURRENT_DATABASE() AS database, current_setting(\'application_name\') AS application ) SELECT \'You are connected as user \' || info.user || \' on database \'  || info.database || \' with application \' || info.application FROM info;'
+\! clear
+\! echo "Connected to \033[0;32m $APP \033[0m database"
+\echo 'You are restricted to run read-only queries not exceeding 1 minute'
+\echo 'Type :enable_write to issue SELECT/INSERT/UPDATE queries'
+\echo 'Type :remove_query_timeout to let query run as long as necessary'
+\echo 'Type :whoami to get details on current connection'
