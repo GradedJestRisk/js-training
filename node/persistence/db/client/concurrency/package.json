@@ -13,7 +13,7 @@
       "pool:two": "dotenvx run --env MAX_CONNECTIONS=2 -- node pool.js",
       "help": "dotenvx run --help",
       "start-database": "npm run stop-database && npm run start-container && npm run configure-database && docker stats --no-stream",
-      "start-container": "docker compose up --detach --wait",
+      "start-container": "docker compose up --remove-orphans --detach --wait",
       "configure-database": "dotenvx run --env-file .env --env-file .env.client.superuser -- psql --quiet --file=scripts/configure-database.sql",
       "create-big-table": "dotenvx run --env-file .env --env-file .env.client -- psql --file=scripts/create-big-table.sql",
       "select-big-table-by-id": "dotenvx run --env-file .env --env-file .env.client -- psql --file=scripts/select-big-table-by-id.sql",
