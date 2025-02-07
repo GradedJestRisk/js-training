@@ -1,10 +1,10 @@
 services:
 
-   postgresql:
+   postgresql-single-cpu:
       image: postgres:${POSTGRESQL_IMAGE_VERSION}
-      container_name: concurrency
+      container_name: postgresql-single-cpu
       ports:
-         - "${POSTGRESQL_EXPOSED_PORT}:${POSTGRESQL_INTERNAL_PORT}"
+         - "${POSTGRESQL_EXPOSED_PORT_SINGLE_CPU}:${POSTGRESQL_INTERNAL_PORT}"
       environment:
          POSTGRES_USER: ${POSTGRESQL_SUPERUSER_USERNAME}
          POSTGRES_PASSWORD: ${POSTGRESQL_SUPERUSER_PASSWORD}
@@ -12,7 +12,7 @@ services:
       #    https://www.postgresql.org/docs/current/app-postgres.html
       command: postgres -c config_file=/etc/postgresql.conf -c max_connections=${POSTGRESQL_MAX_CONNECTIONS}
       volumes:
-         - ./configuration/postgresql.conf:/etc/postgresql.conf
+         - ./configuration/postgresql.single-cpu.conf:/etc/postgresql.conf
          # TODO: log in external file
          # https://gitlab.com/bullbytes/simple-java-postgres-demo/-/blob/main/docker-compose.yml?ref_type=heads
       healthcheck:
@@ -23,5 +23,31 @@ services:
       deploy:
          resources:
             limits:
-               cpus: '${POSTGRESQL_CPU_COUNT}'
+               cpus: 1
+               memory: 1G
+
+   postgresql-multi-cpu:
+      image: postgres:${POSTGRESQL_IMAGE_VERSION}
+      container_name: postgresql-multi-cpu
+      ports:
+         - "${POSTGRESQL_EXPOSED_PORT_MULTI_CPU}:${POSTGRESQL_INTERNAL_PORT}"
+      environment:
+         POSTGRES_USER: ${POSTGRESQL_SUPERUSER_USERNAME}
+         POSTGRES_PASSWORD: ${POSTGRESQL_SUPERUSER_PASSWORD}
+         POSTGRES_DB: ${POSTGRESQL_SUPERUSER_DATABASE_NAME}
+      #    https://www.postgresql.org/docs/current/app-postgres.html
+      command: postgres -c config_file=/etc/postgresql.conf -c max_connections=${POSTGRESQL_MAX_CONNECTIONS}
+      volumes:
+         - ./configuration/postgresql.multi-cpu.conf:/etc/postgresql.conf
+         # TODO: log in external file
+         # https://gitlab.com/bullbytes/simple-java-postgres-demo/-/blob/main/docker-compose.yml?ref_type=heads
+      healthcheck:
+         test: "psql --dbname \"host=localhost port=${POSTGRESQL_INTERNAL_PORT} dbname=${POSTGRESQL_SUPERUSER_DATABASE_NAME} user=${POSTGRESQL_SUPERUSER_USERNAME} password=${POSTGRESQL_SUPERUSER_PASSWORD}\""
+         interval: 1s
+         timeout: 10s
+         retries: 20
+      deploy:
+         resources:
+            limits:
+               cpus: 8
                memory: 1G

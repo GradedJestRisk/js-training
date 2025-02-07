@@ -181,7 +181,7 @@ Compare results
 #### Parallelization
 
 If you allocate more than one CPU, you can also use parallelization.
-Uncomment section "Parallelization" in [postgresql.conf](./configuration/postgresql.conf).
+Uncomment section "Parallelization" in [postgresql.conf](./configuration/postgresql.multi-cpu.conf).
 
 Restart the database
 ```shell
