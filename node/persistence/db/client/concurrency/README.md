@@ -2,9 +2,23 @@
 
 Demonstrate how contention may occur in database client.
 
-Pre-requisites:
-- nvm
-- psql, pgbench
+## Pre-requisites
+
+### Linux / Ubuntu
+
+Install docker.
+
+Install [nvm](https://github.com/nvm-sh/nvm).
+
+Install `psql`
+```shell
+sudo apt install postgresql-client
+```
+
+Install `pgbench`
+```shell
+sudo apt-get install postgresql-contrib
+```
 
 ## Setup
 
@@ -90,19 +104,67 @@ npm run create-big-table
 
 ### Query concurrently
 
-Execute in 2 connexions, 10 transactions per connexion (total 20)
-```shell
-npm run select-big-table-many-times
-```
+#### Monitor
 
 Check:
 - running queries
 - executed queries
+- CPU usage in container (`docker stats`)
 
-Reset the statistics
+
+#### Start queries
+
+Execute the same number of queries (10):
+- from one client : 1 active connexion at a time;
+- from twenty clients : : 20 active connexion at a time.
+
+```shell
+npm run select-big-table-many-times-one-client
+npm run select-big-table-many-times-twenty-clients
+```
+
+Check the CPU usage is a bottleneck (always `100%`).
+
+Between execution, check the mean time and reset the statistics.
 ```shell
 npm run reset-statistics
 ```
+
+Double the amount of CPU in [](.env) file to check it.
+```text
+POSTGRESQL_CPU_COUNT=2
+```
+
+Restart the database
+```shell
+npm run start-database && npm run create-big-table
+```
+
+Run queries again.
+
+Check the CPU usage increase above `100%`, not more than `200%`.
+
+#### Compare results
+
+#### One CPU
+
+It took 200% more time to run on 20 connexions.
+```text
+tps = 1.082049
+tps = 0.564572
+```
+
+#### Two CPU
+
+It took less time with 2 CPU than one.
+
+It took 75% more time to run on 20 connexions.
+The delta between 1 and 20 connexion is narrowing.
+```text
+tps = 1.571369
+tps = 1.123237
+```
+
 
 
 ## Benchmark from application
@@ -182,16 +244,45 @@ Close forcefully the connexion
 SELECT pg_terminate_backend(13666);
 ```
 
-## Peek into the cache
+## Bonus
 
-### Monitor
+### Execution plan
+
+#### In CLI
+```shell
+npm run explain-select-big-table-by-id
+```
+
+#### In database logs
+
+Activate [auto_explain](./configuration) - add overhead
+
+Restart database
+```shell
+npm run start-database
+```
+
+Watch log
+```shell
+npm run database-logs
+```
+
+Run a query
+```shell
+npm run create-big-table
+npml run select-big-table-by-id
+```
+
+### Peek into the cache
+
+#### Monitor
 
 Check `big_table` is not completely in the cache
 ```shell
 npm run cache
 ```
 
-### Run query
+#### Run query
 
 Check, by running the query again and again, that execution time stays the same (a few seconds)
 ```shell

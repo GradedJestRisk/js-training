@@ -10,7 +10,11 @@ services:
          POSTGRES_PASSWORD: ${POSTGRESQL_SUPERUSER_PASSWORD}
          POSTGRES_DB: ${POSTGRESQL_SUPERUSER_DATABASE_NAME}
       #    https://www.postgresql.org/docs/current/app-postgres.html
-      command: postgres -c shared_preload_libraries='pg_stat_statements' -c log_statement='all' -c log_min_duration_statement=0 -c max_connections=${POSTGRESQL_MAX_CONNECTIONS}
+      command: postgres -c config_file=/etc/postgresql.conf -c max_connections=${POSTGRESQL_MAX_CONNECTIONS}
+      volumes:
+         - ./configuration/postgresql.conf:/etc/postgresql.conf
+         # TODO: log in external file
+         # https://gitlab.com/bullbytes/simple-java-postgres-demo/-/blob/main/docker-compose.yml?ref_type=heads
       healthcheck:
          test: "psql --dbname \"host=localhost port=${POSTGRESQL_INTERNAL_PORT} dbname=${POSTGRESQL_SUPERUSER_DATABASE_NAME} user=${POSTGRESQL_SUPERUSER_USERNAME} password=${POSTGRESQL_SUPERUSER_PASSWORD}\""
          interval: 1s
