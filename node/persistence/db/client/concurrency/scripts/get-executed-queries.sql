@@ -1,5 +1,5 @@
 -- https://www.cybertec-postgresql.com/en/pg_stat_statements-the-way-i-like-it/
-SELECT substring(query, 1, 50) AS short_query,
+SELECT substring(regexp_replace(query, E'[\\n\\r]+', ' ', 'g' ), 1, 50) AS inlined_query,
        round(total_exec_time::numeric, 2) AS total_exec_time,
        calls,
        TRUNC(stt.min_exec_time) min_ms,

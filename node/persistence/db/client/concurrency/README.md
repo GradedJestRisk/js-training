@@ -146,7 +146,7 @@ Check the CPU usage increase above `100%`, not more than `200%`.
 
 #### Compare results
 
-#### One CPU
+##### One CPU
 
 It took 200% more time to run on 20 connexions.
 ```text
@@ -154,7 +154,7 @@ tps = 1.082049
 tps = 0.564572
 ```
 
-#### Two CPU
+##### Two CPU
 
 It took less time with 2 CPU than one.
 
@@ -165,7 +165,30 @@ tps = 1.571369
 tps = 1.123237
 ```
 
+#### CPU usage
 
+Change CPU by selecting more-intensive operators in [](./scripts/select-big-table.sql)
+
+Compare results
+```text
+                   inlined_query                    | total_exec_time | calls | min_ms | max_ms | mean_ms  | percentage_cpu
+----------------------------------------------------+-----------------+-------+--------+--------+----------+----------------
+ SELECT * FROM (    SELECT MD5(id::TEXT) hash FROM  |       344421.75 |    20 |  15099 |  22418 | 17221.09 |          34.39
+ SELECT id FROM big_table WHERE id=$1               |       627193.75 |    80 |    535 |  17508 |  7839.92 |          62.63
+ SELECT SUM(id) FROM big_table                      |        29780.16 |    20 |   1349 |   1930 |  1489.01 |           2.97
+```
+
+#### Parallelization
+
+If you allocate more than one CPU, you can also use parallelization.
+Uncomment section "Parallelization" in [postgresql.conf](./configuration/postgresql.conf).
+
+Restart the database
+```shell
+npm run start-database && npm run create-big-table
+```
+
+Run queries again.
 
 ## Benchmark from application
 
