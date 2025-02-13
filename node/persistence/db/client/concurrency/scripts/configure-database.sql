@@ -5,16 +5,24 @@ CREATE USER "user" WITH PASSWORD 'password';
 CREATE DATABASE "database";
 ALTER DATABASE "database" OWNER TO "user";
 
+CREATE USER "monitoring" WITH PASSWORD 'password';
+GRANT pg_use_reserved_connections TO "monitoring";
+GRANT CONNECT ON DATABASE "database" TO "monitoring";
+
 \c database
 
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 GRANT SELECT ON pg_stat_statements to "user";
+GRANT SELECT ON pg_stat_statements to "monitoring";
 
 CREATE EXTENSION IF NOT EXISTS pg_buffercache;
 GRANT SELECT ON pg_buffercache to "user";
 GRANT EXECUTE ON FUNCTION pg_buffercache_pages() TO "user";
+GRANT SELECT ON pg_buffercache to "monitoring";
+GRANT EXECUTE ON FUNCTION pg_buffercache_pages() TO "monitoring";
 
 GRANT pg_read_all_stats TO "user";
+GRANT pg_read_all_stats TO "monitoring";
 
 CREATE OR REPLACE VIEW blocking_tree AS
 WITH RECURSIVE
@@ -163,3 +171,4 @@ FROM blocking_lock
 ORDER BY seq;
 
 GRANT SELECT ON blocking_tree to "user";
+GRANT SELECT ON blocking_tree to "monitoring";

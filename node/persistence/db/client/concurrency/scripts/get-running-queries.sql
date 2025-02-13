@@ -9,5 +9,6 @@ FROM pg_stat_activity ssn
 WHERE 1=1
   AND ssn.application_name = 'concurrency'
   AND ssn.backend_type = 'client backend'
+  AND ssn.query NOT LIKE '%activity%'
   AND ssn.pid <>  pg_backend_pid()
 ;

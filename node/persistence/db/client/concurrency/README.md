@@ -24,6 +24,11 @@ Install `pgbench`
 sudo apt-get install postgresql-contrib
 ```
 
+Install `watch`
+```shell
+brew install watch
+```
+
 ## Setup
 
 Install the libraries.
@@ -35,11 +40,14 @@ npm install
 In [.env](.env), locate `POSTGRESQL_MAX_CONNECTIONS`.
 Set it to the maximum number of connections you want your database to accept at the same time.
 
-As 3 connexions are reserved for the superuser, add 3.
+5 connexions are reserved:
+- 1 for the superuser;
+- 4 for the monitoring.
 
-E.g., to get 2 connexions, set it to 5 ( 3 superuser  + 2 applicative).
+E.g., to get 2 applicatives connexions, set it to 7.
+7 total - 5 reserved = 2 application
 ```text
-POSTGRESQL_MAX_CONNECTIONS=5
+POSTGRESQL_MAX_CONNECTIONS=7
 ```
 
 Then start the container
