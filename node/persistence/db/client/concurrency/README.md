@@ -49,6 +49,8 @@ npm run start-database
 
 ## Test maximum connection
 
+https://www.postgresql.org/docs/current/runtime-config-connection.html#GUC-RESERVED-CONNECTIONS
+
 ### As superuser
 
 Try connecting as many times as possible in superuser in separate terminals (5 times)
