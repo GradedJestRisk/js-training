@@ -8,9 +8,10 @@ To-do list:
 
 ## Pre-requisites
 
+Install docker.
+
 ### Linux / Ubuntu
 
-Install docker.
 
 Install [nvm](https://github.com/nvm-sh/nvm).
 
@@ -23,6 +24,15 @@ Install `pgbench`
 ```shell
 sudo apt-get install postgresql-contrib
 ```
+
+### MacOS
+
+Install nvm
+```shell
+brew install nvm
+```
+
+Install `psql` and `pgbench`
 
 Install `watch`
 ```shell
