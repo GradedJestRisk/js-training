@@ -2,6 +2,10 @@
 
 Demonstrate how contention may occur in database client.
 
+To-do list:
+- extracted in another repository, as a hands-on to [this blog post](https://blog.octo.com/7-things-a-developer-should-know-about-databases);
+- add automated performance tests [https://github.com/GradedJestRisk/js-training/tree/multi-container].
+
 ## Pre-requisites
 
 ### Linux / Ubuntu
