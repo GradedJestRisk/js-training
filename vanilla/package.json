@@ -3,31 +3,17 @@
   "version": "1.0.0",
   "description": "Learn JavaScript by TDD",
   "scripts": {
-    "test": "jest --colors"
+    "test": "jest"
   },
   "author": "Graded Jest Risk <graded.jest.risk@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "husky": "3.0.5",
-    "jest": "24.9.0"
+    "husky": "9.1.7",
+    "jest": "30.5.2"
   },
   "husky": {
     "hooks": {
       "pre-push": "npm test"
     }
-  },
-  "jest": {
-    "coverageDirectory": "coverage",
-    "testEnvironment": "node",
-    "resetMocks": true,
-     "setupFilesAfterEnv": ["jest-extended"]
-  },
-  "comments": {
-    "scripts": "--colors is for GitBash"
-  },
-  "repository": {
-    "type": "git"
-  },
-  "main": "index.js",
-  "keywords": []
+  }
 }
