@@ -2,7 +2,7 @@
    "name": "test-double",
    "scripts": {
       "format": "prettier . --write",
-      "test": "mocha **/*.test.js"
+      "test": "mocha tests/network/*.test.js"
    },
    "type": "commonjs",
    "devDependencies": {

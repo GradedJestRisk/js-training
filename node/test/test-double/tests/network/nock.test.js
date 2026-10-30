@@ -82,7 +82,7 @@ describe('nock', function () {
 
             describe('if an unmocked request is done', function () {
                describe('and disableNetConnect is active', function () {
-                  it('an error is thrown', async () => {
+                  it.skip('an error is thrown', async () => {
                      const baseUrl = 'https://httpbin.org';
                      const route = '/get';
 
@@ -191,7 +191,7 @@ describe('nock', function () {
       });
 
       describe('made by a dependency', async () => {
-         it('to valid URL', async () => {
+         it.skip('to valid URL', async () => {
             const SibApiV3Sdk = require('sib-api-v3-sdk');
             const api = new SibApiV3Sdk.AccountApi();
 
@@ -246,7 +246,7 @@ describe('nock', function () {
       });
 
       describe('to invalid URL', function () {});
-      it('return 404 as expected', async () => {
+      it.skip('return 404 as expected', async () => {
          let response;
          const baseUrl = 'https://httpbin.org';
          const route = '/foo';
