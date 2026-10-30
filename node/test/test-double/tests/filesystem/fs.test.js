@@ -30,16 +30,16 @@ describe('filesystem', () => {
          expect(string).to.equal('file content here');
       });
       context('write', () => {
-         const filePath ='/tmp/mock-fs-test.log';
+         const filePath = '/tmp/mock-fs-test.log';
          context('when fs is mocked', () => {
             it('file should not be created on actual filesystem', () => {
                // given
                mock({
-                  'tmp': {},
+                  tmp: {},
                });
 
                // when
-               fs.writeFileSync(filePath, 'file content here', { flag: 'w'});
+               fs.writeFileSync(filePath, 'file content here', { flag: 'w' });
 
                // then
                const string = fs.readFileSync(filePath, 'utf8');
@@ -51,8 +51,8 @@ describe('filesystem', () => {
          });
          context('when fs is unmocked', () => {
             it('file should be created on actual filesystem', () => {
-                // when
-               fs.writeFileSync(filePath, 'file content here', { flag: 'w'});
+               // when
+               fs.writeFileSync(filePath, 'file content here', { flag: 'w' });
 
                // then
                const string = fs.readFileSync(filePath, 'utf8');

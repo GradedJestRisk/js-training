@@ -1,3 +1,3 @@
 module.exports = {
-   foo: process.env.FOO;
-}
+   foo: process.env.FOO,
+};

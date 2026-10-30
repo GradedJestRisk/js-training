@@ -13,7 +13,7 @@ const say = (injectedMeow = meow) => {
 const factory = {
    meow,
    talk,
-   say
+   say,
 };
 
 module.exports = factory;

@@ -84,12 +84,12 @@ describe('spy logs calls', () => {
          messages = [
             {
                text: 'message 1',
-               level: 'info'
+               level: 'info',
             },
             {
                text: 'message 2',
-               level: 'fatal'
-            }
+               level: 'fatal',
+            },
          ];
 
          beforeEach(() => {
@@ -108,15 +108,15 @@ describe('spy logs calls', () => {
             loggerSpy
                .getCall(0)
                .args.should.be.deep.equal([
-               messages[0].text,
-               messages[0].level
-            ]);
+                  messages[0].text,
+                  messages[0].level,
+               ]);
          });
 
          it('firstCall.args contains the first call arguments', () => {
             loggerSpy.firstCall.args.should.be.deep.equal([
                messages[0].text,
-               messages[0].level
+               messages[0].level,
             ]);
          });
 
@@ -256,7 +256,6 @@ describe('stub log calls and return values', () => {
    });
 
    describe('on a module', () => {
-
       describe('direct dependencies', () => {
          describe('exports is a function', () => {
             it('does not work', () => {
@@ -299,13 +298,12 @@ describe('stub log calls and return values', () => {
                expect(data).to.equal('woof');
             });
          });
-      })
+      });
 
       describe('transitive dependencies', () => {
          // check ./module
-      })
-
-   })
+      });
+   });
 
    describe('mock log call, return values, check assertions', () => {
       // https://sinonjs.org/releases/latest/mocks/

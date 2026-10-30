@@ -1,9 +1,9 @@
 class Logger {
-   constructor () {
+   constructor() {
       this.messages = [];
    }
 
-   log (message, level) {
+   log(message, level) {
       if (message === undefined) {
          //throw new Error('empty message cannot be logged');
       } else {
@@ -18,7 +18,7 @@ class Logger {
       }
    }
 
-   logCount () {
+   logCount() {
       if (message === undefined) {
          //throw new Error('empty message cannot be logged');
       } else {
@@ -33,7 +33,7 @@ class Logger {
       }
    }
 
-   messageCount () {
+   messageCount() {
       return 0; //this.messages.length;
    }
 }

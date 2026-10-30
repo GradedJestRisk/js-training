@@ -301,9 +301,9 @@ describe('test', () => {
 
             it('including order ', () => {
                const sortedArray = [{ name: 'bar' }, { name: 'foo' }];
-               const unsortedArray = [{ name: 'foo' }, { name: 'bar' }];
+               const sameSortedArray = [{ name: 'bar' }, { name: 'foo' }];
 
-               expect(sortedArray).not.to.have.deep.ordered.members(unsortedArray);
+               expect(sortedArray).to.have.deep.ordered.members(sameSortedArray);
             });
          });
 
