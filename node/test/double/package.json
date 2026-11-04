@@ -1,0 +1,15 @@
+{
+  "type": "module",
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "chai": "^6.3.0",
+    "mocha": "^12.0.3",
+    "oxfmt": "^0.76.0",
+    "sinon": "^22.1.0"
+  },
+  "engines": {
+    "node": "^26.12.1"
+  }
+}

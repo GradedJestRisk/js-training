@@ -1,0 +1,5 @@
+{
+  "spec": ["tests/**/*.js"],
+  "exclude": [],
+  "exit": true
+}
